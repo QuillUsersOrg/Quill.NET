@@ -1,0 +1,4 @@
+Sandcastle Help File Builder
+http://shfb.codeplex.com/
+
+コンパイル時に出力される「Quill.xml」を読み込ませ、chtml, html形式で生成

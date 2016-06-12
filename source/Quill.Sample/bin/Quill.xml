@@ -1,0 +1,1542 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Quill</name>
+    </assembly>
+    <members>
+        <member name="T:Quill.Ado.DelegateCreateCommand">
+            <summary>
+            DbCommand生成デリゲート
+            </summary>
+            <param name="connection">コネクション</param>
+            <param name="sql">SQL</param>
+            <param name="sqlGenInvoker">実行SQL生成処理</param>
+            <param name="createParamInvoker">パラメータ生成処理</param>
+            <returns>生成したDbCommand</returns>
+        </member>
+        <member name="T:Quill.Ado.SqlUtils">
+            <summary>
+            SQLユーティリティクラス
+            </summary>
+        </member>
+        <member name="F:Quill.Ado.SqlUtils._cachedSqls">
+            <summary>
+            SQL情報キャッシュ
+            </summary>
+        </member>
+        <member name="M:Quill.Ado.SqlUtils.TransToEntity``1(System.Data.IDataReader,``0)">
+            <summary>
+            エンティティへの変換
+            </summary>
+            <typeparam name="ENTITY_TYPE">エンティティ型</typeparam>
+            <param name="reader">DB読み込みオブジェクト</param>
+            <param name="entity">変換先のエンティティ</param>
+        </member>
+        <member name="M:Quill.Ado.SqlUtils.Select``1(System.Data.IDbConnection,System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            検索実行
+            </summary>
+            <typeparam name="ENTITY_TYPE">検索結果格納エンティティ</typeparam>
+            <param name="connection">DB接続</param>
+            <param name="sql">SQL</param>
+            <param name="parameters">SQLパラメータ</param>
+            <returns>検索結果リスト</returns>
+        </member>
+        <member name="M:Quill.Ado.SqlUtils.Select``1(System.Data.IDbConnection,System.String,System.Action{System.Data.IDataReader,``0},System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            検索実行
+            </summary>
+            <typeparam name="ENTITY_TYPE">検索結果格納エンティティ</typeparam>
+            <param name="connection">DB接続</param>
+            <param name="sql">SQL</param>
+            <param name="setEntity">エンティティの設定</param>
+            <param name="parameters">SQLパラメータ</param>
+            <returns>検索結果リスト</returns>
+        </member>
+        <member name="M:Quill.Ado.SqlUtils.Select``1(System.Data.IDbConnection,System.Func{System.String},System.Func{``0},System.Action{System.Data.IDataReader,``0},System.Action{System.Int32,System.String,System.Data.IDataParameter},System.Data.IDbTransaction)">
+            <summary>
+            検索実行
+            </summary>
+            <typeparam name="ENTITY_TYPE">検索結果格納エンティティ</typeparam>
+            <param name="connection">DB接続</param>
+            <param name="sqlGen">SQL生成</param>
+            <param name="createEntity">エンティティのインスタンス生成</param>
+            <param name="setEntity">エンティティの設定</param>
+            <param name="setParameter">パラメータの設定</param>
+            <param name="transaction">トランザクション</param>
+            <returns>検索結果リスト</returns>
+        </member>
+        <member name="M:Quill.Ado.SqlUtils.Select``1(System.Data.IDbTransaction,System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            検索実行
+            </summary>
+            <typeparam name="ENTITY_TYPE">検索結果格納エンティティ</typeparam>
+            <param name="transaction">トランザクション</param>
+            <param name="sql">SQL</param>
+            <param name="parameters">SQLパラメータ</param>
+            <returns>検索結果リスト</returns>
+        </member>
+        <member name="M:Quill.Ado.SqlUtils.Select``1(System.Data.IDbTransaction,System.String,System.Action{System.Data.IDataReader,``0},System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            検索実行
+            </summary>
+            <typeparam name="ENTITY_TYPE">検索結果格納エンティティ</typeparam>
+            <param name="transaction">トランザクション</param>
+            <param name="sql">SQL</param>
+            <param name="setEntity">エンティティの設定</param>
+            <param name="parameters">SQLパラメータ</param>
+            <returns>検索結果リスト</returns>
+        </member>
+        <member name="M:Quill.Ado.SqlUtils.Select``1(System.Data.IDbTransaction,System.Func{System.String},System.Func{``0},System.Action{System.Data.IDataReader,``0},System.Action{System.Int32,System.String,System.Data.IDataParameter})">
+            <summary>
+            検索実行
+            </summary>
+            <typeparam name="ENTITY_TYPE">検索結果格納エンティティ</typeparam>
+            <param name="transaction">トランザクション</param>
+            <param name="sqlGen">SQL生成</param>
+            <param name="createEntity">エンティティのインスタンス生成</param>
+            <param name="setEntity">エンティティの設定</param>
+            <param name="setParameter">パラメータの設定</param>
+            <returns>検索結果リスト</returns>
+        </member>
+        <member name="M:Quill.Ado.SqlUtils.Update(System.Data.IDbConnection,System.String,System.Action{System.Int32,System.String,System.Data.IDataParameter})">
+            <summary>
+            DB更新
+            </summary>
+            <param name="connection">DB接続</param>
+            <param name="sql">SQL</param>
+            <param name="setParameter">SQLパラメータ設定</param>
+            <returns>更新件数</returns>
+        </member>
+        <member name="M:Quill.Ado.SqlUtils.Update(System.Data.IDbConnection,System.Func{System.String},System.Action{System.Int32,System.String,System.Data.IDataParameter},System.Data.IDbTransaction)">
+            <summary>
+            DB更新
+            </summary>
+            <param name="connection">DB接続</param>
+            <param name="sqlGen">SQL生成処理</param>
+            <param name="setParameter">SQLパラメータ設定</param>
+            <param name="transaction">トランザクション</param>
+            <returns>更新件数</returns>
+        </member>
+        <member name="M:Quill.Ado.SqlUtils.Update(System.Data.IDbConnection,System.Func{System.String},System.Collections.Generic.IDictionary{System.String,System.Object},System.Data.IDbTransaction)">
+            <summary>
+            DB更新
+            </summary>
+            <param name="connection">DB接続</param>
+            <param name="sqlGen">SQL生成処理</param>
+            <param name="parameters">更新パラメータ</param>
+            <param name="transaction">トランザクション</param>
+            <returns>更新件数</returns>
+        </member>
+        <member name="M:Quill.Ado.SqlUtils.Update(System.Data.IDbTransaction,System.String,System.Action{System.Int32,System.String,System.Data.IDataParameter})">
+            <summary>
+            DB更新
+            </summary>
+            <param name="transaction">トランザクション</param>
+            <param name="sql">SQL</param>
+            <param name="setParameter">SQLパラメータ設定</param>
+            <returns>更新件数</returns>
+        </member>
+        <member name="M:Quill.Ado.SqlUtils.Update(System.Data.IDbTransaction,System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            DB更新
+            </summary>
+            <param name="transaction">トランザクション</param>
+            <param name="sql">SQL</param>
+            <param name="parameters">更新パラメータ</param>
+            <returns>更新件数</returns>
+        </member>
+        <member name="M:Quill.Ado.SqlUtils.Update(System.Data.IDbTransaction,System.Func{System.String},System.Action{System.Int32,System.String,System.Data.IDataParameter})">
+            <summary>
+            DB更新
+            </summary>
+            <param name="transaction">トランザクション</param>
+            <param name="sqlGen">SQL生成処理</param>
+            <param name="setParameter">SQLパラメータ設定</param>
+            <returns>更新件数</returns>
+        </member>
+        <member name="M:Quill.Ado.SqlUtils.CreateCommand(System.Data.IDbConnection,System.String,System.Func{System.String,System.String},System.Action{System.Int32,System.String,System.Data.IDataParameter})">
+            <summary>
+            DbCommandの生成
+            </summary>
+            <param name="connection">DB接続</param>
+            <param name="sql">SQL</param>
+            <param name="replaceToParamMark">パラメータ名からDB固有のSQLパラメータ名への変換処理</param>
+            <param name="setParameter">パラメータ設定処理</param>
+            <returns>生成したDbCommandインスタンス</returns>
+        </member>
+        <member name="M:Quill.Ado.SqlUtils.GetPropertyName(System.Reflection.PropertyInfo)">
+            <summary>
+            プロパティ名の取得
+            </summary>
+            <param name="propInfo">プロパティ情報</param>
+            <returns>検索結果とマッピングするプロパティ名</returns>
+        </member>
+        <member name="M:Quill.Ado.SqlUtils.GetSqlLogString(Quill.Ado.SqlProp,System.Data.IDataParameterCollection)">
+            <summary>
+            SQLログの取得
+            </summary>
+            <param name="sqlProp"></param>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Quill.Ado.ParameterNameStruct">
+            <summary>
+            パラメータ名構造体
+            </summary>
+        </member>
+        <member name="F:Quill.Ado.ParameterNameStruct.Name">
+            <summary>パラメータ名</summary>
+        </member>
+        <member name="F:Quill.Ado.ParameterNameStruct.Mark">
+            <summary>パラメータ置換マーク</summary>
+        </member>
+        <member name="T:Quill.Ado.SqlProp">
+            <summary>
+            SQL簡易解析結果
+            </summary>
+        </member>
+        <member name="P:Quill.Ado.SqlProp.ActualSql">
+            <summary>
+            実行時SQL
+            </summary>
+        </member>
+        <member name="P:Quill.Ado.SqlProp.ParameterNames">
+            <summary>
+            パラメータ名一覧
+            </summary>
+        </member>
+        <member name="M:Quill.Ado.SqlProp.#ctor(System.String,System.Func{System.String,System.String})">
+            <summary>
+            コンストラクタ
+            </summary>
+            <param name="sql">SQL</param>
+            <param name="replaceToParamMark">パラメータ名からSQLパラメータ名への変換処理</param>
+        </member>
+        <member name="M:Quill.Ado.SqlProp.ReadyExecuteSQL(System.String,System.Func{System.String,System.String})">
+            <summary>
+            SQL実行準備
+            </summary>
+            <param name="baseSql">元のSQL</param>
+            <param name="replaceToParamMark">パラメータ名からSQLパラメータ名への変換処理</param>
+            <returns></returns>
+        </member>
+        <member name="T:Quill.Ado.SqlProp.SqlStruct">
+            <summary>
+            SQL実行情報構造体
+            </summary>
+        </member>
+        <member name="F:Quill.Ado.SqlProp.SqlStruct.Sql">
+            <summary>実行用SQL</summary>
+        </member>
+        <member name="F:Quill.Ado.SqlProp.SqlStruct.ParameterNames">
+            <summary>パラメータ名(SQL内、パラメータ置換文字列)</summary>
+        </member>
+        <member name="T:Quill.Attr.ColumnAttribute">
+            <summary>
+            SQL,DB列マッピング属性
+            </summary>
+        </member>
+        <member name="P:Quill.Attr.ColumnAttribute.ColumnName">
+            <summary>
+            マッピングする列名
+            </summary>
+        </member>
+        <member name="M:Quill.Attr.ColumnAttribute.#ctor(System.String)">
+            <summary>
+            コンストラクタ
+            </summary>
+            <param name="columnName">マッピングする列名</param>
+        </member>
+        <member name="T:Quill.Config.Impl.QuillAppConfig">
+            <summary>
+            アプリケーション構成ファイルから読み取ったQuill設定クラス
+            </summary>
+        </member>
+        <member name="F:Quill.Config.Impl.QuillAppConfig.APP_ROOT_SECTION_NAME">
+            <summary>
+            app.configのルートセクション名
+            </summary>
+        </member>
+        <member name="M:Quill.Config.Impl.QuillAppConfig.#ctor(System.Xml.Linq.XElement)">
+            <summary>
+            コンストラクタ
+            </summary>
+            <param name="baseElement">quill設定の最上位要素</param>
+        </member>
+        <member name="M:Quill.Config.Impl.QuillAppConfig.Load">
+            <summary>
+            設定の読み込み
+            </summary>
+            <returns>Quill設定情報</returns>
+        </member>
+        <member name="M:Quill.Config.Impl.QuillAppConfig.GetBaseElement(System.Xml.Linq.XDocument,System.String)">
+            <summary>
+            Quill設定の先頭ノードを取得
+            </summary>
+            <param name="doc">XMLドキュメント</param>
+            <param name="path">XMLファイルパス</param>
+            <returns>Quill設定要素</returns>
+        </member>
+        <member name="T:Quill.Config.Impl.QuillConfigImpl">
+            <summary>
+            Quill設定実装クラス
+            </summary>
+        </member>
+        <member name="F:Quill.Config.Impl.QuillConfigImpl.BASE_SECTION_NAME">
+            <summary>
+            基底設定セクション名
+            </summary>
+        </member>
+        <member name="P:Quill.Config.Impl.QuillConfigImpl.BaseElement">
+            <summary>
+            基底設定セクション
+            </summary>
+        </member>
+        <member name="M:Quill.Config.Impl.QuillConfigImpl.#ctor(System.Xml.Linq.XElement)">
+            <summary>
+            コンストラクタ（内部からのみ呼び出し可能）
+            </summary>
+        </member>
+        <member name="M:Quill.Config.Impl.QuillConfigImpl.Load(System.String)">
+            <summary>
+            設定の読み込み
+            </summary>
+            <param name="path">設定ファイルパス</param>
+            <returns>Quill設定情報</returns>
+        </member>
+        <member name="M:Quill.Config.Impl.QuillConfigImpl.GetValue(System.String)">
+            <summary>
+            ノードパスに該当する設定値を取得
+            </summary>
+            <param name="nodePath">階層を"."で区切ったノード階層パス（XXX.XXX.XXX）</param>
+            <returns>設定値</returns>
+        </member>
+        <member name="M:Quill.Config.Impl.QuillConfigImpl.GetValue(System.String,System.Func{System.Xml.Linq.XElement,System.Boolean})">
+            <summary>
+            ノードパスに該当する設定値を取得
+            </summary>
+            <param name="nodePath">階層を"."で区切ったノード階層パス（XXX.XXX.XXX）</param>
+            <param name="isTarget">ノードパス以外のノード検索条件</param>
+            <returns>設定値</returns>
+        </member>
+        <member name="M:Quill.Config.Impl.QuillConfigImpl.GetValues(System.String)">
+            <summary>
+            ノードパスに該当する設定値を取得（複数）
+            </summary>
+            <param name="nodePath">階層を"."で区切ったノード階層パス（XXX.XXX.XXX）</param>
+            <returns>設定値</returns>
+        </member>
+        <member name="M:Quill.Config.Impl.QuillConfigImpl.GetValues(System.String,System.Func{System.Xml.Linq.XElement,System.Boolean})">
+            <summary>
+            ノードパスに該当する設定値を取得（複数）
+            </summary>
+            <param name="nodePath">階層を"."で区切ったノード階層パス（XXX.XXX.XXX）</param>
+            <param name="isTarget">ノードパス以外のノード検索条件</param>
+            <returns>設定値</returns>
+        </member>
+        <member name="M:Quill.Config.Impl.QuillConfigImpl.GetElement(System.String)">
+            <summary>
+            ノードパスに該当するノード情報を取得
+            </summary>
+            <param name="nodePath">階層を"."で区切ったノード階層パス（XXX.XXX.XXX）</param>
+            <returns>ノード情報</returns>
+        </member>
+        <member name="M:Quill.Config.Impl.QuillConfigImpl.GetElement(System.String,System.Func{System.Xml.Linq.XElement,System.Boolean})">
+            <summary>
+            ノードパスに該当するノード情報を取得
+            </summary>
+            <param name="nodePath">階層を"."で区切ったノード階層パス（XXX.XXX.XXX）</param>
+            <param name="isTarget">ノードパス以外のノード検索条件</param>
+            <returns>ノード情報</returns>
+        </member>
+        <member name="M:Quill.Config.Impl.QuillConfigImpl.GetElements(System.String)">
+            <summary>
+            ノードパスに該当するノード情報を取得（複数）
+            </summary>
+            <param name="nodePath">階層を"."で区切ったノード階層パス（XXX.XXX.XXX）</param>
+            <returns>ノード情報</returns>
+        </member>
+        <member name="M:Quill.Config.Impl.QuillConfigImpl.GetElements(System.String,System.Func{System.Xml.Linq.XElement,System.Boolean})">
+            <summary>
+            ノードパスに該当するノード情報を取得（複数）
+            </summary>
+            <param name="nodePath">階層を"."で区切ったノード階層パス（XXX.XXX.XXX）</param>
+            <param name="isTarget">ノードパス以外のノード検索条件</param>
+            <returns>ノード情報</returns>
+        </member>
+        <member name="M:Quill.Config.Impl.QuillConfigImpl.Dispose">
+            <summary>
+            リソースの解放
+            </summary>
+        </member>
+        <member name="M:Quill.Config.Impl.QuillConfigImpl.GetBaseElement(System.Xml.Linq.XDocument,System.String)">
+            <summary>
+            Quill設定の最上位ノードを取得
+            </summary>
+            <param name="doc">Quill設定XMLドキュメント</param>
+            <param name="path">設定ファイルパス</param>
+            <returns>Quill設定の最上位ノード</returns>
+        </member>
+        <member name="T:Quill.Config.IQuillConfig">
+            <summary>
+            Quill設定インターフェース
+            </summary>
+        </member>
+        <member name="P:Quill.Config.IQuillConfig.BaseElement">
+            <summary>
+            基底のXML要素
+            </summary>
+        </member>
+        <member name="M:Quill.Config.IQuillConfig.GetValue(System.String)">
+            <summary>
+            XML値取得
+            </summary>
+            <param name="nodePath">ノードのフルパス(XXX.XXX.XXX....)</param>
+            <returns>XML値</returns>
+        </member>
+        <member name="M:Quill.Config.IQuillConfig.GetValue(System.String,System.Func{System.Xml.Linq.XElement,System.Boolean})">
+            <summary>
+            XML値取得
+            </summary>
+            <param name="nodePath">ノードのフルパス(XXX.XXX.XXX....)</param>
+            <param name="isTarget">読み取り対象判定処理</param>
+            <returns>XML値</returns>
+        </member>
+        <member name="M:Quill.Config.IQuillConfig.GetValues(System.String)">
+            <summary>
+            XML値取得（リスト）
+            </summary>
+            <param name="nodePath">ノードのフルパス(XXX.XXX.XXX....)</param>
+            <returns>XML値（リスト）</returns>
+        </member>
+        <member name="M:Quill.Config.IQuillConfig.GetValues(System.String,System.Func{System.Xml.Linq.XElement,System.Boolean})">
+            <summary>
+            XML値取得（リスト）
+            </summary>
+            <param name="nodePath">ノードのフルパス(XXX.XXX.XXX....)</param>
+            <param name="isTarget">読み取り対象判定処理</param>
+            <returns>XML値（リスト）</returns>
+        </member>
+        <member name="M:Quill.Config.IQuillConfig.GetElement(System.String)">
+            <summary>
+            XML要素の取得
+            </summary>
+            <param name="nodePath">ノードのフルパス(XXX.XXX.XXX....)</param>
+            <returns>XML要素</returns>
+        </member>
+        <member name="M:Quill.Config.IQuillConfig.GetElement(System.String,System.Func{System.Xml.Linq.XElement,System.Boolean})">
+            <summary>
+            XML要素の取得
+            </summary>
+            <param name="nodePath">ノードのフルパス(XXX.XXX.XXX....)</param>
+            <param name="isTarget">読み取り対象判定処理</param>
+            <returns>XML要素</returns>
+        </member>
+        <member name="M:Quill.Config.IQuillConfig.GetElements(System.String)">
+            <summary>
+            XML要素の取得（リスト）
+            </summary>
+            <param name="nodePath">ノードのフルパス(XXX.XXX.XXX....)</param>
+            <returns>XML要素（リスト）</returns>
+        </member>
+        <member name="M:Quill.Config.IQuillConfig.GetElements(System.String,System.Func{System.Xml.Linq.XElement,System.Boolean})">
+            <summary>
+            XML要素の取得（リスト）
+            </summary>
+            <param name="nodePath">ノードのフルパス(XXX.XXX.XXX....)</param>
+            <param name="isTarget">読み取り対象判定処理</param>
+            <returns>XML要素（リスト）</returns>
+        </member>
+        <member name="T:Quill.Config.QuillConfigrationSectionHandler">
+            <summary>
+            Quill設定読み込みハンドラクラス（app.config,web.configで使用するためのダミー）
+            </summary>
+        </member>
+        <member name="T:Quill.Config.XmlUtils">
+            <summary>
+            XML読み取りユーティリティクラス
+            </summary>
+        </member>
+        <member name="F:Quill.Config.XmlUtils.DELIMITER_NODE_PATH">
+            <summary>
+            XMLノードパスの区切り文字
+            </summary>
+        </member>
+        <member name="M:Quill.Config.XmlUtils.GetChildValue(System.Xml.Linq.XElement,System.String)">
+            <summary>
+            子ノードの文字列取得
+            </summary>
+            <param name="el">親ノード</param>
+            <param name="nodePath">取得したい子ノードのパス（"XXX.XXX.XXX..."）</param>
+            <returns>取得文字列</returns>
+            <exception cref="T:System.ArgumentException">パスに該当するノードがない</exception>
+        </member>
+        <member name="M:Quill.Config.XmlUtils.GetChildValue(System.Xml.Linq.XElement,System.String,System.Func{System.Xml.Linq.XElement,System.Boolean})">
+            <summary>
+            子ノードの文字列取得
+            </summary>
+            <param name="el">親ノード</param>
+            <param name="nodePath">取得したい子ノードのパス（"XXX.XXX.XXX..."）</param>
+            <param name="isTarget">取得条件</param>
+            <returns>取得文字列（取得条件に該当しない場合は空文字列）</returns>
+            <exception cref="T:System.ArgumentException">パスに該当するノードがない</exception>
+        </member>
+        <member name="M:Quill.Config.XmlUtils.GetChildElement(System.Xml.Linq.XElement,System.String)">
+            <summary>
+            子ノード取得
+            </summary>
+            <param name="el">親ノード</param>
+            <param name="nodePath">取得したい子ノードのパス（"XXX.XXX.XXX..."）</param>
+            <returns>子ノード（取得条件に該当しない場合はnull）</returns>
+            <exception cref="T:System.ArgumentException">パスに該当するノードがない</exception>
+        </member>
+        <member name="M:Quill.Config.XmlUtils.GetChildElement(System.Xml.Linq.XElement,System.String,System.Func{System.Xml.Linq.XElement,System.Boolean})">
+            <summary>
+            子ノード取得
+            </summary>
+            <param name="el">親ノード</param>
+            <param name="nodePath">取得したい子ノードのパス（"XXX.XXX.XXX..."）</param>
+            <param name="isTarget">取得条件</param>
+            <returns>子ノード（取得条件に該当しない場合はnull）</returns>
+            <exception cref="T:System.ArgumentException">パスに該当するノードがない</exception>
+        </member>
+        <member name="M:Quill.Config.XmlUtils.GetChildValues(System.Xml.Linq.XElement,System.String)">
+            <summary>
+            子ノードの文字列リスト取得
+            </summary>
+            <param name="el">親ノード</param>
+            <param name="nodePath">取得したい子ノードのパス（"XXX.XXX.XXX..."）</param>
+            <returns>取得文字列リスト</returns>
+            <exception cref="T:System.ArgumentException">パスに該当するノードがない</exception>
+        </member>
+        <member name="M:Quill.Config.XmlUtils.GetChildValues(System.Xml.Linq.XElement,System.String,System.Func{System.Xml.Linq.XElement,System.Boolean})">
+            <summary>
+            子ノードの文字列リスト取得
+            </summary>
+            <param name="targetElement">親ノード</param>
+            <param name="nodePath">取得したい子ノードのパス（"XXX.XXX.XXX..."）</param>
+            <param name="isTarget">取得条件</param>
+            <returns>取得文字列リスト（取得条件に該当しない場合は空リスト）</returns>
+            <exception cref="T:Quill.Exception.QuillException">パスに該当するノードがない</exception>
+        </member>
+        <member name="M:Quill.Config.XmlUtils.GetChildElements(System.Xml.Linq.XElement,System.String)">
+            <summary>
+            子ノードの文字列リスト取得
+            </summary>
+            <param name="el">親ノード</param>
+            <param name="nodePath">取得したい子ノードのパス（"XXX.XXX.XXX..."）</param>
+            <returns>取得文字列リスト</returns>
+            <exception cref="T:System.ArgumentException">パスに該当するノードがない</exception>
+        </member>
+        <member name="M:Quill.Config.XmlUtils.GetChildElements(System.Xml.Linq.XElement,System.String,System.Func{System.Xml.Linq.XElement,System.Boolean})">
+            <summary>
+            子ノードの文字列リスト取得
+            </summary>
+            <param name="targetElement">親ノード</param>
+            <param name="nodePath">取得したい子ノードのパス（"XXX.XXX.XXX..."）</param>
+            <param name="isTarget">取得条件</param>
+            <returns>取得文字列リスト（取得条件に該当しない場合は空リスト）</returns>
+            <exception cref="T:Quill.Exception.QuillException">パスに該当するノードがない</exception>
+        </member>
+        <member name="M:Quill.Config.XmlUtils.GetChildElements(System.Xml.Linq.XElement,System.String[],System.Int32,System.Func{System.Xml.Linq.XElement,System.Boolean})">
+            <summary>
+            子ノードの文字列リスト取得（再帰）
+            </summary>
+            <param name="currentElement"></param>
+            <param name="nodePath"></param>
+            <param name="currentPathIndex"></param>
+            <param name="isTarget"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Quill.Config.XmlUtils.GetAttrValue(System.Xml.Linq.XElement,System.String)">
+            <summary>
+            属性値の取得
+            </summary>
+            <param name="el">取得対象ノード</param>
+            <param name="attrName">属性名</param>
+            <returns>属性値</returns>
+            <exception cref="T:System.ArgumentException">属性名に該当する属性が定義されていない</exception>
+        </member>
+        <member name="T:Quill.Consts.QuillKey">
+            <summary>
+            Quillキー文字列定数クラス
+            </summary>
+        </member>
+        <member name="F:Quill.Consts.QuillKey.DATA_SOURCE_NAME">
+            <summary>
+            データソース名
+            </summary>
+        </member>
+        <member name="T:Quill.Container.Impl.AbstractConnectionCreator">
+            <summary>
+            DBコネクション生成抽象クラス
+            </summary>
+        </member>
+        <member name="M:Quill.Container.Impl.AbstractConnectionCreator.Create(System.Type)">
+            <summary>
+            インスタンス生成
+            </summary>
+            <param name="componentType">コンポーネント型(NotNull)</param>
+            <returns>生成したインスタンス</returns>
+        </member>
+        <member name="M:Quill.Container.Impl.AbstractConnectionCreator.Dispose">
+            <summary>
+            リソースの解放
+            </summary>
+        </member>
+        <member name="M:Quill.Container.Impl.AbstractConnectionCreator.CreateConnection(System.Type)">
+            <summary>
+            コネクションインスタンスの生成
+            </summary>
+            <param name="connectionType">コネクション実装型</param>
+            <returns>生成したコネクションインスタンス</returns>
+        </member>
+        <member name="T:Quill.Container.Impl.ComponentCreators">
+            <summary>
+            既定のコンポーネント生成クラス
+            </summary>
+        </member>
+        <member name="F:Quill.Container.Impl.ComponentCreators._creatorMap">
+            <summary>
+            コンポーネント型と生成処理の紐づけDictionary
+            </summary>
+        </member>
+        <member name="M:Quill.Container.Impl.ComponentCreators.Create(System.Type)">
+            <summary>
+            コンポーネントの生成
+            </summary>
+            <param name="componentType">コンポーネント型(NotNull)</param>
+            <returns>生成したコンポーネント</returns>
+        </member>
+        <member name="M:Quill.Container.Impl.ComponentCreators.AddCreator(System.Type,System.Func{System.Type,System.Object})">
+            <summary>
+            コンポーネント生成処理の追加（上書き）
+            </summary>
+            <param name="targetType">指定した生成処理を適用する型</param>
+            <param name="func">生成処理</param>
+        </member>
+        <member name="M:Quill.Container.Impl.ComponentCreators.Dispose">
+            <summary>
+            リソースの解放
+            </summary>
+        </member>
+        <member name="M:Quill.Container.Impl.ComponentCreators.HasNoArgumentConstructor(System.Type)">
+            <summary>
+            コンポーネント型に引数なしコンストラクタが存在するか判定
+            </summary>
+            <param name="componentType">コンポーネント型</param>
+            <returns>true:引数なしコンストラクタあり, false:なし</returns>
+        </member>
+        <member name="T:Quill.Container.Impl.TypeMapImpl">
+            <summary>
+            戻り値型ーコンポーネント型紐づけクラス
+            </summary>
+        </member>
+        <member name="M:Quill.Container.Impl.TypeMapImpl.#ctor">
+            <summary>
+            コンストラクタ（内部で保持しているDictionaryを初期化
+            </summary>
+        </member>
+        <member name="M:Quill.Container.Impl.TypeMapImpl.Add(System.Type,System.Type)">
+            <summary>
+            戻り値型ーコンポーネント型組み合わせの追加
+            </summary>
+            <param name="receiptType">戻り値型</param>
+            <param name="componentType">コンポーネント型</param>
+        </member>
+        <member name="M:Quill.Container.Impl.TypeMapImpl.Dispose">
+            <summary>
+            リソースの解放
+            </summary>
+        </member>
+        <member name="M:Quill.Container.Impl.TypeMapImpl.GetComponentType(System.Type)">
+            <summary>
+            コンポーネント型の取得（引数の型をそのまま返す）
+            </summary>
+            <param name="receiptType">戻り値として返す型</param>
+            <returns>コンポーネント型（紐づく型がなければreceiptTypeをそのまま返す</returns>
+        </member>
+        <member name="M:Quill.Container.Impl.TypeMapImpl.IsMapped(System.Type)">
+            <summary>
+            コンポーネントの受け取り側の型とコンテナ上で管理している型が紐づけられているか判定
+            </summary>
+            <param name="receipedType">コンポーネントを受け取る型</param>
+            <returns>true:紐づけあり, false:紐づけなし</returns>
+        </member>
+        <member name="M:Quill.Container.Impl.TypeMapImpl.CreateDictionary">
+            <summary>
+            戻り値型ーコンポーネント型紐づけDictionaryの生成
+            </summary>
+            <returns>戻り値型ーコンポーネント型紐づけDictionary</returns>
+        </member>
+        <member name="T:Quill.Container.Impl.QuillContainer">
+            <summary>.
+            Quillコンテナ実装クラス
+            </summary>
+        </member>
+        <member name="F:Quill.Container.Impl.QuillContainer._components">
+            <summary>
+            生成済コンポーネントキャッシュ
+            </summary>
+        </member>
+        <member name="M:Quill.Container.Impl.QuillContainer.#ctor(System.Collections.Generic.IDictionary{System.Type,System.Object})">
+            <summary>
+            QuillContainer初期化
+            </summary>
+        </member>
+        <member name="M:Quill.Container.Impl.QuillContainer.Dispose">
+            <summary>
+            保持リソースの解放
+            </summary>
+        </member>
+        <member name="M:Quill.Container.Impl.QuillContainer.GetComponent``1(System.Boolean,System.Boolean)">
+            <summary>
+            コンポーネントの取得
+            </summary>
+            <typeparam name="T">コンポーネント型</typeparam>
+            <param name="isCache">true:キャッシュする, false:毎回インスタンス新規生成</param>
+            <param name="withInjection">true:インジェクション済のコンポーネント取得, false:インジェクションなし</param>
+            <returns>コンポーネントのインスタンス</returns>
+        </member>
+        <member name="M:Quill.Container.Impl.QuillContainer.GetComponent(System.Type,System.Boolean,System.Boolean)">
+            <summary>
+            コンポーネントの取得
+            </summary>
+            <param name="componentType">コンポーネントの型</param>
+            <param name="isCache">true:キャッシュする, false:毎回インスタンス新規生成</param>
+            <param name="withInjection">true:インジェクション済のコンポーネント取得, false:インジェクションなし</param>
+            <returns>コンポーネントのインスタンス</returns>
+        </member>
+        <member name="M:Quill.Container.Impl.QuillContainer.CanParallelInjection">
+            <summary>
+            並列でインジェクション可能か判定
+            </summary>
+            <returns>true:可, false:不可</returns>
+        </member>
+        <member name="M:Quill.Container.Impl.QuillContainer.CreateComponent(System.Type,System.Boolean)">
+            <summary>
+            コンポーネント生成
+            </summary>
+            <param name="componentType">コンポーネントの型</param>
+            <param name="withInjection">true:Injection済のコンポーネントを返す, false:Injectionなし</param>
+            <returns>生成したコンポーネント</returns>
+        </member>
+        <member name="M:Quill.Container.Impl.QuillContainer.CreateContainer">
+            <summary>
+            生成済コンポーネントキャッシュの生成
+            </summary>
+            <returns>生成済コンポーネントキャッシュ</returns>
+        </member>
+        <member name="M:Quill.Container.Impl.QuillContainer.GetComponentType(System.Type)">
+            <summary>
+            コンポーネント型の取得
+            </summary>
+            <param name="receiptType">戻り値型</param>
+            <returns>生成したコンポーネント</returns>
+        </member>
+        <member name="T:Quill.Container.IComponentCreator">
+            <summary>
+            コンポーネントのインスタンス生成インターフェース
+            </summary>
+        </member>
+        <member name="M:Quill.Container.IComponentCreator.Create(System.Type)">
+            <summary>
+            インスタンス生成
+            </summary>
+            <param name="componentType">コンポーネント型</param>
+            <returns>生成したインスタンス</returns>
+        </member>
+        <member name="T:Quill.Container.ITypeMap">
+            <summary>
+            コンポーネントの受け取り側の型とコンテナ上で管理している型の紐づけインターフェース
+            </summary>
+        </member>
+        <member name="M:Quill.Container.ITypeMap.Add(System.Type,System.Type)">
+            <summary>
+            紐づける型の追加
+            </summary>
+            <param name="receiptType">受け取り型</param>
+            <param name="implType">実装型</param>
+        </member>
+        <member name="M:Quill.Container.ITypeMap.GetComponentType(System.Type)">
+            <summary>
+            コンポーネント型の取得（引数の型をそのまま返す）
+            </summary>
+            <param name="receiptType">戻り値として返す型</param>
+            <returns>コンポーネント型（紐づく型がなければreceiptTypeをそのまま返す</returns>
+        </member>
+        <member name="M:Quill.Container.ITypeMap.IsMapped(System.Type)">
+            <summary>
+            コンポーネントの受け取り側の型とコンテナ上で管理している型が紐づけられているか判定
+            </summary>
+            <param name="receipedType">コンポーネントを受け取る型</param>
+            <returns>true:紐づけあり, false:紐づけなし</returns>
+        </member>
+        <member name="T:Quill.Exception.QuillException">
+            <summary>
+            Quill内部で発生する例外クラス
+            </summary>
+        </member>
+        <member name="M:Quill.Exception.QuillException.#ctor(System.String)">
+            <summary>
+            例外メッセージを指定してインスタンス生成（ログ出力付き）
+            </summary>
+            <param name="message">エラーメッセージ</param>
+        </member>
+        <member name="M:Quill.Exception.QuillException.#ctor(System.String,System.Exception)">
+            <summary>
+            例外メッセージ、内部例外を指定してインスタンス生成（ログ出力付き）
+            </summary>
+            <param name="message">エラーメッセージ</param>
+            <param name="innerException">内部例外</param>
+        </member>
+        <member name="T:Quill.DataSource.IDataSource">
+            <summary>
+            データソースインターフェース
+            </summary>
+        </member>
+        <member name="M:Quill.DataSource.IDataSource.GetConnection(System.String)">
+            <summary>
+            コネクションの取得
+            </summary>
+            <param name="dataSourceName">データソース名（省略可）</param>
+            <returns>コネクション</returns>
+        </member>
+        <member name="T:Quill.DataSource.Impl.DataSourceImpl">
+            <summary>
+            データソース実装クラス
+            </summary>
+        </member>
+        <member name="F:Quill.DataSource.Impl.DataSourceImpl._connection">
+            <summary>
+            コネクション
+            </summary>
+        </member>
+        <member name="M:Quill.DataSource.Impl.DataSourceImpl.#ctor(System.Func{System.Data.IDbConnection})">
+            <summary>
+            コンストラクタ
+            </summary>
+            <param name="connectionFactory">コネクション生成処理</param>
+        </member>
+        <member name="M:Quill.DataSource.Impl.DataSourceImpl.Dispose">
+            <summary>
+            リソース解放
+            </summary>
+        </member>
+        <member name="M:Quill.DataSource.Impl.DataSourceImpl.GetConnection(System.String)">
+            <summary>
+            コネクション取得
+            </summary>
+            <param name="dataSourceName">データソース名（省略可能）</param>
+            <returns>コネクション</returns>
+        </member>
+        <member name="T:Quill.DataSource.Impl.MultiDataSource">
+            <summary>
+            複数データソース
+            </summary>
+        </member>
+        <member name="F:Quill.DataSource.Impl.MultiDataSource._sources">
+            <summary>
+            データソースMap
+            </summary>
+        </member>
+        <member name="P:Quill.DataSource.Impl.MultiDataSource.DefaultDataSource">
+            <summary>
+            デフォルトのデータソース（データソース名が指定されない場合に使用）
+            </summary>
+        </member>
+        <member name="M:Quill.DataSource.Impl.MultiDataSource.#ctor">
+            <summary>
+            コンストラクタ
+            </summary>
+        </member>
+        <member name="M:Quill.DataSource.Impl.MultiDataSource.RegisterDataSource(System.String,Quill.DataSource.IDataSource)">
+            <summary>
+            データソース登録
+            </summary>
+            <param name="dataSourceName">データソース名</param>
+            <param name="dataSource">データソース</param>
+        </member>
+        <member name="M:Quill.DataSource.Impl.MultiDataSource.GetConnection(System.String)">
+            <summary>
+            コネクションの取得
+            </summary>
+            <param name="dataSourceName">データソース名（省略化）</param>
+            <returns>コネクション</returns>
+        </member>
+        <member name="M:Quill.DataSource.Impl.MultiDataSource.Dispose">
+            <summary>
+            リソース解放
+            </summary>
+        </member>
+        <member name="T:Quill.Inject.IInjectionFilter">
+            <summary>
+            Injectionフィルターインターフェース
+            </summary>
+        </member>
+        <member name="M:Quill.Inject.IInjectionFilter.GetTargetFieldBindinFlags">
+            <summary>
+            Injection対象とするフィールドの抽出条件取得
+            </summary>
+            <returns>Injection対象とするフィールドの抽出条件</returns>
+        </member>
+        <member name="M:Quill.Inject.IInjectionFilter.IsTargetType(System.Type)">
+            <summary>
+            Injection対象の型か判定
+            </summary>
+            <param name="componentType">判定対象の型</param>
+            <returns>true:Injection対象, false:非対象</returns>
+        </member>
+        <member name="M:Quill.Inject.IInjectionFilter.IsTargetField(System.Type,System.Reflection.FieldInfo)">
+            <summary>
+            Injection対象のフィールドか判定
+            </summary>
+            <param name="componentType">判定対象の型</param>
+            <param name="fieldInfo">フィールド情報</param>
+            <returns></returns>
+        </member>
+        <member name="T:Quill.Inject.Impl.InjectionFilterBase">
+            <summary>
+            既定のInjectionフィルタークラス
+            </summary>
+        </member>
+        <member name="P:Quill.Inject.Impl.InjectionFilterBase.NotInjectionTargetTypes">
+            <summary>
+            Injection除外対象型セット
+            </summary>
+        </member>
+        <member name="P:Quill.Inject.Impl.InjectionFilterBase.InjectionTargetTypes">
+            <summary>
+            Injection対象型セット
+            </summary>
+        </member>
+        <member name="P:Quill.Inject.Impl.InjectionFilterBase.IsTargetTypeDefault">
+            <summary>
+            デフォルトでInjection対象に含めるか？（true（既定値）:含める, false:含めない)
+            ※trueにしてもSystem名前空間下のクラスは対象外となります
+            </summary>
+        </member>
+        <member name="M:Quill.Inject.Impl.InjectionFilterBase.#ctor">
+            <summary>
+            コンストラクタ
+            </summary>
+        </member>
+        <member name="M:Quill.Inject.Impl.InjectionFilterBase.GetTargetFieldBindinFlags">
+            <summary>
+            Injection対象となるフィールド紐づけフラグの取得
+            </summary>
+            <returns>フィールド紐づけフラグ</returns>
+        </member>
+        <member name="M:Quill.Inject.Impl.InjectionFilterBase.IsTargetField(System.Type,System.Reflection.FieldInfo)">
+            <summary>
+            Injection対象のフィールドか判定
+            </summary>
+            <param name="componentType">コンポーネント型</param>
+            <param name="fieldInfo">判定対象のフィールド情報</param>
+            <returns>true;Injection対象, false:Injection対象外</returns>
+        </member>
+        <member name="M:Quill.Inject.Impl.InjectionFilterBase.IsTargetType(System.Type)">
+            <summary>
+            Injection対象の型か判定
+            </summary>
+            <param name="componentType">コンポーネント型</param>
+            <returns>true;Injection対象, false:Injection対象外</returns>
+        </member>
+        <member name="M:Quill.Inject.Impl.InjectionFilterBase.Dispose">
+            <summary>
+            リソースの解放
+            </summary>
+        </member>
+        <member name="T:Quill.Inject.Impl.QuillInjector">
+            <summary>
+            Quill Injection実行クラス
+            </summary>
+        </member>
+        <member name="F:Quill.Inject.Impl.QuillInjector._injectedTypes">
+            <summary>
+            Injection済の型セット
+            </summary>
+        </member>
+        <member name="M:Quill.Inject.Impl.QuillInjector.Inject(System.Object)">
+            <summary>
+            Injection実行
+            </summary>
+            <param name="target">Injection対象オブジェクト</param>
+        </member>
+        <member name="M:Quill.Inject.Impl.QuillInjector.Dispose">
+            <summary>
+            リソースの解放
+            </summary>
+        </member>
+        <member name="M:Quill.Inject.Impl.QuillInjector.ForEachFields(System.Collections.Generic.IEnumerable{System.Reflection.FieldInfo},System.Action{System.Reflection.FieldInfo})">
+            <summary>
+            Injection対象クラスの各フィールド設定を実行
+            </summary>
+            <param name="fieldInfos">フィールド情報</param>
+            <param name="setFieldInvoker">フィールド設定委譲処理</param>
+        </member>
+        <member name="M:Quill.Inject.Impl.QuillInjector.GetFields(System.Object)">
+            <summary>
+            Injection対象フィールドの取得
+            </summary>
+            <param name="target">Injection対象オブジェクト</param>
+            <returns>Injection対象フィールド</returns>
+        </member>
+        <member name="T:Quill.Inject.IQuillInjector">
+            <summary>
+            Injection実行インターフェース
+            </summary>
+        </member>
+        <member name="M:Quill.Inject.IQuillInjector.Inject(System.Object)">
+            <summary>
+            Inject実行
+            </summary>
+            <param name="target">Inject対象のオブジェクト</param>
+        </member>
+        <member name="T:Quill.Message.EnumMsgCategory">
+            <summary>
+            メッセージカテゴリ列挙体
+            </summary>
+        </member>
+        <member name="F:Quill.Message.EnumMsgCategory.DEBUG">
+            <summary>デバッグ</summary>
+        </member>
+        <member name="F:Quill.Message.EnumMsgCategory.INFO">
+            <summary>運用参考情報</summary>
+        </member>
+        <member name="F:Quill.Message.EnumMsgCategory.WARN">
+            <summary>警告</summary>
+        </member>
+        <member name="F:Quill.Message.EnumMsgCategory.ERROR">
+            <summary>エラー</summary>
+        </member>
+        <member name="T:Quill.Message.EnumMsgCategoryUtils">
+            <summary>
+            メッセージカテゴリ列挙体ユーティリティクラス
+            </summary>
+        </member>
+        <member name="M:Quill.Message.EnumMsgCategoryUtils.GetCategoryName(Quill.Message.EnumMsgCategory)">
+            <summary>
+            カテゴリ名を取得
+            </summary>
+            <param name="category">メッセージカテゴリ</param>
+            <returns>メッセージカテゴリ名</returns>
+        </member>
+        <member name="T:Quill.Message.QMsg">
+            <summary>
+            Quillメッセージコード列挙体
+            </summary>
+        </member>
+        <member name="F:Quill.Message.QMsg.NotAssignable">
+            <summary>インスタンス生成不可</summary>
+        </member>
+        <member name="F:Quill.Message.QMsg.NotInjectionTargetType">
+            <summary>Injection非対象</summary>
+        </member>
+        <member name="F:Quill.Message.QMsg.AlreadyInjected">
+            <summary>既にInjectionされている</summary>
+        </member>
+        <member name="F:Quill.Message.QMsg.ArgumentNull">
+            <summary>引数にnullが渡されている</summary>
+        </member>
+        <member name="F:Quill.Message.QMsg.FileNotFound">
+            <summary>ファイルが見つからない</summary>
+        </member>
+        <member name="F:Quill.Message.QMsg.ErrorLoadingConfig">
+            <summary>設定読み込みエラー</summary>
+        </member>
+        <member name="F:Quill.Message.QMsg.NotFoundRequireSection">
+            <summary>必須セクションが見つからない</summary>
+        </member>
+        <member name="F:Quill.Message.QMsg.NotFoundNodePath">
+            <summary>ノードパスが見つからない</summary>
+        </member>
+        <member name="F:Quill.Message.QMsg.IllegalConstructor">
+            <summary>Quillで使用できないConstructor定義</summary>
+        </member>
+        <member name="F:Quill.Message.QMsg.NotFoundDBConnectionDecorator">
+            <summary>DB接続修飾クラスが見つからない</summary>
+        </member>
+        <member name="F:Quill.Message.QMsg.NoDbConnectionInstance">
+            <summary>DBコネクションのインスタンス未設定</summary>
+        </member>
+        <member name="F:Quill.Message.QMsg.ConnectionOpened">
+            <summary>コネクションが開かれた</summary>
+        </member>
+        <member name="F:Quill.Message.QMsg.ConnectionClosed">
+            <summary>コネクションが閉じられた</summary>
+        </member>
+        <member name="F:Quill.Message.QMsg.ConnectionDisposed">
+            <summary>コネクションが破棄された</summary>
+        </member>
+        <member name="F:Quill.Message.QMsg.BeginTx">
+            <summary>トランザクション開始</summary>
+        </member>
+        <member name="F:Quill.Message.QMsg.Committed">
+            <summary>トランザクション終了（コミット）</summary>
+        </member>
+        <member name="F:Quill.Message.QMsg.Rollbacked">
+            <summary>トランザクション終了（ロールバック）</summary>
+        </member>
+        <member name="F:Quill.Message.QMsg.NotRegisteredDataSource">
+            <summary>データソース未登録</summary>
+        </member>
+        <member name="F:Quill.Message.QMsg.TypeNotFound">
+            <summary>型が見つからない</summary>
+        </member>
+        <member name="T:Quill.Message.QuillMessage">
+            <summary>
+            Quillメッセージクラス
+            </summary>
+        </member>
+        <member name="F:Quill.Message.QuillMessage._messageMap">
+            <summary>
+            メッセージコード―メッセージ紐づけMap
+            </summary>
+        </member>
+        <member name="M:Quill.Message.QuillMessage.#ctor(System.Collections.Generic.IDictionary{Quill.Message.QMsg,System.String})">
+            <summary>
+            コンストラクタ
+            </summary>
+            <param name="messageMap">メッセージコード―メッセージ紐づけMap</param>
+        </member>
+        <member name="M:Quill.Message.QuillMessage.GetMessage(Quill.Message.QMsg)">
+            <summary>
+            メッセージの取得
+            </summary>
+            <param name="messageCode">メッセージコード</param>
+            <returns>メッセージ</returns>
+        </member>
+        <member name="M:Quill.Message.QuillMessage.CreateForJPN">
+            <summary>
+            Quillメッセージ（日本語）の取得
+            </summary>
+            <returns>メッセージ</returns>
+        </member>
+        <member name="T:Quill.Message.QuillMessageUtils">
+            <summary>
+            Quillメッセージユーティリティクラス
+            </summary>
+        </member>
+        <member name="M:Quill.Message.QuillMessageUtils.Get(Quill.Message.QMsg)">
+            <summary>
+            メッセージの取得
+            </summary>
+            <param name="messageCode">メッセージコード</param>
+            <returns>メッセージ</returns>
+        </member>
+        <member name="T:Quill.Properties.Resources">
+            <summary>
+              ローカライズされた文字列などを検索するための、厳密に型指定されたリソース クラスです。
+            </summary>
+        </member>
+        <member name="P:Quill.Properties.Resources.ResourceManager">
+            <summary>
+              このクラスで使用されているキャッシュされた ResourceManager インスタンスを返します。
+            </summary>
+        </member>
+        <member name="P:Quill.Properties.Resources.Culture">
+            <summary>
+              厳密に型指定されたこのリソース クラスを使用して、すべての検索リソースに対し、
+              現在のスレッドの CurrentUICulture プロパティをオーバーライドします。
+            </summary>
+        </member>
+        <member name="T:Quill.OutputLogDelegate">
+            <summary>
+            ログ出力デリゲート
+            </summary>
+            <param name="source">ログ出力元</param>
+            <param name="category">メッセージカテゴリ</param>
+            <param name="log">ログ出力内容</param>
+        </member>
+        <member name="T:Quill.QuillManager">
+            <summary>
+            Quill挙動管理クラス
+            </summary>
+        </member>
+        <member name="P:Quill.QuillManager.Config">
+            <summary>
+            設定情報
+            </summary>
+        </member>
+        <member name="P:Quill.QuillManager.Container">
+            <summary>
+            Quillコンテナ
+            </summary>
+        </member>
+        <member name="P:Quill.QuillManager.TypeMap">
+            <summary>
+            受け取り型、実装型紐づけMap
+            </summary>
+        </member>
+        <member name="P:Quill.QuillManager.Injector">
+            <summary>
+            インジェクション実行オブジェクト
+            </summary>
+        </member>
+        <member name="P:Quill.QuillManager.InjectionFilter">
+            <summary>
+            インジェクションフィルター
+            </summary>
+        </member>
+        <member name="P:Quill.QuillManager.ComponentCreator">
+            <summary>
+            コンポーネント生成オブジェクト
+            </summary>
+        </member>
+        <member name="P:Quill.QuillManager.Message">
+            <summary>
+            出力メッセージ
+            </summary>
+        </member>
+        <member name="P:Quill.QuillManager.OutputLog">
+            <summary>
+            ログ出力
+            </summary>
+        </member>
+        <member name="P:Quill.QuillManager.ReplaceToParamMark">
+            <summary>
+            SQLパラメータ置換処理
+            </summary>
+        </member>
+        <member name="M:Quill.QuillManager.InitializeDefault">
+            <summary>
+            既定の設定で初期化
+            </summary>
+        </member>
+        <member name="M:Quill.QuillManager.Dispose">
+            <summary>
+            リソースの解放
+            </summary>
+        </member>
+        <member name="M:Quill.QuillManager.OutputLogToConsole(System.Type,Quill.Message.EnumMsgCategory,System.String)">
+            <summary>
+            ログ出力（コンソール）
+            </summary>
+            <param name="source">ログ出力元の型</param>
+            <param name="category">ログカテゴリ</param>
+            <param name="log">ログ出力内容</param>
+        </member>
+        <member name="T:Quill.Scope.Impl.ConnectionDecorator">
+            <summary>
+            コネクション接続修飾クラス
+            </summary>
+        </member>
+        <member name="P:Quill.Scope.Impl.ConnectionDecorator.DataSource">
+            <summary>
+            データソース
+            </summary>
+        </member>
+        <member name="P:Quill.Scope.Impl.ConnectionDecorator.IsMultiDataSource">
+            <summary>
+            複数データソース対応フラグ
+            </summary>
+        </member>
+        <member name="M:Quill.Scope.Impl.ConnectionDecorator.Decorate(System.Action{System.Data.IDbConnection},System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            前後をDB接続の開始、終了で挟んで実行
+            </summary>
+            <param name="action">本処理</param>
+            <param name="args">修飾処理内で引き継ぐ情報</param>
+        </member>
+        <member name="M:Quill.Scope.Impl.ConnectionDecorator.Decorate``1(System.Func{System.Data.IDbConnection,``0},System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            前後をDB接続の開始、終了で挟んで実行
+            </summary>
+            <typeparam name="RETURN_TYPE">本処理の戻り値型</typeparam>
+            <param name="func">本処理</param>
+            <param name="args">修飾処理内で引き継ぐ情報</param>
+            <returns>本処理の戻り値</returns>
+        </member>
+        <member name="M:Quill.Scope.Impl.ConnectionDecorator.GetDataSourceName(System.Delegate,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            メソッド情報の取得
+            </summary>
+            <param name="invoker">委譲処理</param>
+            <param name="args">修飾処理内で引き継ぐ情報</param>
+            <returns>メソッド情報</returns>
+        </member>
+        <member name="M:Quill.Scope.Impl.ConnectionDecorator.GetOpenedConnection(System.String)">
+            <summary>
+            Open状態のコネクションを取得
+            </summary>
+            <param name="dataSourceName">データソース名</param>
+            <returns>コネクション、接続開始処理フラグ</returns>
+        </member>
+        <member name="M:Quill.Scope.Impl.ConnectionDecorator.CloseConnection(System.Data.IDbConnection,System.Boolean)">
+            <summary>
+            DB接続終了
+            </summary>
+            <param name="connection">コネクション</param>
+            <param name="isOpener">接続開始フラグ</param>
+        </member>
+        <member name="T:Quill.Scope.Impl.TransactionDecorator">
+            <summary>
+            トランザクション修飾クラス
+            </summary>
+        </member>
+        <member name="F:Quill.Scope.Impl.TransactionDecorator._transaction">
+            <summary>
+            トランザクション
+            </summary>
+        </member>
+        <member name="F:Quill.Scope.Impl.TransactionDecorator._connectionDecorator">
+            <summary>
+            コネクション接続
+            </summary>
+        </member>
+        <member name="M:Quill.Scope.Impl.TransactionDecorator.Decorate(System.Action{System.Data.IDbTransaction},System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            トランザクション実行
+            </summary>
+            <param name="action">委譲処理</param>
+            <param name="args">修飾処理内で引き継ぐ情報</param>
+        </member>
+        <member name="M:Quill.Scope.Impl.TransactionDecorator.Decorate``1(System.Func{System.Data.IDbTransaction,``0},System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            トランザクション実行
+            </summary>
+            <param name="func">委譲処理</param>
+            <param name="args">修飾処理内で引き継ぐ情報</param>
+        </member>
+        <member name="M:Quill.Scope.Impl.TransactionDecorator.Begin(System.Data.IDbConnection)">
+            <summary>
+            トランザクション開始
+            </summary>
+            <param name="connection">コネクション</param>
+            <returns>トランザクション開始フラグ</returns>
+        </member>
+        <member name="M:Quill.Scope.Impl.TransactionDecorator.Commit(System.Data.IDbTransaction)">
+            <summary>
+            コミット
+            </summary>
+            <param name="tx">トランザクション</param>
+        </member>
+        <member name="M:Quill.Scope.Impl.TransactionDecorator.Rollback(System.Data.IDbTransaction)">
+            <summary>
+            ロールバック
+            </summary>
+            <param name="tx">トランザクション</param>
+        </member>
+        <member name="M:Quill.Scope.Impl.TransactionDecorator.ExecuteTransaction(System.Data.IDbConnection,System.Action{System.Data.IDbTransaction})">
+            <summary>
+            トランザクション実行
+            </summary>
+            <param name="connection">コネクション</param>
+            <param name="action">委譲処理</param>
+        </member>
+        <member name="M:Quill.Scope.Impl.TransactionDecorator.ExecuteTransaction``1(System.Data.IDbConnection,System.Func{System.Data.IDbTransaction,``0})">
+            <summary>
+            トランザクション実行
+            </summary>
+            <typeparam name="RETURN_TYPE">委譲処理戻り値の型</typeparam>
+            <param name="connection">コネクション</param>
+            <param name="func">委譲処理</param>
+            <returns>委譲処理戻り値</returns>
+        </member>
+        <member name="M:Quill.Scope.Impl.TransactionDecorator.IsInTransaction(System.Data.IDbTransaction)">
+            <summary>
+            Trasaction中か判定
+            </summary>
+            <returns>true:Transaction中, false:Transaction外</returns>
+        </member>
+        <member name="M:Quill.Scope.Impl.TransactionDecorator.InitTransaction">
+            <summary>
+            Transaction初期化
+            </summary>
+        </member>
+        <member name="T:Quill.Scope.IQuillDecorator">
+            <summary>
+            Quill修飾インターフェース
+            </summary>
+        </member>
+        <member name="M:Quill.Scope.IQuillDecorator.Decorate(System.Action,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            前処理、後処理で挟んで実行
+            </summary>
+            <param name="action">本処理</param>
+            <param name="args">修飾処理内で引き継ぐ情報</param>
+        </member>
+        <member name="M:Quill.Scope.IQuillDecorator.Decorate``1(System.Func{``0},System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            前処理、後処理で挟んで実行
+            </summary>
+            <typeparam name="RETURN_TYPE">本処理の戻り値型</typeparam>
+            <param name="func">本処理</param>
+            <param name="args">修飾処理内で引き継ぐ情報</param>
+            <returns>本処理の戻り値</returns>
+        </member>
+        <member name="T:Quill.Scope.IQuillDecorator`1">
+            <summary>
+            Quill修飾インターフェース
+            </summary>
+        </member>
+        <member name="M:Quill.Scope.IQuillDecorator`1.Decorate(System.Action{`0},System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            前処理、後処理で挟んで実行
+            </summary>
+            <param name="action">本処理</param>
+            <param name="args">修飾処理内で引き継ぐ情報</param>
+        </member>
+        <member name="M:Quill.Scope.IQuillDecorator`1.Decorate``1(System.Func{`0,``0},System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            前処理、後処理で挟んで実行
+            </summary>
+            <typeparam name="RETURN_TYPE">本処理の戻り値型</typeparam>
+            <param name="func">本処理</param>
+            <param name="args">修飾処理内で引き継ぐ情報</param>
+            <returns>本処理の戻り値</returns>
+        </member>
+        <member name="T:Quill.Scope.QScope`1">
+            <summary>
+            Quillスコープ修飾クラス
+            </summary>
+            <typeparam name="DECORATOR_TYPE">修飾適用クラス</typeparam>
+        </member>
+        <member name="M:Quill.Scope.QScope`1.Execute(System.Action,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            特定の修飾処理を付与して実行
+            </summary>
+            <param name="action">QScopeで挟み込む処理</param>
+            <param name="args">修飾処理内で引き継ぐ情報</param>
+        </member>
+        <member name="M:Quill.Scope.QScope`1.Execute``1(System.Func{``0},System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            特定の修飾処理を付与して実行
+            </summary>
+            <typeparam name="RETURN_TYPE">QScopeで挟み込む処理の戻り値型</typeparam>
+            <param name="func">QScopeで挟み込む処理</param>
+            <param name="args">修飾処理内で引き継ぐ情報</param>
+            <returns>QScopeで挟み込む処理の戻り値</returns>
+        </member>
+        <member name="T:Quill.Scope.QScope`2">
+            <summary>
+            Quillスコープ修飾クラス
+            </summary>
+            <typeparam name="DECORATOR_TYPE">修飾適用クラス</typeparam>
+            <typeparam name="PARAMETER_TYPE">QScopeで挟み込む処理に渡す引数型</typeparam>
+        </member>
+        <member name="M:Quill.Scope.QScope`2.Execute(System.Action{`1},System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            特定の修飾処理を付与して実行
+            </summary>
+            <param name="action">QScopeで挟み込む処理</param>
+            <param name="args">修飾処理内で引き継ぐ情報</param>
+        </member>
+        <member name="M:Quill.Scope.QScope`2.Execute``1(System.Func{`1,``0},System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            特定の修飾処理を付与して実行
+            </summary>
+            <typeparam name="RETURN_TYPE">QScopeで挟み込む処理の戻り値型</typeparam>
+            <param name="func">QScopeで挟み込む処理</param>
+            <param name="args">修飾処理内で引き継ぐ情報</param>
+            <returns>QScopeで挟み込む処理の戻り値</returns>
+        </member>
+        <member name="T:Quill.Scope.Tx">
+            <summary>
+            トランザクション用Quillスコープ修飾静的クラス
+            </summary>
+        </member>
+        <member name="M:Quill.Scope.Tx.Execute(System.Action{System.Data.IDbTransaction},System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            トランザクション開始～終了実行
+            </summary>
+            <param name="action">トランザクション管理する処理</param>
+            <param name="args">修飾処理内で引き継ぐ情報</param>
+        </member>
+        <member name="M:Quill.Scope.Tx.Execute``1(System.Func{System.Data.IDbTransaction,``0},System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            トランザクション開始～終了実行
+            </summary>
+            <typeparam name="RETURN_TYPE">トランザクション管理する処理の戻り値型</typeparam>
+            <param name="func">トランザクション管理する処理</param>
+            <param name="args">修飾処理内で引き継ぐ情報</param>
+        </member>
+        <member name="M:Quill.Scope.Tx.ExecuteWith``1(System.Action{System.Data.IDbTransaction},System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            トランザクション開始～終了実行
+            </summary>
+            <typeparam name="DECORATOR_TYPE">トランザクション処理の前後に実行する修飾クラス</typeparam>
+            <param name="action">トランザクション管理する処理</param>
+            <param name="args">修飾処理内で引き継ぐ情報</param>
+        </member>
+        <member name="M:Quill.Scope.Tx.ExecuteWith``2(System.Func{System.Data.IDbTransaction,``1},System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            トランザクション開始～終了実行
+            </summary>
+            <typeparam name="DECORATOR_TYPE">トランザクション処理の前後に実行する修飾クラス</typeparam>
+            <typeparam name="RETURN_TYPE">トランザクション管理する処理の戻り値型</typeparam>
+            <param name="func">トランザクション管理する処理</param>
+            <param name="args">修飾処理内で引き継ぐ情報</param>
+        </member>
+        <member name="T:Quill.Util.ConnectionUtils">
+            <summary>
+            コネクションユーティリティクラス
+            </summary>
+        </member>
+        <member name="M:Quill.Util.ConnectionUtils.OpenConnection(System.Data.IDbConnection)">
+            <summary>
+            接続開始
+            </summary>
+            <param name="connection">コネクション</param>
+        </member>
+        <member name="M:Quill.Util.ConnectionUtils.CloseConnection(System.Data.IDbConnection)">
+            <summary>
+            接続終了
+            </summary>
+            <param name="connection">コネクション</param>
+        </member>
+        <member name="T:Quill.Util.StringUtils">
+            <summary>
+            文字列ユーティリティクラス
+            </summary>
+        </member>
+        <member name="M:Quill.Util.StringUtils.MapToString``2(System.Collections.Generic.IDictionary{``0,``1})">
+            <summary>
+            Map形式から文字列への変換
+            </summary>
+            <typeparam name="KEY_TYPE">Mapキーの型</typeparam>
+            <typeparam name="VALUE_TYPE">Map値の型</typeparam>
+            <param name="map">変換対象Map</param>
+            <returns>変換した文字列</returns>
+        </member>
+        <member name="M:Quill.Util.StringUtils.EnumrableToString``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Enumerable形式から文字列への変換
+            </summary>
+            <typeparam name="VALUE_TYPE">Listの要素型</typeparam>
+            <param name="list">返還対象List</param>
+            <returns>変換した文字列</returns>
+        </member>
+        <member name="T:Quill.Util.TypeUtils">
+            <summary>
+            型情報処理ユーティリティクラス
+            </summary>
+        </member>
+        <member name="M:Quill.Util.TypeUtils.GetType(System.String,System.String)">
+            <summary>
+            型情報の取得
+            </summary>
+            <param name="typeFullName">名前空間を含む型名</param>
+            <param name="assemblyName">アセンブリ名</param>
+            <returns>型情報</returns>
+            <exception cref="T:System.ArgumentNullException">型名が指定されていない（null）場合</exception>
+            <exception cref="T:Quill.Exception.QuillException">型情報を取得できなかった場合</exception>
+        </member>
+        <member name="M:Quill.Util.TypeUtils.GetAllFields(System.Type,System.Reflection.BindingFlags)">
+            <summary>
+            親クラスも含めた全フィールド情報の取得
+            </summary>
+            <param name="type">フィールド情報を取得する型</param>
+            <param name="flags">取得条件フラグ</param>
+            <returns>フィールド情報</returns>
+        </member>
+        <member name="M:Quill.Util.TypeUtils.CreateCachedAssemblies">
+            <summary>
+            キャッシュ済アセンブリ情報の生成
+            </summary>
+            <returns>キャッシュ済アセンブリ情報</returns>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,781 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Quill.NET</title>
+	<link href="css/common.css" rel="stylesheet" type="text/css" media="screen,print" />
+</head>
+
+<body>
+<a name="top"/>
+<div class="container">
+
+<div class="middle">
+<div class="contents">
+	
+<!-- ############################################# 最新ニュース ######################################################### -->
+	<div class="content">
+		<a name="news" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>最新ニュース</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<ul>
+				<li>2016/XX/XX Quill.NET 2.0 をリリースしました。</li>
+			</ul>
+		</div>
+	</div>
+
+<!-- ############################################# 概要 ################################################################## -->
+	<div class="content">
+		<a name="about" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>概要</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<p>
+				　Quill.NETは、拡張、カスタマイズが容易なDI(Dependency Injection)コンテナです。
+				.NET Framework環境で動作します。<br>
+				　Seasarプロジェクトの中の一つでしたが、プロジェクトのクローズに伴い、単独のOSSとして、再作成されました。
+			</p>
+			<h3>動作環境</h3>
+			<p>
+				　.NET Framework 4.5以上
+			</p>
+			
+			<h3>APIドキュメント</h3>
+			<p>
+				　同フォルダのAPI/Documentation.chm をご覧下さい。
+			</p>
+			
+			<h3>（注）1.3.X, 1.4.X との互換性について</h3>
+			<p>
+				　DIとしての基本的な使用方法はバージョン2.0でも踏襲していますが、1.3.X,1.4.X との互換性はありません。
+				　ご了承下さい。
+			</p>
+			<h3>DBFlute.NETとの組み合わせ</h3>
+			<p>
+				　Entity や Dao などを自動生成し、中規模・大規模向けの豊富な機能を備えるデータアクセス層フレームワーク
+				<a href="http://dbflute.net.sandbox.seasar.org/">DBFlute.NET</a> は、Quill.NET2.0では現在のところ、未対応です。
+				DBFlute.NETを使用する場合は、バージョン1.3.X,1.4.Xをご利用下さい。
+			</p>
+		</div>
+	</div>
+	
+<!-- ############################################# セットアップ ######################################################### -->
+	<div class="content">
+		<a name="setup" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>セットアップ</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>○VisualStudioの場合
+			<ul>
+				<li>buildフォルダの[Quill.dll]をプロジェクトの「参照」から「参照の追加」->「参照」->「Quill.dll」を置いたパスを選択</li>
+				<li>設定ファイルを使用する場合は<a href="#config">設定</a>をご覧下さい（使わずに利用することもできます）</li>
+			</ul></p>
+		</div>
+	</div>
+	
+<!-- ############################################# DIContainer ######################################################### -->
+	<div class="content">
+		<a name="di" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>DIContainer</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<p>DI(Dependency Injection)については<a href="https://ja.wikipedia.org/wiki/%E4%BE%9D%E5%AD%98%E6%80%A7%E3%81%AE%E6%B3%A8%E5%85%A5">コチラ</a>。</p>
+			<p>デフォルトではSingletonでコンポーネントを保持し、フィールドに対してインジェクションを行います。<br>
+			上記動作をカスタマイズする場合は<a href="">コチラ</a>。</p>
+		
+			<p>○コンポーネントの取得（直接型指定）
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+using QM = Quill.QuillManager;
+// (namespaceは省略）
+
+public class HogeImpl
+{
+    public void Hello()
+    {
+        Console.WriteLine("Hello world.");
+    }
+}
+
+static class Program
+{
+    [STAThread]
+    static void Main() 
+    {
+        var hoge = QM.Container.GetComponent&lt;HogeImpl&gt;();
+        hoge.Hello();
+    }
+}
+</pre>
+            </p>
+            <p>○コンポーネントの取得（Interface経由）
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+using QM = Quill.QuillManager;
+// (namespaceは省略）
+
+public interface IHoge
+{
+    public void Hello();
+}
+
+public class HogeImpl : IHoge
+{
+    public void Hello()
+    {
+        Console.WriteLine("Hello world.");
+    }
+}
+
+static class Program
+{
+    [STAThread]
+    static void Main() 
+    {
+        QM.TypeMap.Add(typeof(IHoge), typeof(HogeImpl));
+        var hoge = QM.Container.GetComponent&lt;IHoge&gt;();
+        hoge.Hello();
+    }
+}
+</pre>
+            </p>
+            <p>○コンポーネントの取得（非Singleton）
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+using QM = Quill.QuillManager;
+// (namespaceは省略）
+
+public class HogeImpl
+{
+    public void Hello()
+    {
+        Console.WriteLine("Hello world.");
+    }
+}
+
+static class Program
+{
+    [STAThread]
+    static void Main() 
+    {
+        var hoge = QM.Container.GetComponent&lt;HogeImpl&gt;(isCache:false);
+        hoge.Hello();
+    }
+}
+</pre>
+            </p>
+            <p>○インジェクション実行
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+using QM = Quill.QuillManager;
+// (namespaceは省略）
+
+public class ComponentClass {
+    public string Name { get; set; }
+    
+    public ComponentClass() {
+        Name = "aiueo";
+    }
+}
+
+public class HogeImpl
+{
+    private ComponentClass _componentClass;
+    
+    public void Hello()
+    {
+        Console.WriteLine(_componentClass.Name);
+    }
+}
+
+static class Program
+{
+    [STAThread]
+    static void Main() 
+    {
+        var hoge = new HogeImpl();
+        QM.Injector.Inject(hoge);
+        hoge.Hello();
+    }
+}
+</pre>
+            </p>
+            <p>○インジェクションされたコンポーネントの取得
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+using QM = Quill.QuillManager;
+// (namespaceは省略）
+
+public class ComponentClass {
+    public string Name { get; set; }
+    
+    public ComponentClass() {
+        Name = "aiueo";
+    }
+}
+
+public class HogeImpl
+{
+    private ComponentClass _componentClass;
+    
+    public void Hello()
+    {
+        Console.WriteLine(_componentClass.Name);
+    }
+}
+
+static class Program
+{
+    [STAThread]
+    static void Main() 
+    {
+        var hoge = QM.Container.GetComponent&lt;HogeImpl&gt;(withInjection:true);
+        hoge.Hello();
+    }
+}
+</pre>
+            </p>
+		</div>
+	</div>
+
+<!-- ############################################# 横断的処理（≠AOP） ######################################################### -->
+	<div class="content">
+		<a name="aop" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>横断的処理（≠AOP）</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<p>Quill(2.0～)では、他ライブラリとの依存を極力なくすため、デフォルトではAOP機能を提供していません。<br>
+			代わりにスコープを明示する形での横断的処理の実装を提供しています。</p>
+		
+			<p>○スコープを明示する横断的処理（QScopeクラスを使用）
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+using QM = Quill.QuillManager;
+// (namespaceは省略）
+
+public class LogDecorator : IQuillDecorator {
+    public void Decorate(Action action) {
+        string methodName = action.Method.Name;
+        Type targetType = action.Target.GetType();
+        
+        QM.OutputLog(targetType, EnumMsgCategory.DEBUG, methodName + " start.");
+        action();
+        QM.OutputLog(targetType, EnumMsgCategory.DEBUG, methodName + " end.");
+    }
+
+    public RETURN_TYPE Decorate<RETURN_TYPE>(Func<RETURN_TYPE> func) {
+        string methodName = func.Method.Name;
+        Type targetType = func.Target.GetType();
+        
+        QM.OutputLog(targetType, EnumMsgCategory.DEBUG, methodName + " start.");
+        RETURN_TYPE returnValue = func();
+        QM.OutputLog(targetType, EnumMsgCategory.DEBUG, methodName + " end.");
+        
+        return returnValue;
+    }
+}
+
+public class Hoge
+{
+    public void Hello()
+    {
+        // 前後にログ出力を挟んで処理を実行
+        QScope&lt;LogDecorator&gt;.Execute(() => {
+            Console.WriteLine("Hello.");
+        });
+    }
+}
+
+public class HogeMain() {
+    static void Main(string[] args)
+    {
+        QM.InitializeDefault();
+        
+        var hoge = new Hoge();
+        hoge.Hello();
+    }
+}
+</pre>
+            </p>
+            <p>○AOPを使用したい場合（例：<a href="http://www.castleproject.org/projects/dynamicproxy/">Castle.DynamicProxy</a>）
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+using QM = Quill.QuillManager;
+// (namespaceは省略）
+
+//「Castle.DynamicProxy」からDL（この例ではver3.3）したCastle.Core.dllを
+// プロジェクトの参照に追加しておく
+public class LogInterceptor : IInterceptor {
+    public void Intercept(IInvocation invocation) {
+        var methodName = invocation.Method.Name;
+        var targetType = invocation.Method.DeclaringType;
+        
+        QM.OutputLog(targetType, EnumMsgCategory.DEBUG, methodName + " start.");
+        invocation.Proceed();
+        QM.OutputLog(targetType, EnumMsgCategory.DEBUG, methodName + " end.");
+    }
+}
+
+public class Hoge
+{
+    public virtual void Hello()
+    {
+        // 前後にログ出力を挟んで処理を実行される
+        Console.WriteLine("Hello.");
+    }
+}
+
+public class HogeMain() {
+    static void Main(string[] args)
+    {
+        QM.InitializeDefault();
+        //特殊なインスタンス生成処理をセット
+        QM.ComponentCreator = CreateComponentCreator();
+        
+        var component = QM.Container.GetComponent<Hoge>();
+        component.Hello();
+    }
+    
+    private static IComponentCreator CreateComponentCreator() {
+        var generator = new ProxyGenerator();
+        var creators = new ComponentCreators();
+
+        creators.AddCreator(typeof(Hoge), t => {
+            return generator.CreateClassProxy(
+                typeof(Hoge), QM.Container.GetComponent<LogInterceptor>(withInjection:true));
+        });
+
+        return creators;
+    }
+}
+</pre>
+            </p>
+		</div>
+	</div>
+
+<!-- ############################################# DB接続 ######################################################### -->
+	<div class="content">
+		<a name="db" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>DB接続</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<p>DB接続機能として、ver.1.X で使用していた DaoInterceptor, TransactionInterceptorの代わりに、いくつかのショートカットクラス、メソッドを提供しています。</p>
+		
+			<p>○コネクションの設定
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+using System.Collections.Generic;
+using Quill.Ado;
+using Quill.Attr;
+using QM = Quill.QuillManager;
+// (namespaceは省略）
+
+public class HogeMain() {
+    static void Main(string[] args)
+    {
+        QM.InitializeDefault();
+        //特殊なインスタンス生成処理をセット
+        QM.ComponentCreator = CreateComponentCreator();
+        
+        // インジェクション対象とするフィルターを設定
+        QM.InjectionFilter = CreateInjectionFilter();
+        
+        var dao = new EmpDao();
+        var datas = dao.Select();
+        datas.ForEach(entity => Console.WriteLine(entity.Name));
+    }
+    
+    private static IComponentCreator CreateComponentCreator() {
+        var creators = new ComponentCreators();
+        
+        // SQLServerを使う場合
+        var connectionString = "XXX";  // IDbConnectionに渡す接続文字列
+        creators.AddCreator(typeof(IDataSource), t => {
+            return new DataSourceImpl(() => new SqlConnection(connectionString));
+        });
+
+        return creators;
+    }
+    
+    private static IInjectionFilter CreateInjectionFilter() {
+        var injectionFilter = new InjectionFilterBase();
+        injectionFilter.IsTargetTypeDefault = false;
+        injectionFilter.InjectionTargetTypes.Add(typeof(ConnectionDecorator));
+        injectionFilter.InjectionTargetTypes.Add(typeof(IDataSource));
+
+        return injectionFilter;
+    }
+}
+
+public class EmpDao {
+        private const string SQL_SELECT = 
+            "SELECT EMPNO, ENAME FROM dbo.EMP ORDER BY EMPNO";
+
+        public List&lt;Employ&gt; Select() {
+            // 検索を実行しEmployエンティティに結果を設定して返す
+            // （トランザクションなし）
+            return QScope&lt;ConnectionDecorator, IDbConnection&gt;.Execute(
+                connection => connection.Select<Employ>(SQL_SELECT));
+        }
+}
+
+public class Employ {
+        [Column("EMPNO")]
+        public decimal Id { get; set; }
+
+        [Column("ENAME")] // プロパティ名と同じであればColumn属性は省略可
+        public string Name { get; set; }
+    }
+}
+</pre>
+            </p>
+			<p>○トランザクション
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+using Quill.Ado;
+// (namespaceは省略）
+
+public class EmpDao {
+    private const string SQL_UPDATE = 
+        "UPDATE dbo.EMP SET ENAME = /* Name */'aiueo' WHERE EMPNO = /* Id */7935";
+
+    public void Update(string id, string name) {
+        var parameters = new Dictionary<string, object>();
+        parameters["Id"] = id;
+        parameters["Name"] = name;
+
+        // トランザクション処理単品で実行（戻り値なし）
+        Tx.Execute(tx => tx.Update(SQL_UPDATE, parameters));
+    }
+</pre>
+            </p>
+            <p>○SQL実行方法
+            	<ul>
+            		<li>Quill.Ado.SQLUtilsクラスを使用します（使わずに他FWやADO.NETを直接使うことも可）</li>
+            		<li>SQLUtilsクラスのpublicメソッドは、はIDbConnection, IDbTransactionの拡張メソッドとして定義されています</li>
+            		<li>以下の項目はそれぞれデリゲートを渡して拡張することができます
+            			<ul>
+            				<li>SQL</li>
+            				<li>エンティティのインスタンス生成</li>
+            				<li>エンティティへのSelect結果格納</li>
+            				<li>SQLパラメータの設定</li>
+            			</ul>
+            		</li>
+            		<li>詳細はAPIドキュメント参照</li>
+            	</ul>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+using Quill.Ado;
+// (namespaceは省略）
+
+public class EmpDao {
+    private const string SQL_SELECT = 
+        "SELECT EMPNO,ENAME,JOB as Job FROM dbo.EMP ORDER BY EMPNO";
+    private const string SQL_UPDATE = 
+        "UPDATE dbo.EMP SET ENAME = /* Name */'aiueo' WHERE EMPNO = /* Id */7935";
+    private static readonly string SQL_INSERT = 
+        "INSERT INTO dbo.EMP (EMPNO,ENAME) " 
+        + "VALUES((SELECT MAX(EMPNO) FROM dbo.EMP) + 1, /* Name */'aaa')";
+    private static readonly string SQL_DELETE =
+        "DELETE" + Environment.NewLine + "FROM dbo.EMP" + Environment.NewLine 
+        + "WHERE EMPNO = /* Id */100";
+
+    // 検索
+    public List&lt;Employ&gt; Select() {
+        return Tx.Execute(tx => <b>tx.Select&lt;Employ&gt;(SQL_SELECT)</b>);
+    }
+
+    // 更新
+    public void Update(string id, string name) {
+        var parameters = new Dictionary&lt;string, object&gt;();
+        parameters["Id"] = id;
+        parameters["Name"] = name;
+
+        Tx.Execute(tx => <b>tx.Update(SQL_UPDATE, parameters)</b>);
+    }
+
+    // 挿入（更新と同じメソッドを使用）
+    public void Insert(string name, string job) {
+        var parameters = new Dictionary&lt;string, object&gt;();
+        parameters["Name"] = name;
+
+        Tx.Execute(tx => <b>tx.Update(SQL_INSERT, parameters)</b>);
+    }
+
+    // 削除（更新と同じメソッドを使用）
+    public void Delete(string id) {
+        var parameters = new Dictionary&lt;string, object&gt;();
+        parameters["Id"] = id;
+
+        Tx.Execute(tx => <b>tx.Update(SQL_DELETE, parameters)</b>);
+    }
+}
+</pre>
+            </p>
+			<p>○2WaySQL
+				<ul>Quill.Ado.SQLUtilsクラスのメソッドに渡すSQLは2WaySQLに対応しています。
+					<li>コピーしてSQLの実行環境に張り付ければそのまま実行できます</li>
+					<li>フォーマット：_/*_(パラメータ名)_*/(コピー&ペースト時用のテスト値)_<br>
+					("_"は半角スペース)</li>
+					<li>例：UPDATE dbo.EMP SET ENAME = /* Name */'aiueo' WHERE EMPNO = /* Id */7935</li>
+					<li>(注意)S2Daoのように、IFコメントやエンティティのプロパティ参照には対応していません</li>
+				</ul>
+            </p>
+            <p>○複数の接続先を切り替える
+				<ul>Quill.DataSource.Impl.MultiDataSource を使用します。ただし、以下の場合は未対応です。<br>ご了承下さい。
+					<li>2フェーズコミット</li>
+					<li>注：データソースaに接続するトランザクションAのスコープ内でデータソースbに切り替える</li>
+				</ul>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+
+public class HogeMain() {
+    static void Main(string[] args)
+    {
+        QM.InitializeDefault();
+        QM.ComponentCreator = CreateComponentCreator();
+
+        var sql = "SELECT Name FROM Hoge WHERE ID=/* id */123";
+        var parameters = new Dictionary&lt;string, object&gt;();
+        parameters["name"] = "test";
+        parameters["id"] = 256;
+
+        var scopeArgs = new Dictionary&lt;string, object&gt;();
+        // 使用するデータソース名の指定
+        scopeArgs[QuillKey.DATA_SOURCE_NAME] = "HogeSource";
+   
+        var entities = Tx.Execute(tx =&gt; tx.Select&lt;TestEntity&gt;(sql, parameters), 
+                           scopeArgs);
+
+        entities.ForEach(entity =&gt; Console.WriteLine(entity.ToString()));
+    }
+
+    private IComponentCreator CreateComponentCreator() {
+        var creator = new ComponentCreators();
+        creator.AddCreator(typeof(IDataSource), t =&gt; {
+            var source = new MultiDataSource();
+            source.RegisterDataSource("HogeSource", new DataSourceImpl(
+                () =&gt; new ConnectionImpl()));
+            return source;
+        });
+
+        return creator;
+    }
+}
+
+</pre>
+            </p>
+		</div>
+	</div>
+<!-- ############################################# 設定 ######################################################### -->
+	<div class="content">
+		<a name="config" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>設定</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<p>設定ファイルなしでもQuillを使用できますが、各種設定を設定ファイルに書いて使うこともできます<br>
+			設定ルールは以下の通りです。タグ名や属性の使い方は自由です</p>
+			<ul>
+			<li>app.config、Web.config、またはXML形式ファイル
+			<li>app.config、Web.configを使う場合はQuill.Config.Impl.QuillAppConfig、<br>
+			その他XML形式ファイルを使う場合はQuill.Config.Impl.QuillConfigImplのLoadメソッドで読込</li>
+			<li>設定要素はquillタグ下に定義</li>
+			<li>設定情報の取得はQuill.Config.IQuillConfigのGetValue(s)、GetElement(s)で取得</li>
+			<li>GetValue, GetElementの引数には、階層を"."で区切ったタグ名で指定</li>
+			</ul>
+		
+			<p>○設定ファイル記入例（Web.config）
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+
+&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;configuration&gt;
+  &lt;configSections&gt;
+    &lt;section name="quill" 
+        type="Quill.Config.QuillConfigrationSectionHandler, quill"/&gt;
+  &lt;/configSections&gt;
+
+  &lt;!-- Quill設定 --&gt;
+  &lt;quill&gt;
+    &lt;db&gt;
+      &lt;connection_string&gt;
+        Server=localhost\SQLEXPRESS;database=s2dotnetdemo;Integrated Security=SSPI
+      &lt;/connection_string&gt;
+    &lt;/db&gt;
+    &lt;components&gt;
+      &lt;empdao interface="Quill.SampleLib.Dao.IEmpDao"&gt;
+          Quill.SampleLib.Dao.Impl.EmpDaoImpl
+      &lt;/empdao&gt;
+      &lt;hoge interface="Quill.SampleLib.Others.IHoge"&gt;
+          Quill.SampleLib.Others.Hoge
+      &lt;/hoge&gt;
+    &lt;/components&gt;
+  &lt;/quill&gt;
+  
+  &lt;!-- 他設定は省略 --&gt;
+  
+&lt;/configuration&gt;
+
+</pre>
+            </p>
+            <p>○設定ファイル内容の取得例（Web.config）
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+
+/// &lt;summary&gt;
+/// コンポーネント作成処理の生成
+/// &lt;/summary&gt;
+/// &lt;returns&gt;&lt;/returns&gt;
+private IComponentCreator CreateComponentCreator() {
+    // 設定ファイル読取（Web.configから読み取る場合）
+    // app/Web.config以外を使う場合はQuillConfigImpl.Loadメソッドの引数にパスを指定します
+    // quillタグ下の内容をフラットに読み取ります
+    var config = QuillAppConfig.Load();
+
+    // 接続文字列取得（quillタグ下の子タグ、孫タグは"."で繋ぐ）
+    // ※途中のタグ名が複数該当する場合は先頭を参照します
+    var connectionString = config.GetValue("db.connection_string");
+
+    // コネクション生成処理を設定
+    var creator = new ComponentCreators();
+    creator.AddCreator(typeof(IDataSource), t =&gt; {
+        return new DataSourceImpl(() =&gt; new SqlConnection(connectionString));
+    });
+    
+    // 複数の要素から設定情報を取得
+    var componentTypeElements = config.GetElements("components");
+    componentTypeElements.ForEach(element =&gt; {
+        var typeName = element.Value;
+        var ifTypeName = element.Attribute("interface").Value;
+
+        creator.AddCreator(TypeUtils.GetType(ifTypeName), 
+            t =&gt; Activator.CreateInstance(TypeUtils.GetType(typeName)));
+    });
+
+    return creator;
+}
+
+</pre>
+            </p>
+		</div>
+	</div>
+	
+<!-- ############################################# 拡張 ######################################################### -->
+	<div class="content">
+		<a name="extend" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>拡張</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<p>Quill.QuillManagerクラスのプロパティ(static)の付替等により、様々な角度からの機能拡張が可能です<br>
+			以下は拡張可能な機能です。</p>
+			<ul>
+				<li>Quill.QuillManagerプロパティ
+					<table>
+						<tr><th>プロパティ</th><th>設定内容</th><th>既定値</th></tr>
+						<tr><td>Config</td><td>設定情報キャッシュ用(Quill内部では未使用）</td><td>null</td></tr>
+						<tr><td>Container</td><td>DIコンテナ</td><td>Quill.Container.Impl.QuillContainer</td></tr>
+						<tr><td>Injector</td><td>インジェクション実行クラス</td><td>Quill.Inject.Impl.QuillInjector</td></tr>
+						<tr><td>TypeMap</td><td>インターフェースや親クラスと実装・子クラスの紐づけ情報</td><td>空のDictionary&lt;string, Type&gt;</tr>
+						<tr><td>InjectionFilter</td><td>インジェクション対象にする型／しない型を定義</td><td>System下以外のクラスは全て対象</td></tr>
+						<tr><td>ComponentCreator</td><td>コンポーネントインスタンス生成</td><td>引数なしのnewで生成</td></tr>
+						<tr><td>Message</td><td>Quillメッセージ情報</td><td>日本語メッセージ</td></tr>
+						<tr><td>OutputLog</td><td>ログ出力</td><td>コンソール出力</td></tr>
+						<tr><td>ReplaceToParamMark</td><td>2WaySQLのパラメータ名をADO.NETのパラメータ名に置換</td><td>"@" + パラメータ名(SQLServer用)</td></tr>
+					</table>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+<!-- ############################################# 履歴 ######################################################### -->
+	<div class="content">
+		<a name="history" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>履歴</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<ul>
+				<li>2016/XX/XX Quill.NET 2.0 をリリースしました。</li>
+			</ul>
+		</div>
+	</div>
+<!-- div.contents -->
+</div>
+<br class="clear" />
+<!-- div.middle -->
+</div>
+
+<div class="bottom">
+	<hr />
+	<div class="copyright">
+		<!-- TODO copyrightはどうするか？ -->
+		&#169; Copyright The Seasar Project and the others 2004-2016, all rights reserved.
+	</div>
+</div>
+
+</body>
+
+</html>

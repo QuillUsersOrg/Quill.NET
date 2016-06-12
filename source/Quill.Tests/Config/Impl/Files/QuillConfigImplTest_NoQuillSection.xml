@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Other>
+  <hoge>XXX</hoge>
+  <Mul>AAA</Mul>
+  <Mul>BBB</Mul>
+  <At hogeAttr="!!!"/>
+  <Par>
+    <Chi>ChildValue</Chi>
+  </Par>
+</Other>

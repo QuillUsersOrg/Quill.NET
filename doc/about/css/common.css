@@ -1,0 +1,260 @@
+﻿@charset "UTF-8";
+
+*{
+	margin:0px;
+	padding:0px;
+}
+
+body {
+	margin:10px;
+}
+
+br.clear {
+	clear:both;
+}
+
+div.container {
+	font-size:10pt;
+	font-family: Osaka, "ヒラギノ角ゴ Pro W3";
+	line-height:110%;
+	color:#333333;
+	width:800px;
+}
+
+div.middle {
+	width:800px;
+}
+
+div.logo {
+	margin-bottom:10px;
+}
+
+/* ぱんくず */
+div.pan {
+	margin-top:5px;
+	font-size:9pt;
+}
+
+/* メニュー */
+
+div.menus {
+	float:center;
+	margin:10px 0px;
+	width:190px;
+}
+
+div.menuLine {
+	width:100%;
+	border: 1px solid #333333;
+	margin-bottom:10px;
+}
+
+div.menu {
+	margin:5px;
+}
+
+div.menuTitle {
+	width:100%;
+	border-bottom: 1px solid #333333;
+	padding-bottom:3px;
+}
+
+div.menuBody ul {
+	margin-top:10px;
+	margin-left:0px;
+	padding-left:15px;
+	margin-bottom:0px;
+	list-style-image: url('../images/list.png')
+}
+
+div.menuBody li {
+	font-size:10.5pt;
+	font-weight:bold;
+	margin-top:10px;
+}
+
+div.menuBody li li {
+	font-size:9pt;
+	font-weight:bold;
+	margin-top:10px;
+}
+
+div.menuBody li span.small {
+	font-size:10pt;
+}
+
+div.menuBody p {
+	font-size:9pt;
+	font-weight:normal;
+	margin:5px 0px;
+}
+
+/* コンテンツ */
+
+div.contents {
+	float:right;
+	margin-top:10px;
+	padding-left:10px;
+	text-align:left;
+	width:800px;
+
+}
+
+div.contentHeader {
+	border-bottom:1px solid #333333;
+	width:100%;
+	vertical-align:bottom;
+}
+
+div.contentHeader1 {
+	float:left;
+	
+}
+
+div.contentHeader2 {
+	float:right;
+	padding-top:10px;
+}
+
+div.contentBody {
+	margin:10px 0px 20px 0px;
+}
+
+div.content h1 {
+	font-size:14pt;
+	margin-bottom:2px;
+	width:500px;
+	height:25px;
+	padding-left		: 24px;
+	background-repeat	: no-repeat;
+	background-image	: url(../images/h1.gif);
+}
+
+div.content h1.small {
+	font-size:12pt;
+	height:32px;
+}
+
+div.contents ul {
+	list-style-image: url('../images/list2.png');
+	list-style-type: none;
+	line-height: 150%;
+	margin:5px 0px 5px 30px;
+}
+
+div.contents ol {
+	line-height: 150%;
+	margin:5px 0px 5px 30px;
+}
+
+div.contents ul li {
+	/*background: url('../images/list2.png') no-repeat 0 50%;*/
+	/*padding-left:15px;*/
+}
+
+div.contents dl {
+	list-style-image: url('../images/list2.png');
+	list-style-type: none;
+	line-height: 150%;
+	margin:5px 0px 5px 30px;
+}
+
+div.contents p {
+	margin:10px 0px;
+	line-height: 150%;
+}
+
+div.content h2 {
+	font-size:12pt;
+	margin:20px 0px 0px 0px;
+	height:25px;
+	vertical-align:bottom;
+	padding-left		: 24px;
+	background-repeat	: no-repeat;
+	background-image	: url(../images/h2.gif);
+}
+
+div.content h3 {
+	font-size:11pt;
+	margin:10px 0px;
+}
+
+div.content span.important {
+	color:#ff0000;
+	font-weight:bold;
+}
+
+/* コンテンツ - テーブル */
+
+div.content table {
+	background-color:#000000;
+}
+
+div.content th {
+	background-color:#c5d9f1;
+	font-size:10pt;
+	padding:5px;
+}
+
+div.content td {
+	background-color:#ffffff;
+	font-size:10pt;
+	padding:5px;
+}
+
+div.copyright {
+	text-align:right;
+	font-size:9pt;
+	font-weight: bold;
+}
+
+/* コンテンツ - ソースコード */
+
+div.content p.kindCode {
+	margin-bottom:0px;
+}
+
+div.content pre {
+	margin-top:0px;
+	font-size:9pt;
+	border:1px solid #000000;
+	padding: 5px;
+}
+
+div.content pre.csharpcode {
+	background-color:#f1f1f1;
+}
+
+div.content pre.vb {
+	background-color:#eaffea;
+}
+
+/* リンク */
+a:link {
+	color:#ee5032;
+	text-decoration:none;
+}
+
+a:visited {
+	color:#ee5032;
+	text-decoration:none;
+}
+
+a:active {
+	color:#ee5032;
+	text-decoration:underline;
+}
+
+a:focus {
+	color:#ee5032;
+	text-decoration:underline;
+}
+
+a:hover {
+	color:#ee5032;
+	text-decoration:underline;
+}
+
+a img {
+	border-width:0px;
+}

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<quill>
+  <hoge>XXX</hoge>
+  <Mul>AAA</Mul>
+  <Mul>BBB</Mul>
+  <At hogeAttr="!!!"/>
+  <At hogeAttr="wao"/>
+  <Par>
+    <Chi>ChildValue</Chi>
+    <Bro>abc</Bro>
+    <Bro>bcd</Bro>
+    <Sis>xqw</Sis>
+    <Sis>cvb</Sis>
+    <Sis>xsd</Sis>
+  </Par>
+  <Par>
+    <Sis>yyy</Sis>
+    <Sis>xxx</Sis>
+  </Par>
+</quill>

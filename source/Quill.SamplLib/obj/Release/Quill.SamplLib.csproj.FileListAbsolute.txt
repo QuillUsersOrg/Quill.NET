@@ -1,0 +1,10 @@
+C:\dev\oss\seasar\s2container.net\source\Quill.SamplLib\bin\Release\Quill.SamplLib.dll
+C:\dev\oss\seasar\s2container.net\source\Quill.SamplLib\bin\Release\Quill.SamplLib.pdb
+C:\dev\oss\seasar\s2container.net\source\Quill.SamplLib\bin\Release\Castle.Core.dll
+C:\dev\oss\seasar\s2container.net\source\Quill.SamplLib\bin\Release\log4net.dll
+C:\dev\oss\seasar\s2container.net\source\Quill.SamplLib\bin\Release\Quill.dll
+C:\dev\oss\seasar\s2container.net\source\Quill.SamplLib\bin\Release\Quill.pdb
+C:\dev\oss\seasar\s2container.net\source\Quill.SamplLib\bin\Release\Quill.xml
+C:\dev\oss\seasar\s2container.net\source\Quill.SamplLib\obj\Release\Quill.SamplLib.csprojResolveAssemblyReference.cache
+C:\dev\oss\seasar\s2container.net\source\Quill.SamplLib\obj\Release\Quill.SamplLib.dll
+C:\dev\oss\seasar\s2container.net\source\Quill.SamplLib\obj\Release\Quill.SamplLib.pdb
