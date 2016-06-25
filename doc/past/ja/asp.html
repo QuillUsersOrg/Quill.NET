@@ -1,0 +1,273 @@
+﻿<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>ASP.NETでの利用 - S2Container.NET</title>
+	<link href="css/common.css" rel="stylesheet" type="text/css" media="screen,print" />
+	<link href="css/csharp.css" rel="stylesheet" type="text/css" media="screen,print" />
+</head>
+
+<body>
+<a name="top"/>
+<div class="container">
+
+<div>
+	<div class="logo"><img src="images/title_s2containernet.png" alt="S2Container.NET プロジェクト" /></div>
+	<hr />
+	<div class="pan">
+		<a href="http://www.seasar.org/">Seasarプロジェクト</a>
+		＞ <a href="seasarnet.html">Seasar.NETプロジェクト</a>
+		＞ <a href="index.html">S2Container.NET</a>
+		＞ ASP.NETでの利用
+	</div>
+</div>
+
+<div class="middle">
+
+<div class="menus">
+
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/s2containernet.png" alt="S2Container.NET" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li><a href="index.html">Welcome</a></li>
+				<li><a href="download.html">ダウンロード</a></li>
+			</ul>
+		</div>
+	</div>
+	</div>
+	
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/documentation.png" alt="ドキュメンテーション" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li><a href="setup.html">セットアップ</a></li>
+				<li><a href="update-operation.html">移行</a></li>
+				<li><a href="dicontainer.html">DIContainer</a></li>
+				<li><a href="aop.html">AOP</a></li>
+				<li>ASP.NETでの利用</li>
+				<li><a href="db.html">データベース接続</a></li>
+				<li><a href="tx.html">トランザクション</a></li>
+				<li><a href="s2ado.html">S2ADO</a></li>
+				<li><a href="s2unit.html">S2Unit.NET</a></li>
+				<li><a href="s2windows.html">S2Windows.NET</a></li>
+				<li><a href="jscript.html">JScript.NET式</a></li>
+				<li><a href="quill.html">Quillで簡単DI+AOP</a></li>
+				<li><a href="s2dxo.html">S2DXO</a></li>
+			</ul>
+		</div>
+	</div>
+	</div>
+	
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/support.png" alt="サポート" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li>
+					<a href="faq.html">FAQ</a>
+					<p>よくある質問と答えをまとめています。</p>
+				</li>
+				<li>
+					<a href="https://ml.seasar.org/mailman/listinfo/seasar-dotnet">Mailing List</a>
+					<p>Seasar.NETに関する議論を行うメーリングリストです。</p>
+				</li>
+				<li>
+					<a href="https://www.seasar.org/issues/browse/CONTAINERNET">トラッキング</a>
+					<p>S2Container.NETのバグや問題の検索、報告を行うことができます。</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+	</div>
+
+</div><!-- div.left -->
+
+<!-- ############################################# コンテンツ ######################################################### -->
+
+<div class="contents">
+	
+	<div class="content">
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>目次</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<ul>
+				<li><a href="#S2HttpModule">S2HttpModuleを追加する</a></li>
+				<li><a href="#global">Global.asaxを編集する</a></li>
+				<li><a href="#WebForm">ASP.NETのWebフォームを登録する</a></li>
+				<li><a href="#request">リクエストのバインディング</a></li>
+			</ul>
+		</div>
+	</div>
+	
+<!-- ############################################# S2HttpModuleを追加する ######################################################### -->
+
+	<div class="content">
+		<a name="S2HttpModule" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>S2HttpModuleを追加する</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　これまでは、.NET Frameworkアプリケーションで、明示的にS2Containerを作成していましたが、
+			Webアプリケーションの場合、誰がS2Containerを作成するのでしょうか。その目的のために次のクラスが用意されています。</p>
+			<p>　- Seasar.Framework.Container.Web.S2HttpModule</p>
+			<p>　S2HttpModuleを使うためにはWeb.configに次の項目を記述し、ASP.NETアプリケーションにS2HttpModuleを追加します。
+			source/Seasar/Seasar.Framework.Container/Web/Web.configに記述例もあります。</p>
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+    <span class="kwrd">&lt;</span><span class="html">httpModules</span><span class="kwrd">&gt;</span>
+     <span class="kwrd">&lt;</span><span class="html">add</span> <span class="attr">name</span><span class="kwrd">="S2HttpModule"</span>
+         <span class="attr">type</span><span class="kwrd">="Seasar.Framework.Container.Web.S2HttpModule, Seasar"</span> <span class="kwrd">/&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">httpModules</span><span class="kwrd">&gt;</span>
+</pre>
+
+			<p>　<a href="dicontainer-reference.html#AppConfig">アプリケーション構成ファイル</a>
+			に定義するseasarセクションのconfigPath要素でメインとなるS2Container定義のパスを指定します。S2HttpModuleが起動した後は、
+			次のメソッドでS2Containerのインスタンスを取得することができます。</p>
+			<p>　- Seasar.Framework.Container.Factory.SingletonS2ContainerFactory#GetContainer()</p>
+			<p>　S2HttpModuleを使っている場合、HttpApplicationをhttpApplicationという名前のコンポーネントとして
+			アクセスできるようになります。</p>
+
+		</div>
+	</div>
+	
+<!-- ############################################# Global.asaxを編集する(バージョン1.1.1以降) ######################################################### -->
+
+	<div class="content">
+		<a name="global" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>Global.asaxを編集する(バージョン1.1.1以降)</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　Global.asaxのApplication_StartメソッドでS2Containerの初期化、
+			Application_EndメソッドでS2Containerの破棄を行うように編集します。
+			SingletonS2ContainerFactoryクラスはSeasar.Framework.Container.Factory名前空間に存在します。</p>
+
+			<p class="kindCode">C#</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">protected</span> <span class="kwrd">void</span> Application_Start(Object sender, EventArgs e)
+{
+    SingletonS2ContainerFactory.Init();
+}
+
+<span class="kwrd">protected</span> <span class="kwrd">void</span> Application_End(Object sender, EventArgs e)
+{
+    SingletonS2ContainerFactory.Destroy();
+}</pre>
+
+			<p class="kindCode">VB</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode vb">
+<span class="kwrd">Sub</span> Application_Start(<span class="kwrd">ByVal</span> sender <span class="kwrd">As</span> <span class="kwrd">Object</span>, <span class="kwrd">ByVal</span> e <span class="kwrd">As</span> EventArgs)
+   SingletonS2ContainerFactory.Init()
+<span class="kwrd">End</span> <span class="kwrd">Sub</span>
+
+<span class="kwrd">Sub</span> Application_End(<span class="kwrd">ByVal</span> sender <span class="kwrd">As</span> <span class="kwrd">Object</span>, <span class="kwrd">ByVal</span> e <span class="kwrd">As</span> EventArgs)
+   SingletonS2ContainerFactory.Destroy();
+<span class="kwrd">End</span> Sub</pre>
+
+		</div>
+	</div>
+	
+<!-- ############################################# ASP.NETのWebフォームを登録する ######################################################### -->
+
+	<div class="content">
+		<a name="WebForm" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>ASP.NETのWebフォームを登録する</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　ASP.NETのWebフォームをS2Containerに登録すると、Webフォームに対してDependency Injection
+			を行うことができます。Webフォームの登録は以下のように設定します。</p>
+<pre class="csharpcode">
+    &lt;component name="/Path/WebForm1.aspx" instance="outer" /&gt;
+</pre>
+			<p>　name属性にはWebフォームへの要求の仮想パスを指定します。
+			instance属性にはouterを指定します。（S2ContainerでWebフォームのインスタンスを管理しないためです。）</p>
+
+		</div>
+	</div>
+	
+<!-- ############################################# リクエストのバインディング ######################################################### -->
+
+	<div class="content">
+		<a name="request" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>リクエストのバインディング</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　コンポーネントに対して、HttpRequestをバインディングすることが出来ます。
+			HttpRequest、HttpResponse、HttpSessionState、HttpApplicationは、それぞれrequest、
+			response、session、httpApplicationという名前のコンポーネントとして登録されています。
+			プロパティ・バインディングやコンストラクタ・バインディングで使ってください。自動バインディングは行われません。
+			また、<a href="#S2HttpModule">S2HttpModule</a>をWeb.configに定義する必要があります。</p>
+
+		</div>
+	</div>
+	
+<!-- div.contents -->
+</div>
+<br class="clear" />
+<!-- div.middle -->
+</div>
+
+<div class="bottom">
+	<hr />
+	<div class="copyright">
+		&#169; Copyright The Seasar Project and the others 2004-2013, all rights reserved.
+	</div>
+</div>
+
+</body>
+
+</html>

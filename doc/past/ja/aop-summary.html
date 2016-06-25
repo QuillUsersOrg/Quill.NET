@@ -1,0 +1,307 @@
+﻿<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>S2AOP.NET 概要 - S2Container.NET</title>
+	<link href="css/common.css" rel="stylesheet" type="text/css" media="screen,print" />
+	<link href="css/csharp.css" rel="stylesheet" type="text/css" media="screen,print" />
+</head>
+
+<body>
+<a name="top"/>
+<div class="container">
+
+<div>
+	<div class="logo"><img src="images/title_s2containernet.png" alt="S2Container.NET プロジェクト" /></div>
+	<hr />
+	<div class="pan">
+		<a href="http://www.seasar.org/">Seasarプロジェクト</a>
+		＞ <a href="seasarnet.html">Seasar.NETプロジェクト</a>
+		＞ <a href="index.html">S2Container.NET</a>
+		＞ <a href="aop.html">AOP</a>
+		＞ S2AOP.NET 概要
+	</div>
+</div>
+
+<div class="middle">
+
+<div class="menus">
+
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/s2containernet.png" alt="S2Container.NET" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li><a href="index.html">Welcome</a></li>
+				<li><a href="download.html">ダウンロード</a></li>
+			</ul>
+		</div>
+	</div>
+	</div>
+	
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/documentation.png" alt="ドキュメンテーション" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li><a href="setup.html">セットアップ</a></li>
+				<li><a href="update-operation.html">移行</a></li>
+				<li><a href="dicontainer.html">DIContainer</a></li>
+				<li>
+					<a href="aop.html">AOP</a>
+					<ul>
+						<li>概要</li>
+						<li><a href="aop-reference.html">リファレンス</a></li>
+						<li><a href="aop-examples.html">Examples</a></li>
+					</ul>
+				</li>
+				<li><a href="asp.html">ASP.NETでの利用</a></li>
+				<li><a href="db.html">データベース接続</a></li>
+				<li><a href="tx.html">トランザクション</a></li>
+				<li><a href="s2ado.html">S2ADO</a></li>
+				<li><a href="s2unit.html">S2Unit.NET</a></li>
+				<li><a href="s2windows.html">S2Windows.NET</a></li>
+				<li><a href="jscript.html">JScript.NET式</a></li>
+				<li><a href="quill.html">Quillで簡単DI+AOP</a></li>
+				<li><a href="s2dxo.html">S2DXO</a></li>
+			</ul>
+		</div>
+	</div>
+	</div>
+	
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/support.png" alt="サポート" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li>
+					<a href="faq.html">FAQ</a>
+					<p>よくある質問と答えをまとめています。</p>
+				</li>
+				<li>
+					<a href="https://ml.seasar.org/mailman/listinfo/seasar-dotnet">Mailing List</a>
+					<p>Seasar.NETに関する議論を行うメーリングリストです。</p>
+				</li>
+				<li>
+					<a href="https://www.seasar.org/issues/browse/CONTAINERNET">トラッキング</a>
+					<p>S2Container.NETのバグや問題の検索、報告を行うことができます。</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+	</div>
+
+</div><!-- div.left -->
+
+<!-- ############################################# コンテンツ ######################################################### -->
+
+<div class="contents">
+
+	<p>　S2Container.NETのAOP機能のことをS2AOP.NETと呼びます。
+	AOPとは、Aspect Oriented Programming（アスペクト指向プログラミング）の略です。
+	プログラム本来の目的とは異なる処理を内部に埋め込まず、外から織り込むように作ることです。</p>
+	
+	<div class="content">
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>目次</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<ul>
+	            <li><a href="#AOPKey">AOPを考える上でキーとなる概念</a></li>
+				<li><a href="#AOPMerit">AOPのメリット</a></li>
+				<li><a href="#S2AOPMerit">S2AOP.NETのメリット</a></li>
+				<li><a href="#Seasar.DynamicProxy">Seasar.DynamicProxyによるAOP</a></li>
+				<li><a href="#DefaultAOP">標準実装によるAOPの特徴・制限</a></li>
+				<li><a href="#DynamicProxyAOP">Seasar.DynamicProxyによるAOPの特徴・制限</a></li>
+			</ul>
+		</div>
+	</div>
+	
+<!-- ############################################# AOPを考える上でキーとなる概念 ######################################################### -->
+
+	<div class="content">
+		<a name="AOPKey" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>AOPを考える上でキーとなる概念</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<h2>Advice(MethodInterceptor)</h2>
+			<p>　プログラム中に挿入されるコードを表します。Interceptorと呼ばれることもあります。</p>
+			<h2>Joinpoint(MethodInvocation)</h2>
+			<p>　対象となるクラスとAdviceを結合するポイントを表します。AdviceはJoinpointから引数やメソッドの情報を取得することができます。</p>
+			<h2>Pointcut</h2>
+			<p>　どこにJoinpointを設定するのかを定義します。</p>
+			<h2>Aspect</h2>
+			<p>　AdviceとPointcutを関連付けます。</p>
+		
+		</div>
+	</div>
+	
+<!-- ############################################# AOPのメリット ######################################################### -->
+
+	<div class="content">
+		<a name="AOPMerit" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>AOPのメリット</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<ul>
+				<li>プログラム本来の目的（Core Concern）とプログラム本来の目的ではないもの（Crosscutting Concern）
+				を分離することでメンテナンス性が向上します。 </li>
+				<li>業務ロジックからシステム的機能を「Crosscutting Concern」に排出した「Core Concern」は、シンプルなソースになります。
+				本来のやりたかったことだけが記述されます。 </li>
+				<li>トランザクションの自動化など、従来エンタープライズアプリケーションの知識が必要であった処理が、
+				普通の.NETのオブジェクトで可能になります。 </li>
+			</ul>
+		
+		</div>
+	</div>
+	
+<!-- ############################################# S2AOP.NETのメリット ######################################################### -->
+
+	<div class="content">
+		<a name="S2AOPMerit" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>S2AOP.NETのメリット</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<ul>
+				<li>設定をシンプルに行えます。 </li>
+				<li>Interceptorを作成する場合に実装しなければならない.NETインターフェースが1つです。 </li>
+				<li>コンポーネントにどんなアスペクトが適用されるのかが明確です。 </li>
+				<li>基本的なAspect実装オブジェクトパターンが用意されているため、すぐに使用することが可能です。
+				(独自にインターフェースや抽象クラスを実装することも可能)</li>
+			</ul>
+		
+		</div>
+	</div>
+	
+<!-- ############################################# Seasar.DynamicProxyによるAOP ######################################################### -->
+
+	<div class="content">
+		<a name="Seasar.DynamicProxy" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>Seasar.DynamicProxyによるAOP</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　S2AOP.NETは標準でSystem.Runtime.Remoting.Proxies.RealProxyを用いて実装されていますが、
+			これを<a href="http://www.castleproject.org/" target="_blank">Castle.DynamicProxy</a>を用いたSeasar.DynamicProxyに差し替えることができます。(1.2.0 for .NET 2.0以降)
+			Seasar.DynamicProxyのセットアップについては以下のドキュメントを参照して下さい。</p>
+			<p>　<a href="setup.html#Seasar.DynamicProxy">セットアップ - Seasar.DynamicProxyのセットアップ</a></p>
+			<p>　標準のSystem.Runtime.Remoting.Proxies.RealProxyを用いた実装と、
+			Seasar.DynamicProxyを用いた実装には、以下の特徴・制限があります。</p>
+		
+		</div>
+	</div>
+	
+<!-- ############################################# 標準実装によるAOPの特徴・制限 ######################################################### -->
+
+	<div class="content">
+		<a name="DefaultAOP" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>標準実装によるAOPの特徴・制限</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<ul>
+				<li>Aspectを適用するオブジェクトは透過プロキシになる</li>
+				<li>Aspectを適用する為には、Inteface型で受け取るか、System.MarshalByRefObjectの派生クラスでなければならない</li>
+				<li>thisポインタ(自身への参照)経由の場合はアスペクトは適用されない</li>
+				<li>コンポーネントのインスタンス生成時のパフォーマンスはSeasar.DynamicProxyによるAOPより良い</li>
+			</ul>
+		
+		</div>
+	</div>
+	
+<!-- ############################################# Seasar.DynamicProxyによるAOPの特徴・制限 ######################################################### -->
+
+	<div class="content">
+		<a name="DefaultAOP" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>Seasar.DynamicProxyによるAOPの特徴・制限</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<ul>
+				<li>Aspectを適用するオブジェクトは、型が拡張される </li>
+				<li>Aspectを適用する為には、Inteface型で受け取るか、対象のメソッドがVirtualでなければならない</li>
+				<li>thisポインタ(自信への参照)経由でAspectを適用するためには、対象のメソッドがVirtualでなければならない</li>
+				<li>メソッド実行時のパフォーマンスは標準実装によるAOPより良い</li>
+			</ul>
+		
+		</div>
+	</div>
+	
+<!-- div.contents -->
+</div>
+<br class="clear" />
+<!-- div.middle -->
+</div>
+
+<div class="bottom">
+	<hr />
+	<div class="copyright">
+		&#169; Copyright The Seasar Project and the others 2004-2013, all rights reserved.
+	</div>
+</div>
+
+</body>
+
+</html>

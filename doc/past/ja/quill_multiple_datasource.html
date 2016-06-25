@@ -1,0 +1,460 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Quillで複数データソース接続 - S2Container.NET</title>
+	<link href="css/common.css" rel="stylesheet" type="text/css" media="screen,print" />
+	<link href="css/csharp.css" rel="stylesheet" type="text/css" media="screen,print" />
+</head>
+
+<body>
+<a name="top"/>
+<div class="container">
+
+<div>
+	<div class="logo"><img src="images/title_s2containernet.png" alt="S2Container.NET プロジェクト" /></div>
+	<hr />
+	<div class="pan">
+		<a href="http://www.seasar.org/">Seasarプロジェクト</a>
+		＞ <a href="seasarnet.html">Seasar.NETプロジェクト</a>
+		＞ <a href="index.html">S2Container.NET</a>
+		＞ <a href="quill.html">Quillで簡単DI+AOP</a>
+		＞ Quillで複数データソース接続
+	</div>
+</div>
+
+<div class="middle">
+
+<div class="menus">
+
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/s2containernet.png" alt="S2Container.NET" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li><a href="index.html">Welcome</a></li>
+				<li><a href="download.html">ダウンロード</a></li>
+			</ul>
+		</div>
+	</div>
+	</div>
+	
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/documentation.png" alt="ドキュメンテーション" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li><a href="setup.html">セットアップ</a></li>
+				<li><a href="update-operation.html">移行</a></li>
+				<li><a href="dicontainer.html">DIContainer</a></li>
+				<li><a href="aop.html">AOP</a></li>
+				<li><a href="asp.html">ASP.NETでの利用</a></li>
+				<li><a href="db.html">データベース接続</a></li>
+				<li><a href="tx.html">トランザクション</a></li>
+				<li><a href="s2ado.html">S2ADO</a></li>
+				<li><a href="s2unit.html">S2Unit.NET</a></li>
+				<li><a href="s2windows.html">S2Windows.NET</a></li>
+				<li><a href="jscript.html">JScript.NET式</a></li>
+				<li>Quillで簡単DI+AOP</li>
+				<li><a href="s2dxo.html">S2DXO</a></li>
+			</ul>
+		</div>
+	</div>
+	</div>
+
+	<div class="menuLine">	
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/support.png" alt="サポート" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li>
+					<a href="faq.html">FAQ</a>
+					<p>よくある質問と答えをまとめています。</p>
+				</li>
+				<li>
+					<a href="https://ml.seasar.org/mailman/listinfo/seasar-dotnet">Mailing List</a>
+					<p>Seasar.NETに関する議論を行うメーリングリストです。</p>
+				</li>
+				<li>
+					<a href="https://www.seasar.org/issues/browse/CONTAINERNET">トラッキング</a>
+					<p>S2Container.NETのバグや問題の検索、報告を行うことができます。</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+	</div>
+
+</div><!-- div.left -->
+
+<!-- ############################################# コンテンツ ######################################################### -->
+
+<div class="contents">
+	
+	<div class="content">
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>複数データソースへの接続</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>Quillでは複数データソースに接続することが可能です。<br>
+			以下、設定方法、注意点、仕組みについて記載します。
+			</p>
+
+			<ul>
+				<li><a href="#setting_file">設定ファイル</a></li>
+				<li><a href="#dao">S2Dao属性、Dao設定クラス</a></li>
+				<li><a href="#tx">トランザクション属性、Transaction設定クラス</a></li>
+				<li><a href="#caution">注意点</li>
+				<li><a href="#appendix">補足</li>
+					<ul>
+						<li><a href="#dbflute">DBFlute.NET（dfnet-multipledb-quill-example）</a></li>
+						<li><a href="#rollback">例外発生時のロールバックについて</a></li>
+						<li><a href="#class_role">関連クラスとその役割</a></li>
+					</ul>
+				</li>
+			</ul>
+			
+		</div>
+	</div>
+	
+
+<!-- ############################################# 設定ファイル ######################################################### -->
+	<div class="content">
+		<a name="setting_file" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>設定ファイル</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>使用するデータソースの設定を記述します。</p>
+			<p>下記のように設定した場合、二つのデータソースが<br>
+			それぞれ「FrontDB」「MasterDB」というキーで<br>
+			QuillContainerインスタンス生成時にQuillに登録されます。</p>
+			<p>設定ファイルの書き方については<a href="quill.html#nodicon_config">こちら</a>をご覧下さい。
+			<p><b>例</b></p>
+			<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+&lt;quill&gt;
+  (中略)
+  &lt;dataSources&gt;
+    &lt;dataSource name="FrontDB"&gt;
+      &lt;provider>SqlServer&lt;/provider&gt;
+      &lt;connectionString&gt;"Server=localhost;database=front;"&lt;/connectionString&gt;
+      &lt;class&gt;Seasar.Extension.Tx.Impl.TxDataSource&lt;/class&gt;
+    &lt;/dataSource&gt;
+  &lt;/dataSources&gt;
+  &lt;dataSources&gt;
+    &lt;dataSource name="MasterDB"&gt;
+      &lt;provider&gt;SqlServer&lt;/provider&gt;
+      &lt;connectionString&gt;"Server=localhost;database=master;"&lt;/connectionString&gt;
+      &lt;class&gt;Seasar.Extension.Tx.Impl.TxDataSource&lt;/class&gt;
+    &lt;/dataSource&gt;
+  &lt;/dataSources&gt;
+&lt;/quill&gt;
+</pre>
+		</div>
+	</div>
+	
+<!-- ############################################# SDao属性、DaoSetting ######################################################### -->
+	<div class="content">
+		<a name="dao" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>S2Dao属性、Dao設定クラス</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<p>使用するデータソースの分だけDao設定クラスを用意します。</p>
+			<p>（Dao設定クラスの作成方法については<a href="quill.html#nodicon_s2dao">こちら</a>をご覧下さい。）</p>
+			<p>Dao設定クラスのプロパティ「DataSourceName」が設定ファイルに書いた<br>
+			データソース名を返すようにします。</p>
+			<p><b>例</b></p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+/// &lt;summary&gt;
+/// 「FrontDB」に接続するDao設定
+/// &lt;/summary&gt;
+public class FrontDaoSetting : TypicalDaoSetting {
+  public override string DataSourceName {
+    get { return "FrontDB"; }
+  }
+}
+
+/// &lt;summary&gt;
+/// 「MasterDB」に接続するDao設定
+/// &lt;/summary&gt;
+public class MasterDaoSetting : TypicalDaoSetting {
+  public override string DataSourceName {
+    get { return "MasterDB"; }
+  }
+}
+</pre><br>
+			<p>S2Dao属性の引数に上記で作成したDao設定クラスの型情報を渡します。</p>
+			<p>（S2Dao属性の使い方については<a href="quill.html#nodicon_s2dao">こちら</a>をご覧下さい。）</p>
+			<p><b>例</b></p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+/// &lt;summary&gt;
+/// 「FrontDB」のHogeテーブルに接続するDao
+/// &lt;/summary&gt;
+[Implementation]
+[Bean(typeof(HogeEntity))]
+[S2Dao(typeof(FrontDaoSetting))]
+public interface IFrontHogeDao  {
+  HogeEntity Select(int? hogeId);
+  int Update(HogeEntity entity);
+}
+
+/// &lt;summary&gt;
+/// 「MasterDB」のItemテーブルに接続するDao
+/// &lt;/summary&gt;
+[Implementation]
+[Bean(typeof(ItemEntity))]
+[S2Dao(typeof(MasterDaoSetting))]
+public interface IMasterItemDao  {
+  ItemEntity Select(int? itemId);
+  int Update(ItemEntity entity);
+}
+</pre>
+		</div>
+	</div>
+
+<!-- ############################################# トランザクション属性、Transaction設定クラス ######################################################### -->
+	<div class="content">
+		<a name="tx" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>トランザクション属性、Transaction設定クラス</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<p>S2Dao属性、Dao設定クラスと同様に<br>
+			使用するデータソースの分だけトランザクション設定クラスを用意します。</p>
+			<p>（トランザクション設定クラスの作成方法については<a href="quill.html#nodicon_tx">こちら</a>をご覧下さい。）</p>
+			<p>トランザクション設定クラスのプロパティ「DataSourceName」が設定ファイルに書いた<br>
+			データソース名を返すようにします。</p>
+			<p><b>例</b></p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+/// &lt;summary&gt;
+/// 「FrontDB」に接続するトランザクション設定
+/// &lt;/summary&gt;
+public class FrontTxSetting : TypicalTransactionSetting {
+  public override string DataSourceName {
+    get { return "FrontDB"; }
+  }
+}
+
+/// &lt;summary&gt;
+/// 「MasterDB」に接続するトランザクション設定
+/// &lt;/summary&gt;
+public class MasterTxSetting : TypicalTransactionSetting {
+  public override string DataSourceName {
+    get { return "MasterDB"; }
+  }
+}
+</pre><br>
+			<p>Transaction属性の引数に上記で作成したトランザクション設定クラスの型情報を渡します。</p>
+			<p>（Transaction属性の使い方については<a href="quill.html#nodicon_tx">こちら</a>をご覧下さい。）</p>
+			<p><b>例</b></p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+[Implementation]
+public class HogeFacade  {
+  protected IFrontHogeDao _frontHogeDao;
+  protected IMasterItemDao _masterItemDao;
+  
+  /// &lt;summary&gt;
+  /// 「FrontDB」にトランザクションをかける
+  /// &lt;/summary&gt;
+  [Transaction(typeof(FrontTxSetting))]
+  public int ExecuteUpdateHoge(HogeEntity entity) {
+    (中略)
+    return _frontHogeDao.Update(entity);
+  }
+
+  /// &lt;summary&gt;
+  /// 「MasterDB」にトランザクションをかける
+  /// &lt;/summary&gt;
+  [Transaction(typeof(MasterTxSetting))]
+  public int ExecuteUpdateItem(ItemEntity entity) {
+    (中略)
+    return _masterItemDao.Update(entity);
+  }
+}
+</pre>
+		</div>
+	</div>
+<!-- ############################################# 注意点 ######################################################### -->
+	<div class="content">
+		<a name="nodicon" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>注意点</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png"/>上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<p>下記例のようにDaoの接続先とトランザクションをかける先がずれている場合、<br>
+			Transaction属性に渡した設定のデータソースに対してトランザクション制御を行います。<br>
+			Daoの接続先に対してはトランザクション制御は行われません。</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+[Implementation]
+public class HogeFacade  {
+  /// &lt;summary&gt;
+  /// 「FrontDB」に接続するDao
+  /// &lt;/summary&gt;
+  protected IFrontHogeDao _frontHogeDao;
+  
+  /// &lt;summary&gt;
+  /// 「MasterDB」にトランザクションをかける
+  /// &lt;/summary&gt;
+  [Transaction(typeof(MasterTxSetting))]
+  public int ExecuteUpdateItem(HogeEntity entity) {
+    (中略)
+    return _frontHogeDao.Update(entity);
+  }
+}
+</pre>
+		</div>
+	</div>
+
+<!-- ############################################# 補足 ######################################################### -->
+	<div class="content">
+		<a name="appendix" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>補足</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		<a name="dbflute" />
+			<h3>○DBFlute.NET（dfnet-multipledb-quill-example）</h3>
+			<p><a href="http://dbflute.sandbox.seasar.org/">DBFlute.NET</a>では複数データソース接続で使用する設定クラスも<br>
+			自動生成します。</p>
+			<p>また、サンプルプロジェクト「dfnet-multipledb-quill-example」では<br>
+			DBFlute.NET+Quill+複数データソース接続でのサンプルコードが実装されています。</p>
+			dfnet-multiple-quill-exampleのリポジトリは<a href="https://www.seasar.org/svn/sandbox/dbflute.net/trunk/dfnet-multipledb-quill-example">こちら</a>。
+			<br><br>
+			<hr>
+		<a name="rollback"/>
+			<h3>○例外発生時のロールバックについて</h3>
+			<p>下記のコードはQuillデフォルトのトランザクション制御処理です。<br>
+			（Seasar.Extension.Tx.Impl.LocalRequiredTxHandler#HandleTransactionを使用）</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+try {
+  object obj = invocation.Proceed();
+  // ※currentはトランザクションを制御するオブジェクト
+  current.Commit();
+  return obj;
+} catch {
+  current.Rollback();
+  throw;
+} finally {
+  (略)
+}
+</pre>
+			<p>invocation.Proceedが呼ばれるとTransaction属性を設定したメソッドの中身が<br>
+			実行されます。<br>
+			例外が発生した場合はcurrent.Rollback()が呼ばれ、ロールバックが行われます。<br>
+			その後にはthrowが呼ばれ、呼び出し元に例外を投げ直しています。</p>
+			<p>複数データソース接続の場合も同じ仕組みで動いているため、<br>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+[Transaction(typeof(FrontTxSetting))]
+[Transaction(typeof(MasterTxSetting))]
+public void Update(HogeEntity hoge, ItemEntity item) {
+  _frontHogeDao.Update(hoge);
+  _masterItemDao.Update(item);
+}
+</pre>
+			<p><font color="red">※Seasar.NET 1.3.17～での使用を想定しています。</font></p>
+			<p>上記のようなコードの「_masterItemDao.Update(item);」で例外が発生した場合</p>
+			<p>例外発生<br>
+			↓<br>
+			MasterTxSettingで設定されたLocalRequiredTxSetting#HandleTransactionで例外catch<br>
+			↓<br>
+			MasterDBに対してロールバック。<br>
+			↓<br>
+			例外を再throw<br>
+			↓<br>
+			FrontTxSettingで設定されたLocalRequiredTxSetting#HandleTransactionで例外catch<br>
+			↓<br>
+			FrontDBに対してロールバック。<br>
+			↓<br>
+			例外を再throw<br></p>
+			<p>という処理が行われ、FrontDB、MasterDBの両方に対してロールバックが行われます。<br>
+			そのため、<b><font color="red">例外を途中でcatchし、再throwはしていない</font></b>処理が<br>
+			途中にある場合、ロールバックが行われない可能性があります。<br>
+			ご注意下さい。</p>
+			<br>
+			<hr>
+<a name="class_role"/>
+			<h3>○関連クラスとその役割</h3>
+			<p>複数データソース接続では下記のクラスが主に関わっています。</p>
+			<table>
+				<tr><td><em>クラス名</em></td><td><em>役割</em></td><td><em>名前空間</em></td></tr>
+				<tr><td>DataSourceSelectInterceptor</td><td>使用するデータソースの切替。<br>Dao設定クラス<br>トランザクション設定クラスで<br>「DataSourceName」プロパティが<br>データソース名を返すように<br>拡張されているとこのインターセプターが<br>適用される。</td><td>Seasar.Quill.Dao.Interceptor</td></tr>
+				<tr><td>SelectableDataSourceProxy<br>WithDictionary</td><td>Quill内でのデータソース集合クラス。<br>「SetDataSourceName」を呼び出すと<br>引数に渡したキー<br>（設定ファイルのデータソース名）に<br>該当するデータソースに<br>接続するようになる。<td>Seasar.Quill.Database.<br>DataSource.Impl</td></tr>
+				<tr><td>TransactionContext</td><td>トランザクション制御</td><td>Seasar.Extension.Tx.Impl</td></tr>
+				<tr><td>LocalRequiredTxHandler</td><td>Quill標準のトランザクションハンドラ</td><td>Seasar.Extension.Tx.Impl</td></tr>
+				<tr><td>TxDataSource</td><td>トランザクション用データソース</td><td>Seasar.Extension.Tx.Impl</td></tr>
+			</table>
+		</div>
+	</div>
+<!-- div.contents -->
+</div>
+<br class="clear" />
+<!-- div.middle -->
+</div>
+
+<div class="bottom">
+	<hr />
+	<div class="copyright">
+		&#169; Copyright The Seasar Project and the others 2004-2013, all rights reserved.
+	</div>
+</div>
+
+</body>
+
+</html>

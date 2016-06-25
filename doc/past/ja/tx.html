@@ -1,0 +1,1045 @@
+﻿<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>トランザクション - S2Container.NET</title>
+	<link href="css/common.css" rel="stylesheet" type="text/css" media="screen,print" />
+	<link href="css/csharp.css" rel="stylesheet" type="text/css" media="screen,print" />
+</head>
+
+<body>
+<a name="top"/>
+<div class="container">
+
+<div>
+	<div class="logo"><img src="images/title_s2containernet.png" alt="S2Container.NET プロジェクト" /></div>
+	<hr />
+	<div class="pan">
+		<a href="http://www.seasar.org/">Seasarプロジェクト</a>
+		＞ <a href="seasarnet.html">Seasar.NETプロジェクト</a>
+		＞ <a href="index.html">S2Container.NET</a>
+		＞ トランザクション
+	</div>
+</div>
+
+<div class="middle">
+
+<div class="menus">
+
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/s2containernet.png" alt="S2Container.NET" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li><a href="index.html">Welcome</a></li>
+				<li><a href="download.html">ダウンロード</a></li>
+			</ul>
+		</div>
+	</div>
+	</div>
+	
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/documentation.png" alt="ドキュメンテーション" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li><a href="setup.html">セットアップ</a></li>
+				<li><a href="update-operation.html">移行</a></li>
+				<li><a href="dicontainer.html">DIContainer</a></li>
+				<li><a href="aop.html">AOP</a></li>
+				<li><a href="asp.html">ASP.NETでの利用</a></li>
+				<li><a href="db.html">データベース接続</a></li>
+				<li>トランザクション</li>
+				<li><a href="s2ado.html">S2ADO</a></li>
+				<li><a href="s2unit.html">S2Unit.NET</a></li>
+				<li><a href="s2windows.html">S2Windows.NET</a></li>
+				<li><a href="jscript.html">JScript.NET式</a></li>
+				<li><a href="quill.html">Quillで簡単DI+AOP</a></li>
+				<li><a href="s2dxo.html">S2DXO</a></li>
+			</ul>
+		</div>
+	</div>
+	</div>
+	
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/support.png" alt="サポート" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li>
+					<a href="faq.html">FAQ</a>
+					<p>よくある質問と答えをまとめています。</p>
+				</li>
+				<li>
+					<a href="https://ml.seasar.org/mailman/listinfo/seasar-dotnet">Mailing List</a>
+					<p>Seasar.NETに関する議論を行うメーリングリストです。</p>
+				</li>
+				<li>
+					<a href="https://www.seasar.org/issues/browse/CONTAINERNET">トラッキング</a>
+					<p>S2Container.NETのバグや問題の検索、報告を行うことができます。</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+	</div>
+
+</div><!-- div.left -->
+
+<!-- ############################################# コンテンツ ######################################################### -->
+
+<div class="contents">
+	
+	<div class="content">
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>目次</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　S2Tx.NETの機能を使って、.NETオブジェクトに対して、
+			<a href="aop.html">Aspect</a>でトランザクションの自動管理機能を組み込むことができます。
+			Aspectを適用については、こちらの<a href="aop-summary.html#Seasar.DynamicProxy">注意点</a>を確認して下さい。
+			トランザクションの自動管理には、System.Transactionsによるトランザクション(1.2.0-rc1 for .NET 2.0以降),
+			ローカルトランザクション, Microsoft 分散トランザクション コーディネータ (MS DTC)の3つの種類のトランザクションをサポートしています。
+			組む込むことのできるトランザクション属性は次のとおりです。</p>
+		
+			<ul>
+				<li><a href="#TransAttribute">トランザクション属性</a></li>
+				<li><a href="#LocalTx">ローカルトランザクション</a></li>
+				<li><a href="#DTCTx">MS DTCによる分散トランザクション</a></li>
+				<li><a href="#System.Transactions">System.Transactionsによるトランザクション</a></li>
+				<li><a href="#Exception">例外発生時の動作</a></li>
+			</ul>
+		</div>
+	</div>
+	
+<!-- ############################################# トランザクション属性 ######################################################### -->
+
+	<div class="content">
+		<a name="TransAttribute" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>トランザクション属性</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　S2Container.NETが標準で用意しているTx.dicon（System.Transactions用）, 
+			LocalTx.dicon（ローカルトランザクション用）, DTCTx.dicon（MS DTC用）には、
+			次のトランザクション属性に対応した<a href="aop-summary.html#Advice">Advice</a>が定義されています。
+			コンポーネント名がAdviceの名前です。</p>
+
+			<table border="0" cellspacing="1">
+				<tr><th>属性</th><th width="170px">コンポーネント名</th><th>説明</th></tr>
+				<tr>
+					<td rowspan="3">Required</td>
+					<td>LocalTx.RequiredTx<br/>（ローカルトランザクション用）</td>
+					<td rowspan="3">トランザクションが存在する場合はこれを共有し、 必要に応じて新しいトランザクションを作成します。</td>
+				</tr>
+				<tr>
+					<td>DTCTx.RequiredTx<br/>（MS DTC用）</td>
+				</tr>
+				<tr>
+					<td>Tx.RequiredTx<br/>（System.Transactions用）</td>
+				</tr>
+				
+				<tr>
+					<td rowspan="3">RequiresNew</td>
+					<td>LocalTx.RequiresNewTx<br/>（ローカルトランザクション用）</td>
+					<td rowspan="3">現在のコンテキストの状態とは関係なく、新しいトランザクションでコンポーネントを作成します。</td>
+				</tr>
+				<tr>
+					<td>DTCTx.RequiresNewTx<br/>（MS DTC用）</td>
+				</tr>
+				<tr>
+					<td>Tx.RequiresNewTx<br/>（System.Transactions用）</td>
+				</tr>
+				
+				<tr>
+					<td rowspan="2">Supported</td>
+					<td>LocalTx.SupportedTx<br/>（ローカルトランザクション用）</td>
+					<td rowspan="2">トランザクションが存在する場合はこれを共有します。</td>
+				</tr>
+				<tr>
+					<td>DTCTx.SupportedTx<br/>（MS DTC用）</td>
+				</tr>
+				
+				<tr>
+					<td rowspan="3">NotSupported</td>
+					<td>LocalTx.NotSupportedTx<br/>（ローカルトランザクション用）</td>
+					<td rowspan="3">制御するトランザクションがないコンテキストでコンポーネントを作成します。</td>
+				</tr>
+				<tr>
+					<td>DTCTx.NotSupportedTx<br/>（MS DTC用）</td>
+				</tr>
+				<tr>
+					<td>Tx.NotSupportedTx<br/>（System.Transactions用）</td>
+				</tr>
+				
+			</table>
+
+		</div>
+	</div>
+
+<!-- ############################################# ローカルトランザクション ######################################################### -->
+
+	<div class="content">
+		<a name="LocalTx" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>ローカルトランザクション</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　ローカルトランザクションを利用するためには、Seasar.Extension.Tx.Impl.TxDataSourceからコネクションを取得します。
+			コネクションのオープン、クローズは<a href="aop-summary.html#AOPKey">Advice(MethodInterceptor)</a>が管理するため、
+			DAO (Data Access Object)では行いません。
+			DAOにTxDataSourceをインジェクションしてもらうために Seasar.Extension.ADO.IDataSource型のプロパティを用意します。 </p>
+			<p>　コネクション、トランザクション、コマンド、パラメータのオブジェクトはdataSourceから作成します。
+			従業員を扱うためのDAOインターフェースとDAO実装クラスは次のようになります。</p>
+			
+			<h2>EmployeeDao.cs</h2>
+			<p class="kindCode">C#</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">using</span> System;
+<span class="kwrd">using</span> System.Data;
+<span class="kwrd">using</span> Seasar.Extension.ADO;
+
+<span class="kwrd">namespace</span> Seasar.Examples.Reference.LocalTx
+{
+    <span class="rem">// 従業員を扱うためのDAOインターフェース</span>
+    <span class="kwrd">public</span> <span class="kwrd">interface</span> IEmployeeDao
+    {
+        <span class="kwrd">void</span> Insert();
+    }
+
+    <span class="rem">// 従業員を扱うためのDAO実装クラス</span>
+    <span class="kwrd">public</span> <span class="kwrd">class</span> EmployeeDaoImpl : IEmployeeDao
+    {
+        <span class="kwrd">private</span> IDataSource dataSource;
+
+        <span class="rem">// TxDataSourceをインジェクションしてもらうためのプロパティ</span>
+        <span class="kwrd">public</span> IDataSource DataSource
+        {
+            set { dataSource = <span class="kwrd">value</span>; }
+        }
+
+        <span class="preproc">#region</span> IEmployeeDao メンバ
+
+        <span class="kwrd">public</span> <span class="kwrd">void</span> Insert()
+        {
+            <span class="kwrd">string</span> sql = <span class="str">"insert into emp2 values(@empno, @ename, @deptnum)"</span>;
+            
+            <span class="kwrd">using</span>(IDbCommand cmd = dataSource.GetCommand(sql,
+                      dataSource.GetConnection(), dataSource.GetTransaction()))
+            {
+                cmd.Parameters.Add(dataSource.GetParameter(<span class="str">"@empno"</span>, 99));
+                cmd.Parameters.Add(dataSource.GetParameter(
+                    <span class="str">"@ename"</span>, <span class="str">"Sugimoto"</span>));
+                cmd.Parameters.Add(dataSource.GetParameter(<span class="str">"@deptnum"</span>, 31));
+                cmd.ExecuteNonQuery();
+                Console.WriteLine(<span class="str">"EMPを追加しました。"</span>);
+            }
+        }
+
+        <span class="preproc">#endregion</span>
+    }
+}</pre>
+
+			<p class="kindCode">VB</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode vb">
+<span class="kwrd">Imports</span> System
+<span class="kwrd">Imports</span> System.Data
+<span class="kwrd">Imports</span> Seasar.Extension.ADO
+
+<span class="kwrd">Namespace</span> Seasar.Examples.Reference.LocalTx
+
+   <span class="rem">' 従業員を扱うためのDAOインターフェース</span>
+   <span class="kwrd">Public</span> <span class="kwrd">Interface</span> IEmployeeDao
+      <span class="kwrd">Sub</span> Insert()
+   <span class="kwrd">End</span> <span class="kwrd">Interface</span> <span class="rem">'IEmployeeDao</span>
+   
+   <span class="rem">' 従業員を扱うためのDAO実装クラス</span>
+   <span class="kwrd">Public</span> <span class="kwrd">Class</span> EmployeeDaoImpl
+      <span class="kwrd">Implements</span> IEmployeeDao
+      
+      <span class="kwrd">Private</span> dataSource <span class="kwrd">As</span> IDataSource
+      
+      <span class="rem">' TxDataSourceをインジェクションしてもらうためのプロパティ</span>
+      <span class="kwrd">Public</span> <span class="kwrd">WriteOnly</span> <span class="kwrd">Property</span> DataSource() <span class="kwrd">As</span> IDataSource
+         <span class="kwrd">Set</span>(<span class="kwrd">ByVal</span> value <span class="kwrd">As</span> IDataSource)
+            dataSource = value
+         <span class="kwrd">End</span> <span class="kwrd">Set</span>
+      <span class="kwrd">End</span> <span class="kwrd">Property</span>
+       
+      <span class="kwrd">Public</span> <span class="kwrd">Sub</span> Insert()
+
+         <span class="kwrd">Dim</span> sql <span class="kwrd">As</span> <span class="kwrd">String</span> = _
+             <span class="str">"insert into emp2 values(@empno, @ename, @deptnum)"</span>
+         
+         <span class="kwrd">Dim</span> cmd <span class="kwrd">As</span> IDbCommand = dataSource.GetCommand(sql, _
+            dataSource.GetConnection(), dataSource.GetTransaction())
+         <span class="kwrd">Try</span>
+            cmd.Parameters.Add(dataSource.GetParameter(<span class="str">"@empno"</span>, 99))
+            cmd.Parameters.Add(dataSource.GetParameter(<span class="str">"@ename"</span>, <span class="str">"Sugimoto"</span>))
+            cmd.Parameters.Add(dataSource.GetParameter(<span class="str">"@deptnum"</span>, 31))
+            cmd.ExecuteNonQuery()
+            Console.WriteLine(<span class="str">"EMPを追加しました。"</span>)
+         <span class="kwrd">Finally</span>
+            cmd.Dispose()
+         <span class="kwrd">End</span> <span class="kwrd">Try</span>
+      <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+   <span class="kwrd">End</span> <span class="kwrd">Class</span>
+<span class="kwrd">End</span> <span class="kwrd">Namespace</span>
+</pre>
+
+			<p>　IEmployeeDaoを実行するクラスは次のようになります。</p>
+			
+			<h2>LocalTxClient.cs</h2>
+			<p class="kindCode">C#</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">using</span> System;
+<span class="kwrd">using</span> Seasar.Framework.Container;
+<span class="kwrd">using</span> Seasar.Framework.Container.Factory;
+
+<span class="kwrd">namespace</span> Seasar.Examples.Reference.LocalTx
+{
+    <span class="kwrd">public</span> <span class="kwrd">class</span> LocalTxClient
+    {
+        <span class="kwrd">private</span> <span class="kwrd">static</span> <span class="kwrd">readonly</span> String PATH 
+                = <span class="str">"Seasar.Examples/Reference/LocalTx/LocalTxClient.dicon"</span>;
+
+        <span class="kwrd">public</span> LocalTxClient() {}
+
+        <span class="kwrd">public</span> <span class="kwrd">void</span> Main()
+        {
+            <span class="rem">// S2コンテナを作成します</span>
+            IS2Container container = S2ContainerFactory.Create(PATH);
+            <span class="rem">// S2コンテナを初期化します</span>
+            container.Init();
+            
+            <span class="rem">// S2コンテナからIEmployeeDaoを実装するコンポーネントを取り出します</span>
+            IEmployeeDao dao = (IEmployeeDao) container.GetComponent(
+                <span class="kwrd">typeof</span>(IEmployeeDao));
+
+            <span class="rem">// 従業員を追加します</span>
+            dao.Insert();
+        }
+    }
+}</pre>
+
+			<p class="kindCode">VB</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode vb">
+<span class="kwrd">Imports</span> System
+<span class="kwrd">Imports</span> Seasar.Framework.Container
+<span class="kwrd">Imports</span> Seasar.Framework.Container.Factory
+
+<span class="kwrd">Namespace</span> Seasar.Examples.Reference.LocalTx
+
+   <span class="kwrd">Public</span> <span class="kwrd">Class</span> LocalTxClient
+
+      <span class="kwrd">Private</span> <span class="kwrd">Shared</span> PATH <span class="kwrd">As</span> [<span class="kwrd">String</span>] = _
+         <span class="str">"Seasar.Examples/Reference/LocalTx/LocalTxClient.dicon"</span>
+      
+      <span class="kwrd">Public</span> <span class="kwrd">Sub</span> <span class="kwrd">New</span>()
+      <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+       
+      <span class="kwrd">Public</span> <span class="kwrd">Sub</span> Main()
+
+         <span class="rem">' S2コンテナを作成します</span>
+         <span class="kwrd">Dim</span> container <span class="kwrd">As</span> IS2Container = S2ContainerFactory.Create(PATH)
+         <span class="rem">' S2コンテナを初期化します</span>
+         container.Init()
+         
+         <span class="rem">' S2コンテナからIEmployeeDaoを実装するコンポーネントを取り出します</span>
+         <span class="kwrd">Dim</span> dao <span class="kwrd">As</span> IEmployeeDao = _
+            <span class="kwrd">CType</span>(container.GetComponent(<span class="kwrd">GetType</span>(IEmployeeDao)), IEmployeeDao)
+         
+         <span class="rem">' 従業員を追加します</span>
+         dao.Insert()
+      <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+   <span class="kwrd">End</span> <span class="kwrd">Class</span>
+<span class="kwrd">End</span> <span class="kwrd">Namespace</span>
+</pre>
+
+			<p>　diconファイルは次のようになります。Required属性のトランザクションを適用するために、
+			EmployeeDaoImplのaspectにLocalTx.RequiredTxを指定してします。</p>
+			
+			<h2>LocalTxClient.dicon</h2>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;?</span><span class="html">xml</span> <span class="attr">version</span><span class="kwrd">="1.0"</span> <span class="attr">encoding</span><span class="kwrd">="utf-8"</span> ?<span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;!</span><span class="html">DOCTYPE</span> <span class="attr">components</span> <span class="attr">PUBLIC</span> <span class="kwrd">"-//SEASAR2.1//DTD S2Container//EN"</span>
+<span class="kwrd">"http://www.seasar.org/dtd/components21.dtd"</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;</span><span class="html">include</span> <span class="attr">path</span><span class="kwrd">="Seasar.Examples/Tx.dicon"</span> <span class="kwrd">/&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="LocalTxClient"</span>
+        <span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.LocalTx.LocalTxClient"</span> <span class="kwrd">/&gt;</span>
+    
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.LocalTx.EmployeeDaoImpl"</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">aspect</span><span class="kwrd">&gt;</span>LocalTx.RequiredTx<span class="kwrd">&lt;/</span><span class="html">aspect</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
+</pre>
+
+			<h2>Tx.dicon</h2>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;?</span><span class="html">xml</span> <span class="attr">version</span><span class="kwrd">="1.0"</span> <span class="attr">encoding</span><span class="kwrd">="utf-8"</span> ?<span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;!</span><span class="html">DOCTYPE</span> <span class="attr">components</span> <span class="attr">PUBLIC</span> <span class="kwrd">"-//SEASAR2.1//DTD S2Container//EN"</span>
+<span class="kwrd">"http://www.seasar.org/dtd/components21.dtd"</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;</span><span class="html">components</span> <span class="attr">namespace</span><span class="kwrd">="LocalTx"</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">include</span> <span class="attr">path</span><span class="kwrd">="Seasar.Examples/Ado.dicon"</span> <span class="kwrd">/&gt;</span>
+
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="RequiredTx"</span>
+            <span class="attr">class</span><span class="kwrd">="Seasar.Extension.Tx.TransactionInterceptor"</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">arg</span><span class="kwrd">&gt;</span>
+            <span class="kwrd">&lt;</span><span class="html">component</span>
+                <span class="attr">class</span><span class="kwrd">="Seasar.Extension.Tx.Impl.LocalRequiredTxHandler"</span> <span class="kwrd">/&gt;</span>
+        <span class="kwrd">&lt;/</span><span class="html">arg</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+    
+    ...
+
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
+</pre>
+
+			<h2>Ado.dicon</h2>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;?</span><span class="html">xml</span> <span class="attr">version</span><span class="kwrd">="1.0"</span> <span class="attr">encoding</span><span class="kwrd">="utf-8"</span> ?<span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;!</span><span class="html">DOCTYPE</span> <span class="attr">components</span> <span class="attr">PUBLIC</span> <span class="kwrd">"-//SEASAR2.1//DTD S2Container//EN"</span>
+<span class="kwrd">"http://www.seasar.org/dtd/components21.dtd"</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;</span><span class="html">components</span> <span class="attr">namespace</span><span class="kwrd">="Ado"</span><span class="kwrd">&gt;</span>
+
+  <span class="rem">&lt;!-- .NET Framework Data Provider for SQL Server を使用する場合に必要です。 --&gt;</span>
+  <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="SqlClient"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.ADO.DataProvider"</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="ConnectionType"</span><span class="kwrd">&gt;</span>
+        "System.Data.SqlClient.SqlConnection"
+    <span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="CommandType"</span><span class="kwrd">&gt;</span>
+        "System.Data.SqlClient.SqlCommand"
+    <span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="ParameterType"</span><span class="kwrd">&gt;</span>
+        "System.Data.SqlClient.SqlParameter"
+    <span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="DataAdapterType"</span><span class="kwrd">&gt;</span>
+        "System.Data.SqlClient.SqlDataAdapter"
+    <span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+  <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+  <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="DataSource"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.Tx.Impl.TxDataSource"</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="DataProvider"</span><span class="kwrd">&gt;</span>SqlClient<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="ConnectionString"</span><span class="kwrd">&gt;</span>
+"Data Source=(local);Initial Catalog=s2dotnetdemo;Integrated Security=SSPI"
+    <span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+  <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+
+  <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.Tx.Impl.TransactionContext"</span> <span class="kwrd">/&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
+</pre>
+
+			<h2>実行結果</h2>
+<pre class="csharpcode">
+DEBUG トランザクションを開始しました
+EMPを追加しました。
+DEBUG トランザクションをコミットしました
+</pre>
+
+		</div>
+	</div>
+	
+<!-- ############################################# MS DTCによる分散トランザクション######################################################### -->
+
+	<div class="content">
+		<a name="DTCTx" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>MS DTCによる分散トランザクション</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　MS DTCによる分散トランザクションを利用するためには、MS DTCが利用できる環境でなければいけません。
+			ローカルトランザクションのようにTxDataSourceからコネクションをとらないといけないといった制限はありませんが、
+			データプロバイダに依存しないコーディングをするために、Seasar.Extension.ADO.Impl.DataSourceImpl
+			からコネクション、コマンド、パラメータのオブジェクトを作成します。
+			MS DTCを利用する場合は、1回のクエリ発行毎にコネクションをクローズしても、トランザクションは維持されます。 </p>
+			<p>　分散トランザクションの注意点ですが、Seasar.dllをCOM+アプリケーションにインストールする必要があります。
+			COM+アプリケーションへのインストールは自動で行われますが、実行ユーザにその権限がない場合は、
+			レジストリキーへのアクセスが拒否されたという例外（System.UnauthorizedAccessException）が発生します。
+			このような例外が発生した場合は、権限を持ったユーザで実行するか、
+			あらかじめ権限を持ったユーザでCOM+アプリケーションへのインストールを手動で行ってください。</p>
+			<p>　手動でSeasar.dllをCOM+アプリケーションにインストールするためには
+			.NET サービス インストールツール（RegSvcs.exe）を使います。.NET 2.0 の場合は、
+			RegSvcs.exeは %windir%\Microsoft.NET\Framework\v2.0.50727\RegSvcs.exe
+			に存在します。以下のようにRegSvcs.exeのパラメータにSeasar.dllへのフルパスを渡して、
+			Seasar.dllをCOM+アプリケーションにインストールすることができます。</p>
+			<ul>
+				<li>RegSvcs.exe Seasar.dllへのフルパス</li>
+			</ul>
+			<p>　従業員を扱うためのDAOインターフェースとDAO実装クラスは次のようになります。 </p>
+			
+			<h2>EmployeeDao.cs</h2>
+			<p class="kindCode">C#</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">using</span> System;
+<span class="kwrd">using</span> System.Data;
+<span class="kwrd">using</span> Seasar.Extension.ADO;
+
+<span class="kwrd">namespace</span> Seasar.Examples.Reference.DTCTx
+{
+    <span class="rem">// 従業員を扱うためのDAOインターフェース</span>
+    <span class="kwrd">public</span> <span class="kwrd">interface</span> IEmployeeDao
+    {
+        <span class="kwrd">void</span> Insert();
+    }
+
+    <span class="rem">// 従業員を扱うためのDAO実装クラス</span>
+    <span class="kwrd">public</span> <span class="kwrd">class</span> EmployeeDaoImpl : IEmployeeDao
+    {
+        <span class="kwrd">private</span> IDataSource dataSource;
+
+        <span class="rem">// DataSourceImplをインジェクションしてもらうためのプロパティ</span>
+        <span class="kwrd">public</span> IDataSource DataSource
+        {
+            set { dataSource = <span class="kwrd">value</span>; }
+        }
+
+        <span class="preproc">#region</span> IEmployeeDao メンバ
+
+        <span class="kwrd">public</span> <span class="kwrd">void</span> Insert()
+        {
+            <span class="kwrd">using</span>(IDbConnection cn = dataSource.GetConnection())
+            {
+                cn.Open();
+                <span class="kwrd">string</span> sql =
+                    <span class="str">"insert into emp2 values(@empno, @ename, @deptnum)"</span>;
+                <span class="kwrd">using</span>(IDbCommand cmd = dataSource.GetCommand(sql,cn))
+                {
+                    cmd.Parameters.Add(dataSource.GetParameter(<span class="str">"@empno"</span>, 99));
+                    cmd.Parameters.Add(dataSource.GetParameter(<span class="str">
+                        "@ename"</span>, <span class="str">"Sugimoto"</span>));
+                    cmd.Parameters.Add(dataSource.GetParameter(<span class="str">
+                        "@deptnum"</span>, 31));
+                    cmd.ExecuteNonQuery();
+                    Console.WriteLine(<span class="str">"EMPを追加しました。"</span>);
+                }
+            }
+        }
+
+        <span class="preproc">#endregion</span>
+    }
+}
+</pre>
+
+			<p class="kindCode">VB</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode vb">
+<span class="kwrd">Imports</span> System
+<span class="kwrd">Imports</span> System.Data
+<span class="kwrd">Imports</span> Seasar.Extension.ADO
+
+<span class="kwrd">Namespace</span> Seasar.Examples.Reference.DTCTx
+
+   <span class="rem">' 従業員を扱うためのDAOインターフェース</span>
+   <span class="kwrd">Public</span> <span class="kwrd">Interface</span> IEmployeeDao
+      <span class="kwrd">Sub</span> Insert()
+   <span class="kwrd">End</span> <span class="kwrd">Interface</span>
+   
+   <span class="rem">' 従業員を扱うためのDAO実装クラス</span>
+   <span class="kwrd">Public</span> <span class="kwrd">Class</span> EmployeeDaoImpl
+      <span class="kwrd">Implements</span> IEmployeeDao
+
+      <span class="kwrd">Private</span> dataSource <span class="kwrd">As</span> IDataSource
+      
+      <span class="rem">' DataSourceImplをインジェクションしてもらうためのプロパティ      </span>
+      <span class="kwrd">Public</span> <span class="kwrd">WriteOnly</span> <span class="kwrd">Property</span> DataSource() <span class="kwrd">As</span> IDataSource
+         <span class="kwrd">Set</span>(<span class="kwrd">ByVal</span> value <span class="kwrd">As</span> IDataSource)
+            dataSource = value
+         <span class="kwrd">End</span> <span class="kwrd">Set</span>
+      <span class="kwrd">End</span> <span class="kwrd">Property</span>
+       
+      <span class="kwrd">Public</span> <span class="kwrd">Sub</span> Insert()
+
+         <span class="kwrd">Dim</span> cn <span class="kwrd">As</span> IDbConnection = dataSource.GetConnection()
+         <span class="kwrd">Try</span>
+            cn.Open()
+            <span class="kwrd">Dim</span> sql <span class="kwrd">As</span> <span class="kwrd">String</span> = _
+                <span class="str">"insert into emp2 values(@empno, @ename, @deptnum)"</span>
+            <span class="kwrd">Dim</span> cmd <span class="kwrd">As</span> IDbCommand = dataSource.GetCommand(sql, cn)
+            <span class="kwrd">Try</span>
+               cmd.Parameters.Add(dataSource.GetParameter(<span class="str">"@empno"</span>, 99))
+               cmd.Parameters.Add(dataSource.GetParameter(<span class="str"> _
+                   "@ename"</span>, <span class="str">"Sugimoto"</span>))
+               cmd.Parameters.Add(dataSource.GetParameter(<span class="str">"@deptnum"</span>, 31))
+               cmd.ExecuteNonQuery()
+               Console.WriteLine(<span class="str">"EMPを追加しました。"</span>)
+            <span class="kwrd">Finally</span>
+               cmd.Dispose()
+            <span class="kwrd">End</span> <span class="kwrd">Try</span>
+         <span class="kwrd">Finally</span>
+            cn.Dispose()
+         <span class="kwrd">End</span> <span class="kwrd">Try</span>
+
+      <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+
+   <span class="kwrd">End</span> <span class="kwrd">Class</span>
+
+<span class="kwrd">End</span> <span class="kwrd">Namespace</span>
+</pre>
+
+			<h2>DTCTxClient.cs</h2>
+			<p>　IEmployeeDaoを実行するクラスは次のようになります。</p>
+			
+			<p class="kindCode">C#</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">using</span> System;
+<span class="kwrd">using</span> Seasar.Framework.Container;
+<span class="kwrd">using</span> Seasar.Framework.Container.Factory;
+
+<span class="kwrd">namespace</span> Seasar.Examples.Reference.DTCTx
+{
+    <span class="kwrd">public</span> <span class="kwrd">class</span> DTCTxClient
+    {
+        <span class="kwrd">private</span> <span class="kwrd">static</span> <span class="kwrd">readonly</span> String PATH 
+                = <span class="str">"Seasar.Examples/Reference/DTCTx/DTCTxClient.dicon"</span>;
+
+        <span class="kwrd">public</span> DTCTxClient() {}
+
+        <span class="kwrd">public</span> <span class="kwrd">void</span> Main()
+        {
+            <span class="rem">// S2コンテナを作成します</span>
+            IS2Container container = S2ContainerFactory.Create(PATH);
+            <span class="rem">// S2コンテナを初期化します</span>
+            container.Init();
+            
+            <span class="rem">// S2コンテナからIEmployeeDaoを実装するコンポーネントを取り出します</span>
+            IEmployeeDao dao = (IEmployeeDao)
+                container.GetComponent(<span class="kwrd">typeof</span>(IEmployeeDao));
+
+            <span class="rem">// 従業員を追加します</span>
+            dao.Insert();
+        }
+    }
+}
+</pre>
+
+			<p class="kindCode">VB</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode vb">
+<span class="kwrd">Imports</span> System
+<span class="kwrd">Imports</span> Seasar.Framework.Container
+<span class="kwrd">Imports</span> Seasar.Framework.Container.Factory
+
+<span class="kwrd">Namespace</span> Seasar.Examples.Reference.DTCTx
+
+   <span class="kwrd">Public</span> <span class="kwrd">Class</span> DTCTxClient
+      <span class="kwrd">Private</span> <span class="kwrd">Shared</span> PATH <span class="kwrd">As</span> [<span class="kwrd">String</span>] = _
+         <span class="str">"Seasar.Examples/Reference/DTCTx/DTCTxClient.dicon"</span>
+      
+      <span class="kwrd">Public</span> <span class="kwrd">Sub</span> <span class="kwrd">New</span>()
+      <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+       
+      <span class="kwrd">Public</span> <span class="kwrd">Sub</span> Main()
+
+         <span class="rem">' S2コンテナを作成します</span>
+         <span class="kwrd">Dim</span> container <span class="kwrd">As</span> IS2Container = S2ContainerFactory.Create(PATH)
+         <span class="rem">' S2コンテナを初期化します</span>
+         container.Init()
+         
+         <span class="rem">' S2コンテナからIEmployeeDaoを実装するコンポーネントを取り出します</span>
+         <span class="kwrd">Dim</span> dao <span class="kwrd">As</span> IEmployeeDao = _
+            <span class="kwrd">CType</span>(container.GetComponent(<span class="kwrd">GetType</span>(IEmployeeDao)), IEmployeeDao)
+         
+         <span class="rem">' 従業員を追加します</span>
+         dao.Insert()
+
+      <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+
+   <span class="kwrd">End</span> <span class="kwrd">Class</span>
+
+<span class="kwrd">End</span> <span class="kwrd">Namespace</span>
+</pre>
+
+			<p>　diconファイルは次のようになります。
+			Required属性のトランザクションを適用するために、 EmployeeDaoImplのaspectにDTCTx.RequiredTxを指定します。 </p>
+			
+			<h2>DTCTxClient.dicon</h2>
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;?</span><span class="html">xml</span> <span class="attr">version</span><span class="kwrd">="1.0"</span> <span class="attr">encoding</span><span class="kwrd">="utf-8"</span> ?<span class="kwrd">&gt;</span> 
+<span class="kwrd">&lt;!</span><span class="html">DOCTYPE</span> <span class="attr">components</span> <span class="attr">PUBLIC</span> <span class="kwrd">"-//SEASAR2.1//DTD S2Container//EN"</span>
+<span class="kwrd">"http://www.seasar.org/dtd/components21.dtd"</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">include</span> <span class="attr">path</span><span class="kwrd">="Seasar.Examples/DTCTx.dicon"</span> <span class="kwrd">/&gt;</span>
+    
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="DTCTxClient"</span>
+        <span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.DTCTx.DTCTxClient"</span> <span class="kwrd">/&gt;</span>
+    
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.DTCTx.EmployeeDaoImpl"</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">aspect</span><span class="kwrd">&gt;</span>DTCTx.RequiredTx<span class="kwrd">&lt;/</span><span class="html">aspect</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+    
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
+</pre>
+
+			<h2>DTCTx.dicon</h2>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;?</span><span class="html">xml</span> <span class="attr">version</span><span class="kwrd">="1.0"</span> <span class="attr">encoding</span><span class="kwrd">="utf-8"</span> ?<span class="kwrd">&gt;</span> 
+<span class="kwrd">&lt;!</span><span class="html">DOCTYPE</span> <span class="attr">components</span> <span class="attr">PUBLIC</span> <span class="kwrd">"-//SEASAR2.1//DTD S2Container//EN"</span>
+<span class="kwrd">"http://www.seasar.org/dtd/components21.dtd"</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;</span><span class="html">components</span> <span class="attr">namespace</span><span class="kwrd">="DTCTx"</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">include</span> <span class="attr">path</span><span class="kwrd">="Seasar.Examples/Ado.dicon"</span> <span class="kwrd">/&gt;</span>
+
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="DTCTransactionStateHandler"</span> 
+            <span class="attr">class</span><span class="kwrd">="Seasar.Extension.Tx.Impl.DTCTransactionStateHandler"</span> <span class="kwrd">/&gt;</span>
+            
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="RequiredTx"</span>
+            <span class="attr">class</span><span class="kwrd">="Seasar.Extension.Tx.TransactionInterceptor"</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">arg</span><span class="kwrd">&gt;</span>
+            <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.Tx.Impl.DTCRequiredTxHandler"</span> <span class="kwrd">/&gt;</span>
+        <span class="kwrd">&lt;/</span><span class="html">arg</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+
+    ...
+    
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
+</pre>
+			<p>　Ado.diconと実行結果は、ローカルトランザクションの場合と同じです。</p>
+
+		</div>
+	</div>
+	
+<!-- ############################################# System.Transactionsによるトランザクション ######################################################### -->
+
+	<div class="content">
+		<a name="System.Transactions" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>System.Transactionsによるトランザクション</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　ローカルトランザクションのようにTxDataSourceからコネクションをとらないといけないといった制限はありませんが、
+			データプロバイダに依存しないコーディングをするために、Seasar.Extension.ADO.Impl.DataSourceImpl
+			からコネクション、コマンド、パラメータのオブジェクトを作成します。</p>
+			<p>　System.Transactionsによるトランザクションを利用する場合は、
+			1回のクエリ発行毎にコネクションをクローズしても、トランザクションは維持されます。</p>
+			<p>　従業員を扱うためのDAOインターフェースとDAO実装クラスは次のようになります。</p>
+
+			<h2>EmployeeDao.cs</h2>
+			<p class="kindCode">C#</p>
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">using</span> System;
+<span class="kwrd">using</span> System.Data;
+<span class="kwrd">using</span> Seasar.Extension.ADO;
+
+<span class="kwrd">namespace</span> Seasar.Examples.Reference.Tx
+{
+    <span class="rem">// 従業員を扱うためのDAOインターフェース</span>
+    <span class="kwrd">public</span> <span class="kwrd">interface</span> IEmployeeDao
+    {
+        <span class="kwrd">void</span> Insert();
+    }
+
+    <span class="rem">// 従業員を扱うためのDAO実装クラス</span>
+    <span class="kwrd">public</span> <span class="kwrd">class</span> EmployeeDaoImpl : IEmployeeDao
+    {
+        <span class="kwrd">private</span> IDataSource dataSource;
+
+        <span class="rem">// DataSourceImplをインジェクションしてもらうためのプロパティ</span>
+        <span class="kwrd">public</span> IDataSource DataSource
+        {
+            set { dataSource = <span class="kwrd">value</span>; }
+        }
+
+        <span class="preproc">#region</span> IEmployeeDao メンバ
+
+        <span class="kwrd">public</span> <span class="kwrd">void</span> Insert()
+        {
+            <span class="kwrd">using</span>(IDbConnection cn = dataSource.GetConnection())
+            {
+                cn.Open();
+                <span class="kwrd">string</span> sql =
+                    <span class="str">"insert into emp2 values(@empno, @ename, @deptnum)"</span>;
+                <span class="kwrd">using</span>(IDbCommand cmd = dataSource.GetCommand(sql,cn))
+                {
+                    cmd.Parameters.Add(dataSource.GetParameter(<span class="str">"@empno"</span>, 99));
+                    cmd.Parameters.Add(dataSource.GetParameter(
+                        <span class="str">"@ename"</span>, <span class="str">"Sugimoto"</span>));
+                    cmd.Parameters.Add(dataSource.GetParameter(<span class="str">"@deptnum"</span>, 31));
+                    cmd.ExecuteNonQuery();
+                    Console.WriteLine(<span class="str">"EMPを追加しました。"</span>);
+                }
+            }
+        }
+
+        <span class="preproc">#endregion</span>
+    }
+}
+</pre>
+
+			<p class="kindCode">VB</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode vb">
+<span class="kwrd">Imports</span> System
+<span class="kwrd">Imports</span> System.Data
+<span class="kwrd">Imports</span> Seasar.Extension.ADO
+
+<span class="kwrd">Namespace</span> Seasar.Examples.Reference.Tx
+
+   <span class="rem">' 従業員を扱うためのDAOインターフェース</span>
+   <span class="kwrd">Public</span> <span class="kwrd">Interface</span> IEmployeeDao
+      <span class="kwrd">Sub</span> Insert()
+   <span class="kwrd">End</span> <span class="kwrd">Interface</span>
+   
+   <span class="rem">' 従業員を扱うためのDAO実装クラス</span>
+   <span class="kwrd">Public</span> <span class="kwrd">Class</span> EmployeeDaoImpl
+      <span class="kwrd">Implements</span> IEmployeeDao
+
+      <span class="kwrd">Private</span> dataSource <span class="kwrd">As</span> IDataSource
+      
+      <span class="rem">' DataSourceImplをインジェクションしてもらうためのプロパティ</span>
+      <span class="kwrd">Public</span> <span class="kwrd">WriteOnly</span> <span class="kwrd">Property</span> DataSource() <span class="kwrd">As</span> IDataSource
+         <span class="kwrd">Set</span>(<span class="kwrd">ByVal</span> value <span class="kwrd">As</span> IDataSource)
+            dataSource = value
+         <span class="kwrd">End</span> <span class="kwrd">Set</span>
+      <span class="kwrd">End</span> <span class="kwrd">Property</span>
+       
+      <span class="kwrd">Public</span> <span class="kwrd">Sub</span> Insert()
+
+         <span class="kwrd">Dim</span> cn <span class="kwrd">As</span> IDbConnection = dataSource.GetConnection()
+         <span class="kwrd">Try</span>
+            cn.Open()
+            <span class="kwrd">Dim</span> sql <span class="kwrd">As</span> <span class="kwrd">String</span> = _
+                <span class="str">"insert into emp2 values(@empno, @ename, @deptnum)"</span>
+            <span class="kwrd">Dim</span> cmd <span class="kwrd">As</span> IDbCommand = dataSource.GetCommand(sql, cn)
+            <span class="kwrd">Try</span>
+               cmd.Parameters.Add(dataSource.GetParameter(<span class="str">"@empno"</span>, 99))
+               cmd.Parameters.Add(dataSource.GetParameter(<span class="str">"@ename"</span>, <span class="str">"Sugimoto"</span>))
+               cmd.Parameters.Add(dataSource.GetParameter(<span class="str">"@deptnum"</span>, 31))
+               cmd.ExecuteNonQuery()
+               Console.WriteLine(<span class="str">"EMPを追加しました。"</span>)
+            <span class="kwrd">Finally</span>
+               cmd.Dispose()
+            <span class="kwrd">End</span> <span class="kwrd">Try</span>
+         <span class="kwrd">Finally</span>
+            cn.Dispose()
+         <span class="kwrd">End</span> <span class="kwrd">Try</span>
+
+      <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+
+   <span class="kwrd">End</span> <span class="kwrd">Class</span>
+
+<span class="kwrd">End</span> Namespace</pre>
+
+			<p>　IEmployeeDaoを実行するクラスは次のようになります。</p>
+			<h2>TxClient.cs</h2>
+			<p class="kindCode">C#</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">using</span> System;
+<span class="kwrd">using</span> Seasar.Framework.Container;
+<span class="kwrd">using</span> Seasar.Framework.Container.Factory;
+
+<span class="kwrd">namespace</span> Seasar.Examples.Reference.Tx
+{
+    <span class="kwrd">public</span> <span class="kwrd">class</span> TxClient
+    {
+        <span class="kwrd">private</span> <span class="kwrd">static</span> <span class="kwrd">readonly</span> String PATH 
+                = <span class="str">"Seasar.Examples/Reference/Tx/TxClient.dicon"</span>;
+
+        <span class="kwrd">public</span> TxClient() {}
+
+        <span class="kwrd">public</span> <span class="kwrd">void</span> Main()
+        {
+            <span class="rem">// S2コンテナを作成します</span>
+            IS2Container container = S2ContainerFactory.Create(PATH);
+            <span class="rem">// S2コンテナを初期化します</span>
+            container.Init();
+            
+            <span class="rem">// S2コンテナからIEmployeeDaoを実装するコンポーネントを取り出します</span>
+            IEmployeeDao dao = (IEmployeeDao)
+                container.GetComponent(<span class="kwrd">typeof</span>(IEmployeeDao));
+
+            <span class="rem">// 従業員を追加します</span>
+            dao.Insert();
+        }
+    }
+}
+</pre>
+
+			<p class="kindCode">VB</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode vb">
+<span class="kwrd">Imports</span> System
+<span class="kwrd">Imports</span> Seasar.Framework.Container
+<span class="kwrd">Imports</span> Seasar.Framework.Container.Factory
+
+<span class="kwrd">Namespace</span> Seasar.Examples.Reference.Tx
+
+   <span class="kwrd">Public</span> <span class="kwrd">Class</span> TxClient
+      <span class="kwrd">Private</span> <span class="kwrd">Shared</span> PATH <span class="kwrd">As</span> [<span class="kwrd">String</span>] = _
+         <span class="str">"Seasar.Examples/Reference/Tx/TxClient.dicon"</span>
+      
+      <span class="kwrd">Public</span> <span class="kwrd">Sub</span> <span class="kwrd">New</span>()
+      <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+       
+      <span class="kwrd">Public</span> <span class="kwrd">Sub</span> Main()
+
+         <span class="rem">' S2コンテナを作成します</span>
+         <span class="kwrd">Dim</span> container <span class="kwrd">As</span> IS2Container = S2ContainerFactory.Create(PATH)
+         <span class="rem">' S2コンテナを初期化します</span>
+         container.Init()
+         
+         <span class="rem">' S2コンテナからIEmployeeDaoを実装するコンポーネントを取り出します</span>
+         <span class="kwrd">Dim</span> dao <span class="kwrd">As</span> IEmployeeDao = _
+            <span class="kwrd">CType</span>(container.GetComponent(<span class="kwrd">GetType</span>(IEmployeeDao)), IEmployeeDao)
+         
+         <span class="rem">' 従業員を追加します</span>
+         dao.Insert()
+
+      <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+
+   <span class="kwrd">End</span> <span class="kwrd">Class</span>
+
+<span class="kwrd">End</span> <span class="kwrd">Namespace</span>
+</pre>
+
+			<p>　diconファイルは次のようになります。Required属性のトランザクションを適用するために、
+			EmployeeDaoImplのaspectにTx.RequiredTxを指定します。</p>
+			
+			<h2>TxClient.dicon</h2>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;?</span><span class="html">xml</span> <span class="attr">version</span><span class="kwrd">="1.0"</span> <span class="attr">encoding</span><span class="kwrd">="utf-8"</span> ?<span class="kwrd">&gt;</span> 
+<span class="kwrd">&lt;!</span><span class="html">DOCTYPE</span> <span class="attr">components</span> <span class="attr">PUBLIC</span> <span class="kwrd">"-//SEASAR2.1//DTD S2Container//EN"</span>
+<span class="kwrd">"http://www.seasar.org/dtd/components21.dtd"</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">include</span> <span class="attr">path</span><span class="kwrd">="Seasar.Examples/Tx.dicon"</span> <span class="kwrd">/&gt;</span>
+    
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="TxClient"</span>
+            <span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.Tx.TxClient"</span> <span class="kwrd">/&gt;</span>
+    
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.Tx.EmployeeDaoImpl"</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">aspect</span><span class="kwrd">&gt;</span>Tx.RequiredTx<span class="kwrd">&lt;/</span><span class="html">aspect</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+    
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
+</pre>
+
+			<h2>Tx.dicon</h2>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;?</span><span class="html">xml</span> <span class="attr">version</span><span class="kwrd">="1.0"</span> <span class="attr">encoding</span><span class="kwrd">="utf-8"</span> ?<span class="kwrd">&gt;</span> 
+<span class="kwrd">&lt;!</span><span class="html">DOCTYPE</span> <span class="attr">components</span> <span class="attr">PUBLIC</span> <span class="kwrd">"-//SEASAR2.1//DTD S2Container//EN"</span>
+<span class="kwrd">"http://www.seasar.org/dtd/components21.dtd"</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;</span><span class="html">components</span> <span class="attr">namespace</span><span class="kwrd">="Tx"</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">include</span> <span class="attr">path</span><span class="kwrd">="Seasar.Examples/Ado.dicon"</span> <span class="kwrd">/&gt;</span>
+
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="TransactionStateHandler"</span> 
+            <span class="attr">class</span><span class="kwrd">="Seasar.Extension.Tx.Impl.TransactionStateHandler"</span> <span class="kwrd">/&gt;</span>
+            
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="RequiredTx"</span>
+            <span class="attr">class</span><span class="kwrd">="Seasar.Extension.Tx.TransactionInterceptor"</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">arg</span><span class="kwrd">&gt;</span>
+            <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.Tx.Impl.RequiredTxHandler"</span> <span class="kwrd">/&gt;</span>
+        <span class="kwrd">&lt;/</span><span class="html">arg</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+
+    ...
+    
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
+</pre>
+
+			<p>　Ado.diconと実行結果は、ローカルトランザクションの場合と同じです。 </p>
+			<p>　S2Container.NETには、Tx.dicon, LocalTx.dicon, DTCTx.diconのサンプルがあらかじめ用意(s2container.net/source/Seasar.Tests)されています。
+			必要に応じて、ユーザアプリケーションのプロジェクトにコピーしてください。 </p>
+			<p>　Adviceのコンポーネント名をaspectタグのボディに指定するだけなので簡単です。
+			簡単にトランザクション管理機能が組み込めることがわかって頂けたと思います。 </p>
+
+		</div>
+	</div>
+	
+<!-- ############################################# 例外発生時の動作 ######################################################### -->
+
+	<div class="content">
+		<a name="Exception" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>例外発生時の動作</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　Tx.dicon、LocalTx.dicon、DTCTx.dionに定義されているAdviceは、
+			コンポーネントが例外をスローした場合はトランザクションをロールバックします。</p>
+
+		</div>
+	</div>
+	
+<!-- div.contents -->
+</div>
+<br class="clear" />
+<!-- div.middle -->
+</div>
+
+<div class="bottom">
+	<hr />
+	<div class="copyright">
+		&#169; Copyright The Seasar Project and the others 2004-2013, all rights reserved.
+	</div>
+</div>
+
+</body>
+
+</html>

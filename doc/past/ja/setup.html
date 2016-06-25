@@ -1,0 +1,503 @@
+﻿<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>セットアップ - S2Container.NET</title>
+	<link href="css/common.css" rel="stylesheet" type="text/css" media="screen,print" />
+	<link href="css/csharp.css" rel="stylesheet" type="text/css" media="screen,print" />
+</head>
+
+<body>
+<a name="top"/>
+<div class="container">
+
+<div>
+	<div class="logo"><img src="images/title_s2containernet.png" alt="S2Container.NET プロジェクト" /></div>
+	<hr />
+	<div class="pan">
+		<a href="http://www.seasar.org/">Seasarプロジェクト</a>
+		＞ <a href="seasarnet.html">Seasar.NETプロジェクト</a>
+		＞ <a href="index.html">S2Container.NET</a>
+		＞ セットアップ
+	</div>
+</div>
+
+<div class="middle">
+
+<div class="menus">
+
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/s2containernet.png" alt="S2Container.NET" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li><a href="index.html">Welcome</a></li>
+				<li><a href="download.html">ダウンロード</a></li>
+			</ul>
+		</div>
+	</div>
+	</div>
+	
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/documentation.png" alt="ドキュメンテーション" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li>セットアップ</li>
+				<li><a href="update-operation.html">移行</a></li>
+				<li><a href="dicontainer.html">DIContainer</a></li>
+				<li><a href="aop.html">AOP</a></li>
+				<li><a href="asp.html">ASP.NETでの利用</a></li>
+				<li><a href="db.html">データベース接続</a></li>
+				<li><a href="tx.html">トランザクション</a></li>
+				<li><a href="s2ado.html">S2ADO</a></li>
+				<li><a href="s2unit.html">S2Unit.NET</a></li>
+				<li><a href="s2windows.html">S2Windows.NET</a></li>
+				<li><a href="jscript.html">JScript.NET式</a></li>
+				<li><a href="quill.html">Quillで簡単DI+AOP</a></li>
+				<li><a href="s2dxo.html">S2DXO</a></li>
+			</ul>
+		</div>
+	</div>
+	</div>
+	
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/support.png" alt="サポート" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li>
+					<a href="faq.html">FAQ</a>
+					<p>よくある質問と答えをまとめています。</p>
+				</li>
+				<li>
+					<a href="https://ml.seasar.org/mailman/listinfo/seasar-dotnet">Mailing List</a>
+					<p>Seasar.NETに関する議論を行うメーリングリストです。</p>
+				</li>
+				<li>
+					<a href="https://www.seasar.org/issues/browse/CONTAINERNET">トラッキング</a>
+					<p>S2Container.NETのバグや問題の検索、報告を行うことができます。</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+	</div>
+
+</div><!-- div.left -->
+
+<!-- ############################################# コンテンツ ######################################################### -->
+
+<div class="contents">
+	
+	<div class="content">
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>目次</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<ul>
+				<li><a href="#DownloadFile">配布物の説明</a></li>
+				<li><a href="#quill">Quillのセットアップ</a></li>
+				<li><a href="#S2Container">S2Container.NETのセットアップ</a></li>
+				<li><a href="#log4net">log4netのセットアップ</a></li>
+				<li><a href="#S2ADO">S2ADOのセットアップ</a></li>
+				<li><a href="#S2Unit">S2Unit.NETのセットアップ</a></li>
+				<li><a href="#Seasar.DynamicProxy">Seasar.DynamicProxyのセットアップ</a></li>
+				<li><a href="#Examples">Examples</a></li>
+			</ul>
+		</div>
+	</div>
+	
+<!-- ############################################# 配布物の説明 ######################################################### -->
+	<div class="content">
+		<a name="DownloadFile" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>配布物の説明</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<p>　s2container.net-version.zipを解凍して出来たディレクトリの構成と説明です。（※ S2Container.NET 1.2.0-RC2以降）</p>
+			<table border="0" cellspacing="1">
+				<tr><th width="140">ディレクトリ</th><th>説明</th></tr>
+				<tr><td>s2container.net/build</td><td>S2Container.NETのリリースビルドされたアセンブリ</td></tr>
+				<tr><td>s2container.net/data</td><td>Examplesで使用されるDBのDDL等</td></tr>
+				<tr><td>s2container.net/lib</td><td>S2Container.NETが参照しているアセンブリ等</td></tr>
+				<tr><td>s2container.net/source</td><td>S2Container.NETのソースコード</td></tr>
+				<tr><td>www</td><td>ドキュメント</td></tr>
+			</table>
+		</div>
+	</div>
+	
+<!-- ############################################# Quillのセットアップ ######################################################### -->
+	<div class="content">
+		<a name="quill" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>Quillのセットアップ</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			
+			<p>　Quillを利用する場合には以下のファイル(アセンブリ)への参照を追加する必要があります。</p>
+			<ul>
+				<li>s2container.net/build/Seasar.Quill.dll</li>
+			</ul>
+			<p>　なお、以下のファイル・ディレクトリをSeasar.Quill.dllと同じディレクトリに配置してください。</p>
+			<table border="0" cellspacing="1">
+				<tr><th>ディレクトリ</th><th>説明</th></tr>
+				<tr>
+					<td>s2container.net/build/Seasar.dll</td>
+					<td>Interceptorを作成したり、Seasar.dllに含まれるInterceptorを利用する場合は
+					参照の追加を行ってください</td>
+				</tr>
+				<tr>
+					<td>s2container.net/build/Seasar.DynamicProxy.dll</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>s2container.net/build/ja-JP/</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>s2container.net/lib/log4net.dll</td>
+					<td></td>
+				</tr>
+			</table>
+			
+			<p>　Seasar.Quill.QuillControlを使う場合はツールボックスに登録する必要があります。
+			「ツールボックスアイテムの選択」からSeasar.Quill.dllを選択してください。</p>
+			
+			
+		</div>
+	</div>
+
+<!-- ############################################# S2Container.NETのセットアップ ######################################################### -->
+	<div class="content">
+		<a name="S2Container" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>S2Container.NETのセットアップ</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<p>　S2Container.NETを利用する場合には以下のファイル(アセンブリ)への参照を追加する必要があります。
+			 なお、buildディレクトリにあるja-JPディレクトリはSeasar.dllと同じディレクトリに配置してください。</p>
+			<ul>
+				<li>s2container.net/build/Seasar.dll</li>
+				<li>s2container.net/lib/log4net.dll</li>
+			</ul>
+			<p>　次にアプリケーション構成ファイル(app.config)に必要であれば設定を行います。 
+			アプリケーション構成ファイルについては以下のドキュメントを参照して下さい。</p>
+			<p>　<a href="dicontainer.html#AppConfig">DIContainer ＞ アプリケーション構成ファイル</a></p>
+		</div>
+	</div>
+	
+<!-- ############################################# log4netのセットアップ ######################################################### -->
+	<div class="content">
+		<a name="log4net" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>log4netのセットアップ</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<p>　S2Container.NETでは
+			<a href="http://logging.apache.org/log4net/" target="_blank">Apache Logging Services projectのlog4net</a>
+			を使用してログを出力しています。 
+			そのためlog4netの設定を行わないとS2Container.NETのログが出力されません。 以下にlog4netの設定の一例を示します。</p>
+			<h2>log4netの設定ファイルの指定</h2>
+			<p>　AssemblyInfo等に以下の属性を指定します。
+			これはlog4netの設定ファイルにアプリケーション構成ファイル(app.config)を使う場合の設定です。 </p>
+			
+			<p class="kindCode">C#</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+[assembly: log4net.Config.XmlConfigurator(Watch=<span class="kwrd">true</span>)]
+</pre>
+
+			<p class="kindCode">Visual Basic</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode vb">
+&lt;<span class="kwrd">Assembly</span>: log4net.Config.XmlConfigurator(Watch:=<span class="kwrd">True</span>)&gt;
+</pre>
+
+			<h2>アプリケーション構成ファイル(app.config)にlog4netの設定を追加する</h2>
+			<p>以下にTraceAdapterを使用した例を示します。</p>
+
+			<p class="kindCode">app.config</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">configuration</span><span class="kwrd">&gt;</span>
+
+    <span class="kwrd">&lt;</span><span class="html">configSections</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">section</span> <span class="attr">name</span><span class="kwrd">="log4net"</span>
+            <span class="attr">type</span><span class="kwrd">="System.Configuration.IgnoreSectionHandler"</span> <span class="kwrd">/&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">section</span> <span class="attr">name</span><span class="kwrd">="seasar"</span>
+            <span class="attr">type</span><span class="kwrd">="Seasar.Framework.Xml.S2SectionHandler, Seasar"</span> <span class="kwrd">/&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">configSections</span><span class="kwrd">&gt;</span>
+    
+    <span class="kwrd">&lt;</span><span class="html">log4net</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">appender</span> <span class="attr">name</span><span class="kwrd">="TraceAppender"</span> <span class="attr">type</span><span class="kwrd">="log4net.Appender.TraceAppender"</span><span class="kwrd">&gt;</span>
+            <span class="kwrd">&lt;</span><span class="html">layout</span> <span class="attr">type</span><span class="kwrd">="log4net.Layout.PatternLayout"</span><span class="kwrd">&gt;</span>
+                <span class="kwrd">&lt;</span><span class="html">conversionPattern</span> <span class="attr">value</span><span class="kwrd">="%-5p %d [%t] %m%n"</span> <span class="kwrd">/&gt;</span>
+            <span class="kwrd">&lt;/</span><span class="html">layout</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;/</span><span class="html">appender</span><span class="kwrd">&gt;</span>
+
+        <span class="kwrd">&lt;</span><span class="html">root</span><span class="kwrd">&gt;</span>
+            <span class="kwrd">&lt;</span><span class="html">level</span> <span class="attr">value</span><span class="kwrd">="DEBUG"</span> <span class="kwrd">/&gt;</span>
+            <span class="kwrd">&lt;</span><span class="html">appender-ref</span> <span class="attr">ref</span><span class="kwrd">="TraceAppender"</span> <span class="kwrd">/&gt;</span>
+        <span class="kwrd">&lt;/</span><span class="html">root</span><span class="kwrd">&gt;</span>
+
+    <span class="kwrd">&lt;/</span><span class="html">log4net</span><span class="kwrd">&gt;</span>
+    
+    <span class="kwrd">&lt;</span><span class="html">seasar</span><span class="kwrd">&gt;</span>
+        <span class="rem">&lt;!-- 省略 --&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">seasar</span><span class="kwrd">&gt;</span>
+    
+<span class="kwrd">&lt;/</span><span class="html">configuration</span><span class="kwrd">&gt;</span>
+</pre> 
+
+			<p>　以上でlog4netのセットアップは終了です。 </p>
+			<p>　しかしlog4netの設定を行ったアプリケーション構成ファイルを含むアセンブリ内で最初にlog4netでログを出力させずに、Seasarアセンブリで最初にログが出力されると log4netはSeasarアセンブリ内のlog4netの設定を探すため、ログが出力されません。</p>
+			<p>　log4netの設定を行ったアプリケーション構成ファイルを持つアセンブリ内で最初にログを出力するか、プログラム起動時に以下のようにアプリケーション構成ファイルを読み込む処理を追加して下さい。 </p>
+			
+			<p class="kindCode">C#</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+System.IO.FileInfo info = <span class="kwrd">new</span> System.IO.FileInfo(
+   log4net.Util.SystemInfo.AssemblyShortName(
+   System.Reflection.Assembly.GetExecutingAssembly())
+   + <span class="str">".exe.config"</span>); <span class="rem">// アセンブリがdllの場合は".dll.config"</span>
+
+log4net.Config.XmlConfigurator.Configure(
+   log4net.LogManager.GetRepository(), info);
+</pre>
+			
+			<p class="kindCode">Visual Basic</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode vb">
+<span class="kwrd">Dim</span> info <span class="kwrd">As</span> <span class="kwrd">New</span> System.IO.FileInfo( _
+   log4net.Util.SystemInfo.AssemblyShortName( _
+   System.Reflection.<span class="kwrd">Assembly</span>.GetExecutingAssembly()) _
+   + <span class="str">".exe.config"</span>) <span class="rem">' アセンブリがdllの場合は".dll.config"</span>
+
+log4net.Config.XmlConfigurator.Configure( _
+   log4net.LogManager.GetRepository(), info)
+</pre>
+			
+		</div>
+	</div>
+	
+<!-- ############################################# S2ADOのセットアップ ######################################################### -->
+	<div class="content">
+		<a name="S2ADO" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>S2ADOのセットアップ</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<p>　アプリケーション構成ファイル(app.config)に必要であれば設定を行います。 
+			アプリケーション構成ファイルについては以下のドキュメントを参照して下さい。</p>
+			<p>　<a href="db.html#AppConfig">データベース接続 - アプリケーション構成ファイル </a></p>
+		</div>
+	</div>
+	
+<!-- ############################################# S2Unit.NETのセットアップ ######################################################### -->
+	<div class="content">
+		<a name="S2Unit" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>S2Unit.NETのセットアップ</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<p>　S2Unit.NETはS2Container.NETを使ったテストを楽しく簡単に行うためのテスティングフレームワークです。 </p>
+			<p>　S2Unit.NETではGallioというテスト環境を使用しています。
+			事前に<a href="http://www.gallio.org/Downloads.aspx" target="_blank">Gallio v3.1 Update 2 build 397</a>をインストールします。</p>
+			<p>　※S2Unit.NETのバージョン1.4.0より前（.NET Framework3.5以前）のバージョンをお使いの場合は「Icarus GUI Test Runner」の「Tools->Plugins Browser」より「Gallio.MbUnit2Adapter」の「Disabled」というプロパティが「False」になっていることを確認して下さい。</p>
+			<p>　テストプロジェクトの「参照設定」で下記DLLを参照して下さい（「入手場所」はs2container.net-1.X.X.zipの解凍先下のパスです）。
+			<p>　○S2Unit.NET 1.4.X
+			<table>
+			<tr><th>DLL</th><th>バージョン</th><th>入手場所</th><th>備考</th></tr>
+			<tr><td>Seasar.Unit.dll</td><td>1.4.X<td>build/net4.0/</td><td>S2Unit.NET本体</td></tr>
+			<tr><td>Gallio.dll</td><td>3.1.397.0</td><td>lib/net4.0/</td><td>MbUnit3の実行に必要</td></tr>
+			<tr><td>MbUnit.dll</td><td>3.1.397.0</td><td>lib/net4.0/</td><td>MbUnit3の実行に必要</td></tr>
+			</table>
+			</p>
+			<p>　○S2Unit.NET 1.3.X以前
+			<table>
+			<tr><th>DLL</th><th>バージョン</th><th>入手場所</th><th>備考</th></tr>
+			<tr><td>Seasar.Unit.dll</td><td>～1.3.X<td>build/net2.0/</td><td>S2Unit.NET本体</td></tr>
+			<tr><td>MbUnit.Framework.dll</td><td>2.4.2.355</td><td>lib/net2.0/</td><td>MbUnit2の実行に必要</td></tr>
+			</table>
+			</p>
+			<p>　テストクラスはSeasar.Extension.Unit.S2TestCaseクラスを継承します。</p>
+			
+			<h2>アプリケーション構成ファイル(app.config)にS2Unit.NETの設定を追加する</h2>
+			<p>S2Unit.NETで参照しているMbUnitとPCにインストールしているMbUnitのバージョン差異を吸収するため、アプリケーション構成ファイル(app.config)に下記の設定を追加します。</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;?</span><span class="html">xml</span> <span class="attr">version</span><span class="kwrd">="1.0"</span> <span class="attr">encoding</span><span class="kwrd">="utf-8"</span> ?<span class="kwrd">&gt;</span>
+  <span class="kwrd">&lt;</span><span class="html">runtime</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">assemblyBinding</span> <span class="attr">xmlns</span><span class="kwrd">="urn:schemas-microsoft-com:asm.v1"</span><span class="kwrd">&gt;</span>
+      <span class="kwrd">&lt;</span><span class="html">probing</span> <span class="attr">privatePath</span><span class="kwrd">="bin"</span><span class="kwrd">/&gt;</span>
+      <span class="kwrd">&lt;</span><span class="html">dependentAssembly</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">assemblyIdentity</span> <span class="attr">name</span><span class="kwrd">="MbUnit.Framework"</span>
+<span class="attr">publicKeyToken</span><span class="kwrd">="5e72ecd30bc408d5"</span> <span class="attr">culture</span><span class="kwrd">="neutral"</span> <span class="kwrd">/&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">bindingRedirect</span> <span class="attr">oldVersion</span><span class="kwrd">="1.0.0.0-2.999.999.999"</span> <span class="attr">newVersion</span><span class="kwrd">="2.4.2.355"</span> <span class="kwrd">/&gt;</span>
+      <span class="kwrd">&lt;/</span><span class="html">dependentAssembly</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">assemblyBinding</span><span class="kwrd">&gt;</span>
+  <span class="kwrd">&lt;/</span><span class="html">runtime</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">configuration</span><span class="kwrd">&gt;</span>
+</pre>
+			<p>　<a href="s2unit.html">使い方については、S2Unit.NETのドキュメントを参照して下さい</a></p>
+		</div>
+	</div>
+	
+<!-- ############################################# Seasar.DynamicProxyのセットアップ ######################################################### -->
+	<div class="content">
+		<a name="Seasar.DynamicProxy" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>Seasar.DynamicProxyのセットアップ</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<p>　S2AOP.NETは標準でSystem.Runtime.Remoting.Proxies.RealProxyを用いて実装されていますが、
+			 これを<a href="http://www.castleproject.org/" target="_blank">Castle.DynamicProxy</a>を用いたSeasar.DynamicProxyに差し替えることができます。(1.2.0 for .NET 2.0以降)
+			Seasar.DynamicProxyについては以下のドキュメントを参照して下さい。 </p>
+			<p>　<a href="aop.html#Seasar.DynamicProxy">AOP - Seasar.DynamicProxyによるAOP</a></p>
+			<p>　Seasar.DynamicProxyを利用する場合には、以下のファイル(アセンブリ)への参照を追加する必要があります。</p>
+			<ul>
+				<li>s2container.net/build/Seasar.DynamicProxy.dll</li>
+				<li>s2container.net/lib/Castle.DynamicProxy.dll<br />
+				(Seasar.DynamicProxy.dllから見て解決できる場所にあれば参照に追加する必要はありません)</li>
+			</ul>
+			<p>　以下のようにアプリケーション構成ファイル(App.config)にアセンブリ[Seasar.DynamicProxy]を追加します。 </p>
+			
+			<p class="kindCode">app.config</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;?</span><span class="html">xml</span> <span class="attr">version</span><span class="kwrd">="1.0"</span> <span class="attr">encoding</span><span class="kwrd">="utf-8"</span> ?<span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;</span><span class="html">configuration</span><span class="kwrd">&gt;</span>
+
+    <span class="kwrd">&lt;</span><span class="html">configSections</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">section</span> <span class="attr">name</span><span class="kwrd">="seasar"</span>
+            <span class="attr">type</span><span class="kwrd">="Seasar.Framework.Xml.S2SectionHandler, Seasar"</span> <span class="kwrd">/&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">configSections</span><span class="kwrd">&gt;</span>
+
+    <span class="kwrd">&lt;</span><span class="html">seasar</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">configPath</span><span class="kwrd">&gt;</span>App.dicon<span class="kwrd">&lt;/</span><span class="html">configPath</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">assemblys</span><span class="kwrd">&gt;</span>
+            <span class="kwrd">&lt;</span><span class="html">assembly</span><span class="kwrd">&gt;</span>Seasar.DynamicProxy<span class="kwrd">&lt;/</span><span class="html">assembly</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;/</span><span class="html">assemblys</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">seasar</span><span class="kwrd">&gt;</span>
+
+<span class="kwrd">&lt;/</span><span class="html">configuration</span><span class="kwrd">&gt;</span>
+</pre>
+
+			<p>　以下のように、Seasar.Framework.Aop.Impl.DynamicAopProxyAspectWeaverクラスをdiconファイルに登録します。 
+			<span class="important">他のAspectを適用したいComponentより、DynamicAopProxyAspectWeaverの方が先に解決できるように、 記述場所に注意して下さい。 </span></p>
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;?</span><span class="html">xml</span> <span class="attr">version</span><span class="kwrd">="1.0"</span> <span class="attr">encoding</span><span class="kwrd">="utf-8"</span> ?<span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;!</span><span class="html">DOCTYPE</span> <span class="attr">components</span> <span class="attr">PUBLIC</span> <span class="kwrd">"-//SEASAR//DTD S2Container//EN"</span>
+<span class="kwrd">"http://www.seasar.org/dtd/components.dtd"</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="Seasar.Framework.Aop.Impl.DynamicAopProxyAspectWeaver"</span> <span class="kwrd">/&gt;</span>
+
+    ・・・
+    
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
+</pre>
+
+			<p>　以上でSeasar.DynamicProxyのセットアップは完了です。Seasar.DynamicProxyを用いたAOP実装に差し替えられました。 </p>
+
+		</div>
+	</div>
+	
+<!-- ############################################# Examples ######################################################### -->
+	<div class="content">
+		<a name="Examples" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>Examples</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<p>　Examplesを実行するには、Visual Studioでs2container.net/source/Seasar.slnを開き、 Seasar.Examplesプロジェクトをスタートアッププロジェクトに設定して下さい。
+			実行すると、ExamplesExplorerが起動しS2Container.NETの機能を体験することができます。 </p>
+			<p>　Examplesでは一部、SQL Server 2000（もしくは MSDE 2000）を必要とする機能があります。
+			その機能を試す場合には、s2container.net/data/setUpDemo.batを実行し、Examples用のデータベースを作成します。
+			そして、Seasar.ExamplesのAdo.diconのデータベースへの接続文字列をお使いの環境に合わせて変更して下さい。 </p>
+		</div>
+	</div>
+
+<!-- div.contents -->
+</div>
+<br class="clear" />
+<!-- div.middle -->
+</div>
+
+<div class="bottom">
+	<hr />
+	<div class="copyright">
+		&#169; Copyright The Seasar Project and the others 2004-2013, all rights reserved.
+	</div>
+</div>
+
+</body>
+
+</html>

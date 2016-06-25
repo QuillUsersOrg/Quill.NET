@@ -1,0 +1,1421 @@
+﻿<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>S2Container リファレンス - S2Container.NET</title>
+	<link href="css/common.css" rel="stylesheet" type="text/css" media="screen,print" />
+	<link href="css/csharp.css" rel="stylesheet" type="text/css" media="screen,print" />
+</head>
+
+<body>
+<a name="top"/>
+<div class="container">
+
+<div>
+	<div class="logo"><img src="images/title_s2containernet.png" alt="S2Container.NET プロジェクト" /></div>
+	<hr />
+	<div class="pan">
+		<a href="http://www.seasar.org/">Seasarプロジェクト</a>
+		＞ <a href="seasarnet.html">Seasar.NETプロジェクト</a>
+		＞ <a href="index.html">S2Container.NET</a>
+		＞ <a href="dicontainer.html">DIContainer</a>
+		＞ S2Container リファレンス
+	</div>
+</div>
+
+<div class="middle">
+
+<div class="menus">
+
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/s2containernet.png" alt="S2Container.NET" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li><a href="index.html">Welcome</a></li>
+				<li><a href="download.html">ダウンロード</a></li>
+			</ul>
+		</div>
+	</div>
+	</div>
+	
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/documentation.png" alt="ドキュメンテーション" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li><a href="setup.html">セットアップ</a></li>
+				<li><a href="update-operation.html">移行</a></li>
+				<li>
+					<a href="dicontainer.html">DIContainer</a>
+					<ul>
+						<li>S2Container リファレンス</li>
+						<li><a href="dicontainer-diconReference.html">Dicon タグリファレンス</a></li>
+						<li><a href="dicontainer-examples.html">Examples</a></li>
+					</ul>
+				</li>
+				<li><a href="aop.html">AOP</a></li>
+				<li><a href="asp.html">ASP.NETでの利用</a></li>
+				<li><a href="db.html">データベース接続</a></li>
+				<li><a href="tx.html">トランザクション</a></li>
+				<li><a href="s2ado.html">S2ADO</a></li>
+				<li><a href="s2unit.html">S2Unit.NET</a></li>
+				<li><a href="s2windows.html">S2Windows.NET</a></li>
+				<li><a href="jscript.html">JScript.NET式</a></li>
+				<li><a href="quill.html">Quillで簡単DI+AOP</a></li>
+				<li><a href="s2dxo.html">S2DXO</a></li>
+			</ul>
+		</div>
+	</div>
+	</div>
+	
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/support.png" alt="サポート" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li>
+					<a href="faq.html">FAQ</a>
+					<p>よくある質問と答えをまとめています。</p>
+				</li>
+				<li>
+					<a href="https://ml.seasar.org/mailman/listinfo/seasar-dotnet">Mailing List</a>
+					<p>Seasar.NETに関する議論を行うメーリングリストです。</p>
+				</li>
+				<li>
+					<a href="https://www.seasar.org/issues/browse/CONTAINERNET">トラッキング</a>
+					<p>S2Container.NETのバグや問題の検索、報告を行うことができます。</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+	</div>
+
+</div><!-- div.left -->
+
+<!-- ############################################# 目次 ######################################################### -->
+
+<div class="contents">
+	
+	<div class="content">
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>目次</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<ul>
+				<li><a href="#CreateFile">作成すべきファイル</a></li>
+				<li><a href="#S2ContainerDefinition">S2Containerの定義(Diconファイル)</a></li>
+				<li><a href="#S2ContainerCreation">S2Containerの作成</a></li>
+				<li><a href="#S2ContainerInit">S2Containerの初期化</a></li>
+				<li><a href="#getComponent">コンポーネントの取得</a></li>
+				<li><a href="#AppConfig">アプリケーション構成ファイル</a></li>
+				<li><a href="#DIType">Dependency Injectionの種類</a></li>
+				<li><a href="#Include">S2Container定義(diconファイル)の分割とインクルード</a></li>
+				<li><a href="#Namespace">名前空間</a></li>
+				<li><a href="#InstanceMode">インスタンス管理</a></li>
+				<li><a href="#Lifecycle">ライフサイクル</a></li>
+				<li><a href="#AutoBindingMode">自動バインディング</a></li>
+				<li><a href="#UseS2Container">コンポーネントでS2Containerを利用する</a></li>
+				<li><a href="#app.dicon">app.diconの役割</a></li>
+				<li><a href="#Aop">AOPの適用</a></li>
+				<li><a href="#Meta">メタデータ</a></li>
+				<li><a href="#ComponentAutoRegister">コンポーネントの自動登録</a></li>
+				<li><a href="#AspectAutoRegister">アスペクトの自動登録</a></li>
+			</ul>
+		</div>
+	</div>
+	
+<!-- ############################################# 作成すべきファイル ######################################################### -->
+	<div class="content">
+		<a name="CreateFile" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>作成すべきファイル</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<p>　S2Container.NETのDIContainerをS2Containerと呼びます。</p>
+			<p>　S2Containerを使用するためには、定義ファイルを作成する必要があります。
+			定義ファイルは、コンポーネントを組み立てるための設計書のようなものです。
+			形式はXMLで、拡張子は、diconです。（xmlでも特に問題はありません）diconは、ダイコンと読みます。</p>
+		</div>
+	</div>
+	
+<!-- ############################################# S2Containerの定義(Diconファイル) ######################################################### -->
+	<div class="content">
+		<a name="S2ContainerDefinition" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>S2Containerの定義(Diconファイル)</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<p>　S2Containerの定義は、次のようになります。</p>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;?</span><span class="html">xml</span> <span class="attr">version</span><span class="kwrd">="1.0"</span> <span class="attr">encoding</span><span class="kwrd">="utf-8"</span>?<span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;!</span><span class="html">DOCTYPE</span> <span class="attr">components</span> <span class="attr">PUBLIC</span> <span class="kwrd">"-//SEASAR2.1//DTD S2Container//EN"</span>
+<span class="kwrd">"http://www.seasar.org/dtd/components21.dtd"</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="..."</span> <span class="attr">class</span><span class="kwrd">="..."</span><span class="kwrd">&gt;</span>
+
+            ...
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="..."</span> <span class="attr">class</span><span class="kwrd">="..."</span><span class="kwrd">&gt;</span>
+            ...
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
+</pre>
+
+			<p>　DOCTYPEは省略できません。diconファイルを作成する場合は、上記のサンプルをコピー＆ペーストしてください。
+			ルートは<a href="dicontainer-diconReference.html#componentsTag">componentsタグ</a>です。
+			コンポーネントごとに、<a href="dicontainer-diconReference.html##componentTag">componentタグ</a>を定義していきます。
+			componentタグのclass属性でコンポーネントのクラスの完全限定名を指定します。
+			name属性には、コンポーネント名を指定します。
+			詳細は、<a href="dicontainer-diconReference.html">Dicon タグリファレンス</a>を参照してください。</p>
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="hoge"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Examples.Dicon.HogeImpl"</span><span class="kwrd">/&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
+</pre>
+
+			<p>　定義ファイルは、埋め込まれたリソースもしくはファイルシステムで指定することができます。 
+			Visual Studio 2005のWebサイトプロジェクトでは埋め込まれたリソースにすることが出来ません。
+			ファイルシステムを使用するか別のクラスライブラリプロジェクト等を作成して、そこに埋め込む必要があります。</p>
+			
+			<p>　埋め込まれたリソースを使用する場合は、引数pathは定義ファイルの名前空間を含む完全限定名です。
+			セパレータは、[ / ](スラッシュ)もしくは[ . ](ピリオド)です。 
+			<span class="important">定義ファイルのビルドアクションプロパティは、埋め込まれたリソースに設定します。</span></p>
+			
+			<p><img src="images/diconProperty.png" /></p>
+			
+			<p>　C#プロジェクトの場合は、フォルダを作成すると名前空間が作成されます。 
+			VB.NETプロジェクトの場合は、フォルダを作成しても名前空間は作成されません。
+			例えば、プロジェクトフォルダ/Sample/Logic/aaa.diconとすると、C#プロジェクトの場合は、既定の名前空間/Sample/Logic/aaa.diconになります。
+			VB.NETの場合は、既定の名前空間/aaa.diconになります。</p>
+			
+			<p>　ファイルシステムを使用する場合は、一般的なファイルパスを指定します。絶対パス、相対パスを指定できます。</p>
+			
+			<p>　埋め込まれたリソース、ファイルシステムの定義ファイルを混在させることもできます。
+			同じパスで埋め込まれたリソース、ファイルシステムの両方でヒットする場合は、ファイルシステムの定義ファイルが優先されます。</p>
+
+		</div>
+	</div>
+	
+<!-- ############################################# S2Containerの生成 ######################################################### -->
+	<div class="content">
+		<a name="S2ContainerCreation" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>S2Containerの生成</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<p>　S2Containerを生成する方法は二通りあります。</p>
+			<ul>
+				<li>SingletonS2ContainerFactoryを使用する</li>
+				<li>S2ContainerFactoryを使用する</li>
+			</ul>
+			
+			<h2>SingletonS2ContainerFactoryを使用する</h2>
+			<p>　SingletonS2ContainerFactoryを使用する場合は、次のメソッドを使用します。</p>
+			<p>　- Seasar.Framework.Container.Factory.SingletonS2ContainerFactory#Init()</p>
+			<p>　定義ファイルは<a href="#AppConfig">アプリケーション構成ファイルの&lt;seasar&gt;セクション</a>で指定した定義ファイルが使われます。
+			アプリケーション構成ファイルで指定していない場合はapp.diconが使われます。</p>
+			<p>　作成したS2Containerはsingletonであるため、どこからでも次のプロパティから取得することができます。</p>
+			<p>　- Seasar.Framework.Container.Factory.SingletonS2ContainerFactory#Container</p>
+
+			<p class="kindCode">C#</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+SingletonS2ContainerFactory.Init();
+...
+IS2Container container = SingletonS2ContainerFactory.Container;
+</pre>
+
+			<p>　定義ファイルのパスを指定する場合はInit()メソッドを呼び出す前に次のプロパティで指定します。</p>
+			<p>　- Seasar.Framework.Container.Factory.SingletonS2ContainerFactory#ConfigPath</p>
+
+			<p class="kindCode">C#</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">private</span> <span class="kwrd">const</span> <span class="kwrd">string</span> PATH = <span class="str">"aaa/bbb/ccc.dicon"</span>;
+...
+SingletonS2ContainerFactory.ConfigPath = PATH;
+SingletonS2ContainerFactory.Init();
+...
+IS2Container container = SingletonS2ContainerFactory.Container;
+</pre>
+
+			<h2>S2ContainerFactoryを使用する</h2>
+			<p>　S2Containerを作成する場合は、次のメソッドを使用します。</p>
+			<p>　- Seasar.Framework.Container.Factory.S2ContainerFactory#Create(string path)</p>
+			<p>　S2Containerを生成した後に次のメソッドでS2Containerを初期化します。</p>
+			<p>　- Seasar.Framework.Container.IS2Container#Init()</p>
+			
+			<p class="kindCode">C#</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">private</span> <span class="kwrd">const</span> <span class="kwrd">string</span> PATH = <span class="str">"aaa/bbb/ccc.dicon"</span>;
+...
+IS2Container container = S2ContainerFactory.Create(PATH);
+container.Init();</pre>
+
+			<p>　この方法で取得したコンテナのインスタンスはアプリケーションで管理する必要があります。</p>
+
+		</div>
+	</div>
+	
+<!-- ############################################# S2Containerの初期化 ######################################################### -->
+	<div class="content">
+		<a name="S2ContainerInit" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>S2Containerの初期化</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<p>　S2Containerを生成した後に次のメソッドでS2Containerを初期化することができます。</p>
+			<p>　- Seasar.Framework.Container.IS2Container#Init()</p>
+			<p>　初期化を行うと<a href="dicontainer-diconReference.html#instanceAttr">インスタンス属性</a>がsingletonに設定されているコンポーネントのインスタンスが生成されます。</p>
+			<p>　Windowsアプリケーションのようにアプリケーションの起動をなるべく早く行いたい場合には、
+			次のように初期化を行わずにS2Container.NETを利用することもできます。
+			初期化を行わない場合は、GetComponentでコンポーネントを取得した際に、
+			そのコンポーネントとそれに必要なコンポーネントのインスタンスを生成します。 </p>
+			
+			<p class="kindCode">C#</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="rem">// アプリケーション構成ファイルで設定されたDiconファイルのパスを取得する</span>
+<span class="kwrd">string</span> diconPath = SingletonS2ContainerFactory.ConfigPath;
+
+<span class="rem">// SingletonS2ContainerFactoryは初期化を行わないと
+// S2Containerを作成できないのでS2ContainerFactoryを利用する</span>
+IS2Container container = S2ContainerFactory.Create(diconPath);
+
+<span class="rem">// どこかれでもS2Containerが取得できるようにSingletonS2ContainerFactoryに
+// S2Containerをセットする</span>
+SingletonS2ContainerFactory.Container = container;
+
+<span class="rem">// 開始画面を取得する</span>
+StartForm form = (StartForm) container.GetComponent(<span class="kwrd">typeof</span>(StartForm));
+
+<span class="rem">// アプリケーションを起動する</span>
+Application.Run(form);</pre>
+
+		</div>
+	</div>
+	
+<!-- ############################################# コンポーネントの取得 ######################################################### -->
+	<div class="content">
+		<a name="getComponent" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>コンポーネントの取得</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<p>　S2Containerからコンポーネントを取り出すには、次のメソッドを使用します。</p>
+			<p>　- Seasar.Framework.Container.IS2Container#GetComponent(object componentKey)</p>
+			<p>　引数には、コンポーネントの型宣言を表すSystem.Typeもしくはコンポーネント名を指定できます。
+			詳しくは、<a href="dicontainer-diconReference.html#componentTag">componentタグ</a>を参照してください。</p>
+			<p>　コンポーネントのクラスを指定する場合、コンポーネント is クラスがtrueを返すクラスなら 指定することができます。
+			しかし、S2Containerの中に指定したクラスを実装しているコンポーネントが複数ある場合、
+			S2Containerは、どのコンポーネントを返せばよいのか判断できないため、TooManyRegistrationRuntimeExceptionが発生します。
+			実装コンポーネントがユニークに決まるクラスを指定してください。</p>
+			<p>　コンポーネント名で取得することもできます。
+			その場合も、同一の名前をもつコンポーネントが複数登録されている場合、TooManyRegistrationRuntimeExceptionが発生します。
+			コンポーネント名指定の場合、スペルミスをする可能性もあるので、できるだけクラス指定のほうが良いでしょう。</p>
+
+			<p class="kindCode">例） クラスを指定してコンポーネントを取得する場合</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+IS2Container container = S2ContainerFactory.Create(PATH);
+Hoge hoge = (Hoge) container.GetComponent(<span class="kwrd">typeof</span>(Hoge));</pre>
+
+			<p class="kindCode">例） コンポーネント名を指定してコンポーネントを取得する場合</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+IS2Container container = S2ContainerFactory.Create(PATH);
+Hoge hoge = (Hoge) container.GetComponent(<span class="str">"hoge"</span>);</pre>
+
+		</div>
+	</div>
+	
+<!-- ############################################# アプリケーション構成ファイル ######################################################### -->
+	<div class="content">
+		<a name="AppConfig" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>アプリケーション構成ファイル</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<p>　アプリケーション構成ファイル（※diconファイルではありません）に&lt;seasar&gt;構成セクションを追加することができます。 
+			&lt;seasar&gt;構成セクションでは、ルートとなる定義ファイル(diconファイル）、 S2Container作成時にロードするアセンブリを指定することができます。</p>
+			<p>　指定された定義ファイルは、Seasar.Framework.Container.Factory.SingletonS2ContainerFactory#Init
+			が呼び出されたときに、ルートの定義ファイルとしてセットされます。</p>
+			<p>　指定されたアセンブリは、Seasar.Framework.Container.Factory.S2ContainerFactory#Create
+			が呼び出されたときに、アプリケーションドメインに読み込まれます。</p>
+			<p>　<span class="important">diconファイルに登録したクラスが見つからずにClassNotFoundRuntimeExceptionが発生する場合は、 
+			&lt;assemblys&gt;にアセンブリを指定することを忘れていないか確認してみてください。</span></p>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">configuration</span><span class="kwrd">&gt;</span>
+   <span class="kwrd">&lt;</span><span class="html">configSections</span><span class="kwrd">&gt;</span>
+      <span class="kwrd">&lt;</span><span class="html">section</span> <span class="attr">name</span><span class="kwrd">="seasar"</span>
+         <span class="attr">type</span><span class="kwrd">="Seasar.Framework.Xml.S2SectionHandler, Seasar"</span> <span class="kwrd">/&gt;</span>
+   <span class="kwrd">&lt;/</span><span class="html">configSections</span><span class="kwrd">&gt;</span>
+
+   <span class="kwrd">&lt;</span><span class="html">seasar</span><span class="kwrd">&gt;</span>
+      <span class="rem">&lt;!-- SingletonS2ContainerFactory#Initで下記で指定されたdiconファイルを</span>
+<span class="rem">           ルートのdiconファイルの初期値としてセットします。 --&gt;</span>
+      <span class="kwrd">&lt;</span><span class="html">configPath</span><span class="kwrd">&gt;</span>App.dicon<span class="kwrd">&lt;/</span><span class="html">configPath</span><span class="kwrd">&gt;</span>
+      
+      <span class="rem">&lt;!-- S2コンテナ作成時に以下で指定されたアセンブリをAppDomainに</span>
+<span class="rem">           読み込みます。（S2ContainerFactory#Create） --&gt;</span>
+      <span class="kwrd">&lt;</span><span class="html">assemblys</span><span class="kwrd">&gt;</span>
+         <span class="kwrd">&lt;</span><span class="html">assembly</span><span class="kwrd">&gt;</span>アセンブリ名1<span class="kwrd">&lt;/</span><span class="html">assembly</span><span class="kwrd">&gt;</span>
+         <span class="kwrd">&lt;</span><span class="html">assembly</span><span class="kwrd">&gt;</span>アセンブリ名2<span class="kwrd">&lt;/</span><span class="html">assembly</span><span class="kwrd">&gt;</span>
+      <span class="kwrd">&lt;/</span><span class="html">assemblys</span><span class="kwrd">&gt;</span>
+   <span class="kwrd">&lt;/</span><span class="html">seasar</span><span class="kwrd">&gt;</span>
+
+<span class="kwrd">&lt;/</span><span class="html">configuration</span><span class="kwrd">&gt;</span>
+</pre>
+			
+		</div>
+	</div>
+	
+<!-- ############################################# Dependency Injectionの種類 ######################################################### -->
+	<div class="content">
+		<a name="DIType" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>Dependency Injectionの種類</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<p>　Dependency Injectionには、コンポーネントの構成に必要な値をコンストラクタで設定する (Constructor Injection)のか、
+			プロパティのsetアクセサで設定する(Property Injection)のか、初期化メソッドで設定する(Method Injection)のかで、タイプが分かれます。
+			Method InjectionはS2のオリジナルです。(S2Container.NETでもサポート）
+			S2Container.NETはすべてのタイプとそのハイブリッド型もサポートします。</p>
+			
+			<h2>コンストラクタ・インジェクション</h2>
+			<p>　コンストラクタ・インジェクションとは、任意のコンストラクタの引数値にDependency Injectionします。
+			S2Containerの定義ファイルには、次の内容を記述します。</p>
+			<ul>
+				<li><b>コンポーネントの指定</b><br />
+				コンポーネントは、componentタグで組み立てます。 class属性でクラス名を指定します。
+				name属性でコンポーネントに名前を付けることもできます。 </li>
+				<li><b>コンストラクタの引数の指定</b><br />
+				コンポーネントのコンストラクタの引数は、 componentタグの子タグであるargタグを使って指定します。
+				文字列の場合は、 ダブルコーテーション(")で囲みます。</li>
+			</ul>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="..."</span> <span class="attr">class</span><span class="kwrd">="..."</span><span class="kwrd">&gt;</span>
+          <span class="kwrd">&lt;</span><span class="html">arg</span><span class="kwrd">&gt;</span>...<span class="kwrd">&lt;/</span><span class="html">arg</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
+</pre>
+
+			<p>　詳しい使用方法は、
+			<a href="dicontainer-examples.html#ConstructorInjectionEx">Exampleのコンストラクタ・インジェクション</a>を参照してください。</p>
+			
+			<h2>プロパティ･インジェクション</h2>
+			<p>　プロパティ･インジェクションとは、任意のプロパティにsetアクセサを使用してProperty Injectionします。
+			S2Containerの定義ファイルには、次の内容を記述します。</p>
+			<ul>
+				<li><b>コンポーネントの指定</b><br />
+				コンポーネントの指定は、コンストラクタ・インジェクションと同様です。
+				name属性でコンポーネントに名前を付けることもできます。  </li>
+				<li><b>プロパティの指定</b><br />
+				コンポーネントのプロパティは、componentタグの子タグであるpropertyタグを使って指定します。
+				name属性でプロパティ名を指定します。</li>
+			</ul>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="..."</span> <span class="attr">class</span><span class="kwrd">="..."</span><span class="kwrd">&gt;</span>
+          <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="..."</span><span class="kwrd">&gt;</span>...<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span></pre>
+			
+			<p>　詳しい使用方法は、
+			<a href="dicontainer-examples.html#PropertyInjectionEx">Exampleのプロパティ・インジェクション</a>を参照してください。</p>
+			
+			<h2>メソッド･インジェクション</h2>
+			<p>　メソッド・インジェクションとは、任意のメソッドを呼び出して、Dependency Injectionします。 
+			S2Containerの定義ファイルには、次の内容を記述します。</p>
+			<ul>
+				<li><b>コンポーネントの指定</b><br />
+				コンポーネントの指定は、コンストラクタ・インジェクションと同様です。 
+				name属性でコンポーネントに名前を付けることもできます。</li>
+				<li><b>初期化メソッドの指定</b><br />
+				initMethodタグを使って、コンポーネントの任意のメソッドを呼び出します。 name属性で、メソッド名を指定します。
+				引数は、argタグを子タグに使います。
+				name属性を省略して、ボディで、<a href="dicontainer-diconReference.html#JScript">JScript.NET</a>を使うこともできます。
+				その際、コンポーネント自身はselfで表します。 </li>
+			</ul>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="..."</span> <span class="attr">class</span><span class="kwrd">="..."</span><span class="kwrd">&gt;</span>
+          <span class="kwrd">&lt;</span><span class="html">initMethod</span><span class="kwrd">&gt;</span>...<span class="kwrd">&lt;/</span><span class="html">initMethod</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span></pre>
+
+			<p>　詳しい使用方法は、
+			<a href="dicontainer-examples.html#MethodInjectionEx">Exampleのメソッド・インジェクション</a>を参照してください。</p>
+
+		</div>
+	</div>
+
+<!-- ############################################# S2Container定義の分割とインクルード ######################################################### -->
+	<div class="content">
+		<a name="Include" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>S2Container定義の分割とインクルード</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<p>　すべてのコンポーネントを1つのファイルに記述すると、直ぐに肥大化してしまい管理が難しくなります。
+			そのため、コンポーネントの定義を複数に分割する機能と分割された定義をインクルードして1つにまとめる機能がS2Containerにあります。
+			S2Container定義ファイルのインクルードは次のようにして行います。</p>
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">include</span> <span class="attr">path</span><span class="kwrd">="bar.dicon"</span><span class="kwrd">/&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
+</pre>
+
+			<p>　<a href="dicontainer-diconReference.html#includeTag">includeタグ</a>のpath属性で取り込みたいS2Container定義ファイルのパスを指定します。
+			詳しくは、<a href="dicontainer-diconReference.html#includeTag">includeタグ</a>を参照してください。</p>
+			<p>　コンポーネントの検索順は、先ず自分自身に登録されているコンポーネントを探して、見つからない場合は、
+			includeされている順に子供のS2Containerに登録されているコンポーネントを検索し、最初に見つかったコンポーネントが返されます。
+			次のような場合は、Foo(自身のコンポーネント)→aaa(子供のS2Container)→bbb(子供のS2Container)の順に検索します。</p>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">include</span> <span class="attr">path</span><span class="kwrd">="aaa.dicon"</span><span class="kwrd">/&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">include</span> <span class="attr">path</span><span class="kwrd">="bbb.dicon"</span><span class="kwrd">/&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="Examples.Container.Foo"</span> <span class="kwrd">/&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span></pre>
+
+			<p>　自動で<a href="#ConstructorInjection">コンストラクタ・インジェクション</a>や<a href="#PropertyInjection">プロパティ・インジェクション</a>を行う場合、
+			S2Containerはインクルード先のコンポーネントを自動インジェクションすることができます。
+			自動でDependency Injectionを行う場合の条件は<a href="#AutoBindingMode">自動バインディング</a>を参照してください。</p>
+			<p>　次のようにセッター･インジェクションでプロパティに指定するコンポーネントがインクルード先のaaa.diconとbbb.diconに登録されている場合、
+			各HelloClientでは、どちらのコンポーネントが使用されるかをみてましょう。</p>
+			
+			<p class="kindCode">root.dicon</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">include</span> <span class="attr">path</span><span class="kwrd">="Seasar.Examples/Reference/Includes/aaa.dicon"</span><span class="kwrd">/&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">include</span> <span class="attr">path</span><span class="kwrd">="Seasar.Examples/Reference/Includes/bbb.dicon"</span><span class="kwrd">/&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="root"</span>
+        <span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.Includes.Impl.HelloClientImpl"</span><span class="kwrd">/&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
+</pre>
+
+			<p class="kindCode">aaa.dicon</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.Includes.Impl.HelloImpl"</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="Message"</span><span class="kwrd">&gt;</span>"Hello Aaa!"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="aaa"</span>
+        <span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.Includes.Impl.HelloClientImpl"</span><span class="kwrd">/&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
+</pre>
+
+			<p class="kindCode">bbb.dicon</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.Includes.Impl.HelloImpl"</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="Message"</span><span class="kwrd">&gt;</span>"Hello Bbb!"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="bbb"</span>
+        <span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.Includes.HelloClientImpl"</span><span class="kwrd">/&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span></pre>
+
+			<p>　各コンポーネントの内容は、次のようになります。</p>
+			
+			<p class="kindCode">C# (IHelloClient)</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">namespace</span> Seasar.Examples.Reference.Includes
+{
+    <span class="kwrd">public</span> <span class="kwrd">interface</span> IHelloClient
+    {
+        <span class="kwrd">void</span> ShowMessage();
+    }
+}</pre>
+
+			<p class="kindCode">C# (HelloClientImpl)</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">namespace</span> Seasar.Examples.Reference.Includes.Impl
+{
+    <span class="kwrd">public</span> <span class="kwrd">class</span> HelloClientImpl : IHelloClient
+    {
+        <span class="kwrd">private</span> IHello hello;
+
+        <span class="kwrd">public</span> HelloClientImpl() {}
+        
+        <span class="kwrd">public</span> IHello Hello
+        {
+            get { <span class="kwrd">return</span> <span class="kwrd">this</span>.hello; }
+            set { <span class="kwrd">this</span>.hello = <span class="kwrd">value</span>; }
+        }
+
+        <span class="kwrd">public</span> <span class="kwrd">void</span> ShowMessage()
+        {
+            Console.WriteLine(<span class="kwrd">this</span>.Hello.Message);
+        }
+    }
+}</pre>
+
+			<p class="kindCode">C# (IHello)</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">namespace</span> Seasar.Examples.Reference.Includes
+{
+    <span class="kwrd">public</span> <span class="kwrd">interface</span> IHello
+    {
+        <span class="kwrd">string</span> Message
+        {
+            set;
+            get;
+        }
+    }
+}</pre>
+
+			<p class="kindCode">C# (HelloImpl)</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">namespace</span> Seasar.Examples.Reference.Includes.Impl
+{
+    <span class="kwrd">public</span> <span class="kwrd">class</span> HelloImpl : IHello
+    {
+        <span class="kwrd">private</span> <span class="kwrd">string</span> helloMessage;
+        
+        <span class="kwrd">public</span> HelloImpl() {}
+
+        <span class="kwrd">public</span> <span class="kwrd">string</span> Message
+        {
+            get { <span class="kwrd">return</span> <span class="kwrd">this</span>.helloMessage; }
+            set { <span class="kwrd">this</span>.helloMessage = <span class="kwrd">value</span>; }
+        }
+    }
+}
+</pre>
+
+			<p>　HelloImplはMessageプロパティを定義しているだけです。
+			HelloClientのShowMessage()を呼び出した場合の実行結果は次のようになります。</p>
+
+			<p class="kindCode">rootの実行結果</p>
+<pre class="csharpcode">
+Hello Aaa!
+</pre>
+
+			<p>　まず、S2Containerはroot.diconにHelloImplが登録されているかを検索します。
+			root.diconにはないので、次にインクルード先のaaa.diconを検索します。
+			aaa.diconにはHelloImplが登録されているので、そのコンポーネントを使用します。</p>
+
+			<p class="kindCode">aaaの実行結果</p>
+<pre class="csharpcode">
+Hello Aaa!
+</pre>
+
+			<p>　aaaは、aaa.diconに登録されているコンポーネントを使用します。
+			自動でインジェクションを行う場合、子供のS2Containerは親のS2Containerのコンポーネントを使用することはできません。
+			例えば、root.diconにHelloImplを登録していてもaaaには自動インジェクションされないということです。</p>
+
+			<p class="kindCode">bbbの実行結果</p>
+<pre class="csharpcode">
+Hello Bbb!
+</pre>
+
+			<p>　aaaと同様にbbbもbbb.diconに登録されているコンポーネントを使用します。 
+			このサンプルは、Seasar.ExamplesプロジェクトのS2/NET/Examples/Reference/Includes以下に用意されています。</p>
+
+		</div>
+	</div>
+
+<!-- ############################################# 名前空間 ######################################################### -->
+	<div class="content">
+		<a name="Namespace" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>名前空間</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<p>　コンポーネントの定義を分割した場合に、複数のコンポーネント定義間で名前が衝突しないように、
+			<a href="dicontainer-diconReference.html#componentsTag">componentsタグ</a>のnamespace属性で名前空間を指定することができます。</p>
+
+			<p class="kindCode">foo.dicon</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">components</span> <span class="attr">namespace</span><span class="kwrd">="Foo"</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="aaa"</span> ...<span class="kwrd">/&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="bbb"</span> ...<span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">arg</span><span class="kwrd">&gt;</span>aaa<span class="kwrd">&lt;/</span><span class="html">arg</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
+</pre>
+
+			<p class="kindCode">bar.dicon</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">components</span> <span class="attr">namespace</span><span class="kwrd">="Bar"</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">include</span> <span class="attr">path</span><span class="kwrd">="foo.dicon"</span><span class="kwrd">/&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="aaa"</span> ...<span class="kwrd">/&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="bbb"</span> ...<span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">arg</span><span class="kwrd">&gt;</span>aaa<span class="kwrd">&lt;/</span><span class="html">arg</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="ccc"</span> ...<span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">arg</span><span class="kwrd">&gt;</span>foo.aaa<span class="kwrd">&lt;/</span><span class="html">arg</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
+</pre>
+			
+			<p class="kindCode">app.dicon</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">include</span> <span class="attr">path</span><span class="kwrd">="bar.dicon"</span><span class="kwrd">/&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span></pre>
+
+			<p>　同一のコンポーネント定義内では、名前空間なしで参照できます。
+			他のS2Container定義のコンポーネントを参照する場合は、名前空間.をコンポーネント名の頭につけます。
+			foo.aaaとbar.aaaは同じ名前がついていますが、名前空間が異なっているので、違うコンポーネントとして認識されます。
+			慣習として、定義ファイルの名前は、名前空間.diconにすることを推奨します。</p>
+
+		</div>
+	</div>
+	
+<!-- ############################################# インスタンス管理 ######################################################### -->
+	<div class="content">
+		<a name="InstanceMode" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>インスタンス管理</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<p>　S2Containerで、コンポーネントのインスタンスをどのように管理するのかを指定するのが、
+			<a href="dicontainer-diconReference.html#componentTag">componentタグ</a>のinstance属性です。
+			デフォルトはsingletonで、 これは、IS2Container.GetComponent()によって返されるコンポーネントは常に同じだという意味です。</p>
+			<p>　IS2Container.GetComponent()を呼び出すたびに、
+			新たに作成されたコンポーネントを返して欲しい場合は、instance属性にprototypeを指定します。 
+			リクエスト(System.Web.HttpRequest)ごとにコンポーネントを管理したい場合は、instance属性にrequestを指定します。
+			セッション(System.Web.SessionState.HttpSessionState)ごとにコンポーネントを管理したい場合は、instance属性にsessionを指定します。</p>
+			<p>　プレゼンテーションのフレームワークと組み合わせるときに、プレゼンテーションフレームワークが作成したインスタンスに対して、
+			S2Containerで管理されているコンポーネントをセットしたい場合があります。
+			そのようなS2Container外のコンポーネントに対してDependency Injectionしたいときには、
+			Seasar.Framework.Container.IS2Containerの次のメソッドを使用します。 </p>
+			<p>- IS2Container#InjectDependency(Object outerComponent)<br />
+			- IS2Container#InjectDependency(Object outerComponent, Type componentType)<br />
+			- IS2Container#InjectDependency(Object outerComponent, string componentName)</p>
+			<p>　第一引数には、外部のコンポーネントを指定します。第二引数には、外部コンポーネントのクラス、またはコンポーネント名を指定します。 
+			そのとき、S2Container定義では、instance属性にouterを指定します。 </p>
+			
+			<table border="0" cellspacing="1">
+				<tr><th width="100">instance属性</th><th>説明</th></tr>
+				<tr>
+					<td>singleton(default)</td>
+					<td>IS2Container.GetComponent()を何度呼び出しても同じインスタンスが返されます。</td>
+				</tr>
+				<tr>
+					<td>prototype</td>
+					<td>IS2Container.GetComponent()を呼び出すたびに新たなインスタンスが返されます。</td>
+				</tr>
+				<tr>
+					<td>request</td>
+					<td>リクエスト毎に1つのインスタンスが作成されます。
+					name属性に指定した名前で、コンポーネントがリクエストに格納されます。
+					requestを使う場合は、<a href="asp.html#S2HttpModule">S2HttpModule</a>を設定する必要があります。</td>
+				</tr>
+				<tr>
+					<td>session</td>
+					<td>セッション毎に1つのインスタンスが作成されます。
+					name属性に指定した名前で、コンポーネントがセッションに格納されます。
+					sessionを使う場合は、<a href="asp.html#S2HttpModule">S2HttpModule</a>を設定する必要があります。</td>
+				</tr>
+				<tr>
+					<td>outer</td>
+					<td>コンポーネントのインスタンスは、S2Container外で作成し、Dependency Injectionだけを行います。
+					<a href="#Aop">アスペクト</a>、<a href="ConstructorInjection">コンストラクタ・インジェクション</a>は適用できません。</td>
+				</tr>
+			</table>
+			
+		</div>
+	</div>
+	
+<!-- ############################################# ライフサイクル ######################################################### -->
+	<div class="content">
+		<a name="Lifecycle" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>ライフサイクル</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			
+			<p>　initMethodやdestroyMethodでコンポーネントのライフサイクルもコンテナで管理することができます。
+			S2Containerの開始時(S2Container.Init())に<a href="dicontainer-diconReference.html#initMethodTag">initMethodタグ</a>で指定したメソッドが呼び出され、
+			S2Containerの終了時(S2Container.Destroy())に<a href="dicontainer-diconReference.html#destroyMethodTag">destroyMethodタグ</a>で指定したメソッドが呼び出されるようになります。</p>
+			<p>　initMethodはコンポーネントがコンテナに登録した順番に実行され、destroyMethodはその逆順に呼び出されることになります。
+			instance属性がsingleton以外の場合、destroyMethodを指定しても無視されます。</p>
+			<p>　System.Collections.Hashtable#Add()メソッドに初期化(aaaに111を設定)・終了処理(aaaにnullを設定)を設定する場合は、次のようになります。</p>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">components</span> <span class="attr">namespace</span><span class="kwrd">="bar"</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="table"</span> <span class="attr">class</span><span class="kwrd">="System.Collections.Hashtable"</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">initMethod</span> <span class="attr">name</span><span class="kwrd">="Add"</span><span class="kwrd">&gt;</span>
+            <span class="kwrd">&lt;</span><span class="html">arg</span><span class="kwrd">&gt;</span>"aaa"<span class="kwrd">&lt;/</span><span class="html">arg</span><span class="kwrd">&gt;</span>
+            <span class="kwrd">&lt;</span><span class="html">arg</span><span class="kwrd">&gt;</span>111<span class="kwrd">&lt;/</span><span class="html">arg</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;/</span><span class="html">initMethod</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">destroyMethod</span> <span class="attr">name</span><span class="kwrd">="Add"</span><span class="kwrd">&gt;</span>
+            <span class="kwrd">&lt;</span><span class="html">arg</span><span class="kwrd">&gt;</span>"aaa"<span class="kwrd">&lt;/</span><span class="html">arg</span><span class="kwrd">&gt;</span>
+            <span class="kwrd">&lt;</span><span class="html">arg</span><span class="kwrd">&gt;</span>null<span class="kwrd">&lt;/</span><span class="html">arg</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;/</span><span class="html">destroyMethod</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span></pre>
+
+		</div>
+	</div>
+	
+<!-- ############################################# 自動バインディング ######################################################### -->
+	<div class="content">
+		<a name="AutoBindingMode" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>自動バインディング</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			
+			<p>　コンポーネント間の依存関係は、型がインターフェースの場合、コンテナによって自動的に解決されます。
+			これがS2Containerのデフォルトですが、<a href="dicontainer-diconReference.html#componentTag">componentタグ</a>のautoBinding属性を指定することで細かく制御することもできます。 </p>
+			<p>　S2Container.NET 1.2.6以降では、System.Windows.Forms.Formクラスが持つAcceptButton, CancelButton, Siteの3つのプロパティは、自動バインディングの対象外になります。 </p>
+			
+			<table border="0" cellspacing="1">
+				<tr><th width="100">autoBinding属性</th><th>説明</th></tr>
+				<tr>
+					<td>auto(default)</td>
+					<td>
+						<p>　コンストラクタの引数が明示的に指定されている場合は、それに従います。
+						指定されていない場合、引数のないデフォルトコンストラクタが定義されている場合はそのコンストラクタを使います。</p>
+						<p>　デフォルトのコンストラクタがない場合、コンストラクタの引数の数が1以上で、
+						引数の型がすべてインターフェースのコンストラクタで最も引数の数が多いものを使います。</p>
+						<p>　プロパティが明示的に指定されている場合はそれに従います。
+						明示的に指定されていないプロパティで、型がインターフェースの場合は自動的にバインドします。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>constructor</td>
+					<td>
+						<p>　コンストラクタの引数が明示的に指定されている場合は、それに従います。
+						指定されていない場合、引数のないデフォルトコンストラクタが定義されている場合はそのコンストラクタを使います。</p>
+						<p>　デフォルトのコンストラクタがない場合、コンストラクタの引数の数が1以上で、引数の型がすべてインターフェースのコンストラクタで最も引数の数が多いものを使います。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>property</td>
+					<td>
+						<p>　コンストラクタの引数が明示的に指定されている場合は、それに従います。
+						指定されていない場合は、デフォルトのコンストラクタを使います。
+						型がインターフェースのプロパティを自動的にバインドします。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>none</td>
+					<td>
+						<p>　コンストラクタの引数が明示的に指定されている場合は、それに従います。
+						プロパティが明示的に指定されている場合はそれに従います。</p>
+					</td>
+				</tr>
+			</table>
+			
+			<p>　詳しくは、<a href="dicontainer-examples.html#AutoConstructorInjectionEx">自動バインディング(コンストラクタ・インジェクション)</a>と<a href="dicontainer-examples.html#AutoPropertyInjectionEx">自動バインディング(プロパティ・インジェクション)</a>を参照してください。</p>
+
+		</div>
+	</div>
+	
+<!-- ############################################# コンポーネントでS2Containerを利用する ######################################################### -->
+	<div class="content">
+		<a name="UseS2Container" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>コンポーネントでS2Containerを利用する</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			
+			<p>　コンポーネントはS2Containerに依存しないことが望ましいのですが、コンポーネントによっては、
+			S2Containerのメソッドを呼び出したい場合もあるでしょう。S2Container自身もcontainerという名前で、
+			登録されているので、arg,propertyタグのボディでcontainerを指定することで、コンテナのインスタンスを取得できます。
+			また、S2Container型のプロパティを定義しておいて自動バインディングで設定することもできます。</p>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="Examples.Dicon.BarImpl"</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">arg</span><span class="kwrd">&gt;</span>container<span class="kwrd">&lt;/</span><span class="html">arg</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="Examples.Dicon.FooImpl"</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="Foo"</span><span class="kwrd">&gt;</span>container<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span></pre>
+
+		</div>
+	</div>
+	
+<!-- ############################################# app.diconの役割 ######################################################### -->
+	<div class="content">
+		<a name="app.dicon" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>app.diconの役割</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			
+			<p>　すべてのS2Container定義のルートになる定義ファイルは、慣例でapp.diconという名前にします。
+			app.diconにはコンポーネントの定義はしないようにしてください。通常は名前空間の付かない場所に埋め込まれたリソースとして配置しておくと良いでしょう。</p>
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">include</span> <span class="attr">path</span><span class="kwrd">="Examples/foo.dicon"</span><span class="kwrd">/&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">include</span> <span class="attr">path</span><span class="kwrd">="Examples/bar.dicon"</span><span class="kwrd">/&gt;</span>
+         <span class="rem">&lt;!-- 定義ファイルの数分記述します --&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
+</pre>
+
+		</div>
+	</div>
+	
+<!-- ############################################# AOPの適用 ######################################################### -->
+	<div class="content">
+		<a name="Aop" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>AOPの適用</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			
+			<p>　コンポーネントにAOPを適用することもできます。
+			ただし現在のS2Container.NETでは<a href="aop.html">AOP</a>を適用するには、
+			System.MarshalByRefObjectの派生クラスであるか、インターフェース型でコンポーネントを受け取る必要があります。</p>
+			<p>　例えば、ArrayListに<a href="aop.html#TraceInterceptor">TraceInterceptor</a>を適用したい場合次のようにします。</p>
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="traceInterceptor"</span>
+               <span class="attr">class</span><span class="kwrd">="Seasar.Framework.Aop.Interceptors.TraceInterceptor"</span><span class="kwrd">/&gt;</span>
+               
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="System.Collections.ArrayList"</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">aspect</span><span class="kwrd">&gt;</span>traceInterceptor<span class="kwrd">&lt;/</span><span class="html">aspect</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+
+    <span class="kwrd">&lt;</span><span class="html">component</span> 
+<span class="attr">class</span><span class="kwrd">="TestSeasar.Framework.Container.Factory.AspectTagHandlerTest+FooImpl"</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">aspect</span> <span class="attr">pointcut</span><span class="kwrd">="Time, GetHashCode"</span><span class="kwrd">&gt;</span>traceInterceptor<span class="kwrd">&lt;/</span><span class="html">aspect</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
+</pre>
+
+			<p>　aspectタグのボディで<a href="aop.html#Advice">Interceptor</a>の名前を指定します。 
+			pointcut属性にカンマ区切りで対象となるメソッド名・プロパティ名を指定することができます。
+			pointcut属性を指定しない場合は、コンポーネントが実装しているインターフェースのすべてのメソッドが対象になります。
+			メソッド名には正規表現(System.Text.RegularExpressions.Regex)も使えます。</p>
+			<p>　この定義を使うサンプルは次のようになります。</p>
+
+			<p class="kindCode">C#</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">private</span> <span class="kwrd">const</span> <span class="kwrd">string</span> PATH =
+    <span class="str">"Framework/Container/Factory/AspectTagHandlerTest.dicon"</span>;
+
+[Test]
+<span class="kwrd">public</span> <span class="kwrd">void</span> TestAspect()
+{
+    IS2Container container = S2ContainerFactory.Create(PATH);
+            
+    IList list = (IList) container.GetComponent(<span class="kwrd">typeof</span>(IList));
+    <span class="kwrd">int</span> count = list.Count;
+
+    IFoo foo = (IFoo) container.GetComponent(<span class="kwrd">typeof</span>(IFoo));
+    <span class="kwrd">int</span> time = foo.Time;
+    foo.ToString();
+    <span class="kwrd">int</span> hashCode = foo.GetHashCode();
+}
+
+<span class="kwrd">public</span> <span class="kwrd">interface</span> IFoo
+{
+    <span class="kwrd">int</span> Time { get; }
+    <span class="kwrd">int</span> GetHashCode();
+    <span class="kwrd">string</span> ToString();
+}
+
+<span class="kwrd">public</span> <span class="kwrd">class</span> FooImpl : IFoo
+{
+    <span class="kwrd">private</span> <span class="kwrd">int</span> time_ = 3;
+
+    <span class="kwrd">public</span> FooImpl()
+    {
+    }
+
+    <span class="preproc">#region</span> IFoo メンバ
+
+    <span class="kwrd">public</span> <span class="kwrd">int</span> Time
+    {
+        get
+        {
+            <span class="kwrd">return</span> time_;
+        }
+    }
+
+    <span class="kwrd">public</span> <span class="kwrd">override</span> <span class="kwrd">int</span> GetHashCode()
+    {
+        <span class="kwrd">return</span> <span class="kwrd">base</span>.GetHashCode();
+    }
+
+    <span class="kwrd">public</span> <span class="kwrd">override</span> <span class="kwrd">string</span> ToString()
+    {
+        <span class="kwrd">return</span> time_.ToString();
+    }
+
+    <span class="preproc">#endregion</span>
+}</pre>
+
+			<p>実行結果は次のようになります。（名前空間は省略）</p>
+
+<pre class="csharpcode">
+BEGIN System.Collections.ICollection#get_Count()
+END System.Collections.ICollection#get_Count() : 0
+BEGIN AspectTagHandlerTest+IFoo#get_Time()
+END AspectTagHandlerTest+IFoo#get_Time() : 3
+BEGIN AspectTagHandlerTest+IFoo#GetHashCode()
+END AspectTagHandlerTest+IFoo#GetHashCode() : 1168
+</pre>
+
+		</div>
+	</div>
+	
+<!-- ############################################# メタデータ ######################################################### -->
+	<div class="content">
+		<a name="Meta" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>メタデータ</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			
+			<p>　components、component、arg、propertyタグにメタデータを指定することもできます。
+			metaタグはメタデータを指定したいタグの子タグに指定します。例えば、componentsタグにメタデータを指定したい場合次のようにします。</p>
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">meta</span> <span class="attr">name</span><span class="kwrd">="aaa"</span><span class="kwrd">&gt;</span>111<span class="kwrd">&lt;/</span><span class="html">meta</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span></pre>
+
+			<p>　components、component、arg、propertyタグに指定したメタデータの情報は、
+			IS2Container、IComponentDef、IArgDef、IPropertyDefで定義されている次のメソッドで取得することが出来ます。</p>
+			
+			<ul>
+				<li>public int MetaDefSize</li>
+				<li>public IMetaDef GetMetaDef(int index) </li>
+				<li>public IMetaDef GetMetaDef(string name) </li>
+				<li>public IMetaDef[] GetMetaDefs(string name) </li>
+			</ul>
+
+		</div>
+	</div>
+	
+<!-- ############################################# コンポーネントの自動登録 ######################################################### -->
+	<div class="content">
+		<a name="ComponentAutoRegister" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>コンポーネントの自動登録 (1.3.3以降)</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			
+			<p>　<a href="#AutoBindingMode">自動バインディング</a>により DI の設定はほぼ自動化できます。
+			さらに、コンポーネントの登録も自動化してしまおうというのが、コンポーネントの自動登録です。</p>
+			<p>　下記のように AssemblyComponentAutoRegister
+			を登録することでコンポーネントの自動登録を行うことができます。
+			AssemblyComponentAutoRegister はアセンブリから名前空間とクラス名のパターンを元に登録対象を検索して登録を行います。</p>
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">component</span> 
+<span class="attr">class</span><span class="kwrd">="Seasar.Framework.Container.AutoRegister.AssemblyComponentAutoRegister"</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="AssemblyName"</span><span class="kwrd">&gt;</span>"HogeAssembly"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">initMethod</span> <span class="attr">name</span><span class="kwrd">="AddClassPattern"</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">arg</span><span class="kwrd">&gt;</span>"Hoge.Fuga.Logic"<span class="kwrd">&lt;/</span><span class="html">arg</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">arg</span><span class="kwrd">&gt;</span>".*Logic"<span class="kwrd">&lt;/</span><span class="html">arg</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">initMethod</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">initMethod</span> <span class="attr">name</span><span class="kwrd">="RegisterAll"</span> <span class="kwrd">/&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span></pre>
+
+			<p>　コンポーネントの自動設定を行う為には、設定の順番に注意が必要です。
+			自動登録されたコンポーネントを DI して利用するコンポーネントは、自動登録の設定より後に記述する必要があります。</p>
+			<p>　この制限は、通常 Dicon ファイルを解析するタイミングでコンポーネントの登録が行われますが、
+			自動登録を利用した場合はコンテナの初期化のタイミングでコンポーネントの登録を行うために発生するものです。</p>
+		
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+    <span class="rem">&lt;!-- 1.コンポーネントの自動登録 --&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span>=
+<span class="kwrd">"Seasar.Framework.Container.AutoRegister.AssemblyComponentAutoRegister"</span><span class="kwrd">&gt;</span>
+        ...
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+
+    <span class="rem">&lt;!-- 2.自動登録されたコンポーネントを利用するコンポーネント --&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="..."</span><span class="kwrd">&gt;</span>
+        ...
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+    ...
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span></pre>
+
+			<p>　Seasar.Framework.Container.AutoRegister.AssemblyComponentAutoRegister
+			には以下のプロパティとメソッドが用意されています。</p>
+
+			<p>
+			<table border="0" cellspacing="1">
+				<tr><th width="110">プロパティ</th><th>説明</th></tr>
+				<tr>
+					<td>InstanceMode</td>
+					<td>
+						<p>　自動登録されるコンポーネントに適用する InstanceMode を文字列で指定します。
+						デフォルトは "singleton" です。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>AutoBindingMode</td>
+					<td>
+						<p>　自動登録されるコンポーネントに適用する AutoBindingMode を文字列で指定します。
+						デフォルトは "auto" です。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>AutoNaming</td>
+					<td>
+						<p>　クラス名からコンポーネント名を自動的に決定するコンポーネントです。
+						Seasar.Framework.Container.AutoRegister.IAutoNaming
+						インターフェースを実装している必要があります。デフォルトは
+						Seasar.Framework.Container.AutoRegister.DefaultAutoNaming
+						クラスのインスタンスになります。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>AssemblyName</td>
+					<td>
+						<p>　自動登録するコンポーネントを検索するアセンブリの簡易名を文字列で指定します。
+						省略した場合はアプリケーションドメインに読み込まれている全てのアセンブリから検索を行います。
+						アセンブリの簡易名は Visual Studio でプロジェクトのプロパティを表示すると確認することができます。
+						下図の赤枠で囲まれた「アセンブリ名」がアセンブリの簡易名になります。
+						<br /><img src="images/assemblyName.png" /></p>
+					</td>
+				</tr>
+			</table>
+			</p>
+			
+			<p>
+			<table border="0" cellspacing="1">
+				<tr><th width="130">メソッド</th><th>説明</th></tr>
+				<tr>
+					<td>AddClassPattern</td>
+					<td>
+						<p>　自動登録したいクラスパターンを登録します。最初の引数にはコンポーネントの名前空間を指定します。
+						子供の名前空間も再帰的に検索します。2番目の引数にはクラス名を指定します。
+						正規表現 (System.Text.RegularExpressions.Regex) が使えます。
+						「,」区切りで複数記述することもできます。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>AddIgnoreClassPattern</td>
+					<td>
+						<p>　自動登録したくないクラスパターンを登録します。最初の引数にはコンポーネントの名前空間を指定します。
+						子供の名前空間も再帰的に検索します。2番目の引数にはクラス名を指定します。
+						正規表現 (System.Text.RegularExpressions.Regex) が使えます。
+						「,」区切りで複数記述することもできます。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>RegisterAll</td>
+					<td>
+						<p>　AddClassPattern や AddIgnoreClassPattern を呼び出した後に RegisterAll
+						メソッドを呼び出してコンポーネントの自動登録を実行する必要があります。
+						initMehtod タグで指定してください。引数はありません。 
+						<span class="important">(Java の Seasar2 では呼び出す必要はありませんが .NET では必要となります)</span></p>
+					</td>
+				</tr>
+			</table>
+			</p>
+
+			<h2>DefaultAutoNaming による名前の決定</h2>
+			<p>　自動登録されるコンポーネントの名前は Seasar.Framework.Container.AutoRegister.IAutoNaming
+			インターフェースを実装したクラスを用意することで自由にカスタマイズすることが可能ですが、デフォルトでは
+			Seasar.Framework.Container.AutoRegister.DefaultAutoNaming クラスが用意されます。</p>
+			<p> DefaultAutoNamingはインターフェースの場合はプリフィックスの "I"
+			を取り除いたインターフェース名（名前空間は含まない）をコンポーネント名とします。
+			（ただし2文字目が大文字の場合のみ1文字目をプリフィックスと判断します）
+			クラスの場合は名前空間を含まないクラス名をコンポーネント名とします。</p>
+
+		</div>
+	</div>
+	
+	<!-- ############################################# アスペクトの自動登録 ######################################################### -->
+	<div class="content">
+		<a name="AspectAutoRegister" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>アスペクトの自動登録 (1.3.3以降)</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　<a href="#ComponentAutoRegister">コンポーネントの自動登録</a>により、コンポーネントの登録は自動化できました。
+			さらに、アスペクトの登録も自動化してしまおうというのが、アスペクトの自動登録です。アスペクトについては
+			<a href="aop-reference.html#aspectTag">aspect タグ</a>を参照してください。</p>
+
+		<p>　下記のように AspectAutoRegister を登録することでアスペクトの自動登録を行うことができます。
+		AspectAutoRegister は名前空間とクラス名のパターンを元に登録対象のコンポーネントを検索して登録を行います。</p>
+		
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="Seasar.Framework.Container.AutoRegister.AspectAutoRegister"</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="Interceptor"</span><span class="kwrd">&gt;</span>TraceInterceptor<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">initMethod</span> <span class="attr">name</span><span class="kwrd">="AddClassPattern"</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">arg</span><span class="kwrd">&gt;</span>"Hoge.Fuga.Logic"<span class="kwrd">&lt;/</span><span class="html">arg</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">arg</span><span class="kwrd">&gt;</span>".*Logic"<span class="kwrd">&lt;/</span><span class="html">arg</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">initMethod</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">initMethod</span> <span class="attr">name</span><span class="kwrd">="RegisterAll"</span> <span class="kwrd">/&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+
+<span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="TraceInterceptor"</span>
+    <span class="attr">class</span><span class="kwrd">="Seasar.Framework.Aop.Interceptors.TraceInterceptor"</span> <span class="kwrd">/&gt;</span></pre>
+
+
+			<p>　アスペクトの自動設定を行う為には、設定の順番に注意が必要です。
+			アスペクトの自動登録の設定はアスペクトを適用するコンポーネントの定義より後に記述する必要があります。
+			また、アスペクトが適用されたコンポーネントを DI して利用するコンポーネントは、
+			アスペクトの自動登録の設定より後に記述する必要があります。</p>
+			<p>　この制限は、通常 Dicon ファイルを解析するタイミングでアスペクトの設定を行いますが、
+			アスペクトの自動登録を利用した場合はコンポーネントの初期化のタイミングでアスペクトの設定を行うために発生するものです。</p>
+		
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+    <span class="rem">&lt;!-- 1.コンポーネントの自動登録 --&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span>=
+<span class="kwrd">"Seasar.Framework.Container.AutoRegister.AssemblyComponentAutoRegister"</span><span class="kwrd">&gt;</span>
+        ...
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+
+    <span class="rem">&lt;!-- 2.アスペクトの自動登録 --&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">=
+"Seasar.Framework.Container.AutoRegister.AspectAutoRegister"</span><span class="kwrd">&gt;</span>
+        ...
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+
+    <span class="rem">&lt;!-- 3.自動登録でアスペクトが適用されたコンポーネントを利用するコンポーネント --&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="..."</span><span class="kwrd">&gt;</span>
+        ...
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+    ...
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span></pre>
+		
+		<p>　Seasar.Framework.Container.AutoRegister.AspectAutoRegister には以下のプロパティとメソッドが用意されています。</p>
+		
+			<p>
+			<table border="0" cellspacing="1">
+				<tr><th width="110">プロパティ</th><th>説明</th></tr>
+				<tr>
+					<td>Interceptor</td>
+					<td>
+						<p>　インターセプタを指定します。複数のインターセプタを指定したい場合は InterceptorChain を使ってください。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>Pointcut</td>
+					<td>
+						<p>　インターセプタを適用するメソッドをカンマ区切りで指定します。
+						Pointcutを指定しない場合は、アスペクトが適用可能な全てのメソッドが対象になります。
+						メソッド名には正規表現 (System.Text.RegularExpressions.Regex) も使えます。</p>
+					</td>
+				</tr>
+			</table>
+			</p>
+			
+			<p>
+			<table border="0" cellspacing="1">
+				<tr><th width="130">メソッド</th><th>説明</th></tr>
+				<tr>
+					<td>AddClassPattern</td>
+					<td>
+						<p>　自動登録したいクラスパターンを登録します。最初の引数にはコンポーネントの名前空間を指定します。
+						子供の名前空間も再帰的に検索します。2番目の引数にはクラス名を指定します。
+						正規表現 (System.Text.RegularExpressions.Regex) が使えます。
+						「,」区切りで複数記述することもできます。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>AddIgnoreClassPattern</td>
+					<td>
+						<p>　自動登録したくないクラスパターンを登録します。最初の引数にはコンポーネントの名前空間を指定します。
+						子供の名前空間も再帰的に検索します。2番目の引数にはクラス名を指定します。
+						正規表現 (System.Text.RegularExpressions.Regex) が使えます。
+						「,」区切りで複数記述することもできます。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>RegisterAll</td>
+					<td>
+						<p>　AddClassPattern や AddIgnoreClassPattern を呼び出した後に RegisterAll
+						メソッドを呼び出してアスペクトの自動登録を実行する必要があります。
+						initMehtod タグで指定してください。引数はありません。 
+						<span class="important">(Java の Seasar2 では呼び出す必要はありませんが .NET では必要となります)</span></p>
+					</td>
+				</tr>
+			</table>
+			</p>
+		
+		</div>
+	</div>
+
+<!-- div.contents -->
+</div>
+<br class="clear" />
+<!-- div.middle -->
+</div>
+
+<div class="bottom">
+	<hr />
+	<div class="copyright">
+		&#169; Copyright The Seasar Project and the others 2004-2013, all rights reserved.
+	</div>
+</div>
+
+</body>
+
+</html>

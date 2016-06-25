@@ -1,0 +1,877 @@
+﻿<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>DIContainer Examples - S2Container.NET</title>
+	<link href="css/common.css" rel="stylesheet" type="text/css" media="screen,print" />
+	<link href="css/csharp.css" rel="stylesheet" type="text/css" media="screen,print" />
+</head>
+
+<body>
+<a name="top"/>
+<div class="container">
+
+<div>
+	<div class="logo"><img src="images/title_s2containernet.png" alt="S2Container.NET プロジェクト" /></div>
+	<hr />
+	<div class="pan">
+		<a href="http://www.seasar.org/">Seasarプロジェクト</a>
+		＞ <a href="seasarnet.html">Seasar.NETプロジェクト</a>
+		＞ <a href="index.html">S2Container.NET</a>
+		＞ <a href="dicontainer.html">DIContainer</a>
+		＞ Examples
+	</div>
+</div>
+
+<div class="middle">
+
+<div class="menus">
+
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/s2containernet.png" alt="S2Container.NET" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li><a href="index.html">Welcome</a></li>
+				<li><a href="download.html">ダウンロード</a></li>
+			</ul>
+		</div>
+	</div>
+	</div>
+	
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/documentation.png" alt="ドキュメンテーション" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li><a href="setup.html">セットアップ</a></li>
+				<li><a href="update-operation.html">移行</a></li>
+				<li>
+					<a href="dicontainer.html">DIContainer</a>
+					<ul>
+						<li><a href="dicontainer-reference.html">S2Container リファレンス</a></li>
+						<li><a href="dicontainer-diconReference.html">Dicon タグリファレンス</a></li>
+						<li>Examples</li>
+					</ul>
+				</li>
+				<li><a href="aop.html">AOP</a></li>
+				<li><a href="asp.html">ASP.NETでの利用</a></li>
+				<li><a href="db.html">データベース接続</a></li>
+				<li><a href="tx.html">トランザクション</a></li>
+				<li><a href="s2ado.html">S2ADO</a></li>
+				<li><a href="s2unit.html">S2Unit.NET</a></li>
+				<li><a href="s2windows.html">S2Windows.NET</a></li>
+				<li><a href="jscript.html">JScript.NET式</a></li>
+				<li><a href="quill.html">Quillで簡単DI+AOP</a></li>
+				<li><a href="s2dxo.html">S2DXO</a></li>
+			</ul>
+		</div>
+	</div>
+	</div>
+
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/support.png" alt="サポート" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li>
+					<a href="faq.html">FAQ</a>
+					<p>よくある質問と答えをまとめています。</p>
+				</li>
+				<li>
+					<a href="https://ml.seasar.org/mailman/listinfo/seasar-dotnet">Mailing List</a>
+					<p>Seasar.NETに関する議論を行うメーリングリストです。</p>
+				</li>
+				<li>
+					<a href="https://www.seasar.org/issues/browse/CONTAINERNET">トラッキング</a>
+					<p>S2Container.NETのバグや問題の検索、報告を行うことができます。</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+	</div>
+
+</div><!-- div.left -->
+
+<div class="contents">
+
+	<p>　以下のサンプルを実行する場合は、セットアップを行う必要があります。
+	Seasar.ExamplesプロジェクトはWindowsアプリケーションとして作成されています。
+	Seasar.Examplesプロジェクトをスタートアッププロジェクトに設定しF5キーを押して開始すると、
+	ExamplesExplorerが起動しExampleのソースコードと実行結果を確認することができます。</p>
+
+<!-- ############################################# 目次 ######################################################### -->
+	
+	<div class="content">
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>目次</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<ul>
+				<li><a href="dicontainer-examples.html#ConstructorInjectionEx">コンストラクタ・インジェクション</a></li>
+				<li><a href="dicontainer-examples.html#PropertyInjectionEx">プロパティ・インジェクション</a></li>
+				<li><a href="dicontainer-examples.html#MethodInjectionEx">メソッド・インジェクション</a></li>
+				<li><a href="dicontainer-examples.html#AutoConstructorInjectionEx">自動バインディング（コンストラクタ・インジェクション）</a></li>
+				<li><a href="dicontainer-examples.html#AutoPropertyInjectionEx">自動バインディング（プロパティ・インジェクション）</a></li>
+			</ul>
+		</div>
+	</div>
+	
+<!-- ############################################# コンストラクタ・インジェクション ######################################################### -->
+
+	<div class="content">
+		<a name="ConstructorInjectionEx" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>コンストラクタ・インジェクション</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+
+			<p>　コンストラクタ・インジェクションを使ってメッセージを表示しましょう。作成するファイルは以下のとおりです。</p>
+			<ul>
+				<li>インターフェース(IHello.cs)</li>
+				<li>実装クラス(HelloConstructorInjection.cs)</li>
+				<li>diconファイル(HelloConstructorInjection.dicon)</li>
+				<li>実行クラス(HelloConstructorInjection.cs中のHelloconstructorInjectionClientクラス)</li>
+			</ul>
+			
+			<h2>インターフェースの作成</h2>
+				<ul><li>ShowMessage()を定義します。</li></ul>
+				<p>　先ず最初はインターフェースを考えます。インターフェースと実装を分離することで、
+				コンポーネントの利用者はインターフェースを知っていれば実装のことは知らなくても済むようになります。
+				また、テストの時には実装をモックに置き換えることで簡単にテストできるようになります。</p>
+				<p class="kindCode">C#</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">namespace</span> Seasar.Examples.Reference.Injection
+{
+    <span class="kwrd">public</span> <span class="kwrd">interface</span> IHello
+    {
+        <span class="kwrd">void</span> ShowMessage();
+    }
+}
+</pre>
+
+			<h2>実装クラスの作成</h2>
+			<ul>
+				<li>引数がstring型のコンストラクタを定義します。</li>
+				<li>ShowMessage()を実装します。</li>
+			</ul>
+			<p>　次はいよいよ実装です。コンストラクタでメッセージを受け取り、ShowMessage()で受け取ったメッセージを出力します。</p>
+			<p class="kindCode">C#</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">using</span> System;
+<span class="kwrd">namespace</span> Seasar.Examples.Reference.Injection
+{
+    <span class="kwrd">public</span> <span class="kwrd">class</span> HelloConstructorInjection : IHello
+    {
+        <span class="kwrd">private</span> <span class="kwrd">string</span> message;
+
+        <span class="kwrd">public</span> HelloConstructorInjection(<span class="kwrd">string</span> message)
+        {
+            <span class="kwrd">this</span>.message = message;
+        }
+
+        <span class="kwrd">public</span> <span class="kwrd">void</span> ShowMessage()
+        {
+            Console.WriteLine(<span class="kwrd">this</span>.message);
+        }
+    }
+}
+</pre>
+
+			<h2>diconファイルの作成</h2>
+			<ul>
+				<li><a href="dicontainer-diconReference.html#componentTag">componentタグ</a>でコンポーネントを定義します。</li>
+				<li>componentタグの子タグの<a href="dicontainer-diconReference.html#argTag">argタグ</a>でコンストラクタの引数値を定義します。 </li>
+			</ul>
+			<p>　メッセージをコンポーネントに設定するのは、S2Containerの仕事です。 定義ファイルに基づいてコンポーネントを組み立てます。</p>
+			<p class="kindCode">Seasar.Examples/Reference/Injection/HelloConstructorInjection.dicon</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;?</span><span class="html">xml</span> <span class="attr">version</span><span class="kwrd">="1.0"</span> <span class="attr">encoding</span><span class="kwrd">="utf-8"</span> ?<span class="kwrd">&gt;</span> 
+<span class="kwrd">&lt;!</span><span class="html">DOCTYPE</span> <span class="attr">components</span> <span class="attr">PUBLIC</span> <span class="kwrd">"-//SEASAR2.1//DTD S2Container//EN"</span>
+<span class="kwrd">"http://www.seasar.org/dtd/components21.dtd"</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="hello"</span>
+<span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.Injection.HelloConstructorInjection"</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">arg</span><span class="kwrd">&gt;</span>"Hello World!"<span class="kwrd">&lt;/</span><span class="html">arg</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="ConstructorInjection"</span>
+<span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.Injection.HelloConstructorInjectionClient"</span> <span class="kwrd">/&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
+</pre>
+
+			<h2>実行クラスの作成</h2>
+			<ul>
+				<li><a href="dicontainer-reference.html#S2ContainerCreation">S2ContainerFactory.Create(String path)を呼び出してS2Containerを作成します。 </a></li>
+				<li>GetComponent()を使用して、<a href="dicontainer-reference.html#getComponent">S2Containerからコンポーネントを取り出します。</a></li>
+				<li>取得したコンポーネントのメソッドを呼び出します。 </li>
+			</ul>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">using</span> System;
+
+<span class="kwrd">using</span> Seasar.Framework.Container;
+<span class="kwrd">using</span> Seasar.Framework.Container.Factory;
+
+<span class="kwrd">namespace</span> Seasar.Examples.Reference.Injection
+{
+    <span class="kwrd">public</span> <span class="kwrd">class</span> HelloConstructorInjectionClient
+    {
+        <span class="kwrd">private</span> <span class="kwrd">static</span> <span class="kwrd">readonly</span> String PATH = 
+<span class="str">"Seasar.Examples/Reference/Injection/HelloConstructorInjection.dicon"</span>;
+
+        <span class="kwrd">public</span> <span class="kwrd">void</span> Main() 
+        {
+            <span class="rem">// 型を指定してコンポーネントを取得する場合</span>
+            IS2Container container = S2ContainerFactory.Create(PATH);
+            IHello hello = (IHello) container.GetComponent(<span class="kwrd">typeof</span>(IHello));
+            hello.ShowMessage();
+
+            <span class="rem">// 名前を指定してコンポーネントを取得する場合</span>
+            IHello hello2 = (IHello) container.GetComponent(<span class="str">"hello"</span>);
+            hello2.ShowMessage();
+        }
+    }
+}</pre>
+
+			<h2>実行結果</h2>
+			<p>　argタグで指定した文字列が正しく表示されていることが確認できます。</p>
+<pre class="csharpcode">
+Hello World!
+Hello World!
+</pre>
+			<p>　この演習は、Seasar.ExamplesプロジェクトのSeasar.Examples/Reference/Injection以下に用意されています。</p>
+
+		</div>
+	</div>
+	
+	<!-- ############################################# プロパティ・インジェクション ######################################################### -->
+
+	<div class="content">
+		<a name="PropertyInjectionEx" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>プロパティ・インジェクション</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+
+			<p>　プロパティ・インジェクションを使ってメッセージを表示しましょう。作成するファイルは以下のとおりです。</p>
+			<ul>
+				<li>インターフェース(IHello.cs)（コンストラクタ・インジェクションと同じもの） </li>
+				<li>実装クラス(HelloPropertyInjection.cs) </li>
+				<li>diconファイル(HelloPropertyInjection.dicon) </li>
+				<li>実行クラス(HelloPropertyInjection.cs中のHelloPropertyInjectionClientクラス) </li>
+			</ul>
+
+			<h2>インターフェースの作成</h2>
+			<ul><li>ShowMessage()を定義します。 </li></ul>
+			<p>　インターフェースはコンストラクタ・インジェクションの場合と同じです。
+			プロパティに対するgetアクセサ、setアクセサを定義する必要はありません。
+			なぜなら、Dependency Injectionするのにコンストラクタを使うのかsetアクセサを使うのかは実装の問題だからです。 </p>
+
+			<p class="kindCode">C#</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">namespace</span> Seasar.Examples.Reference.Injection
+{
+    <span class="kwrd">public</span> <span class="kwrd">interface</span> IHello
+    {
+        <span class="kwrd">void</span> ShowMessage();
+    }
+}
+</pre>
+
+			<h2>実装クラスの作成</h2>
+			<ul>
+				<li>プロパティを定義します。 </li>
+				<li>ShowMessage()を実装します。 </li>
+			</ul>
+			<p>　次は実装です。プロパティ・メソッドでメッセージを受け取り、ShowMessage()で受け取ったメッセージを出力します。</p>
+			
+			<p class="kindCode">C#</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">using</span> System;
+
+<span class="kwrd">namespace</span> Seasar.Examples.Reference.Injection
+{
+    <span class="kwrd">public</span> <span class="kwrd">class</span> HelloPropertyInjection : IHello
+    {
+        <span class="kwrd">private</span> <span class="kwrd">string</span> message;
+
+        <span class="kwrd">public</span> HelloPropertyInjection() {}
+        
+        <span class="kwrd">public</span> <span class="kwrd">string</span> Message
+        {
+            get { <span class="kwrd">return</span> <span class="kwrd">this</span>.message; }
+            set { <span class="kwrd">this</span>.message = <span class="kwrd">value</span>; }
+        }
+
+        <span class="kwrd">public</span> <span class="kwrd">void</span> ShowMessage()
+        {
+            Console.WriteLine(<span class="kwrd">this</span>.message);
+        }
+    }
+}
+</pre>
+
+			<h2>diconファイルの作成</h2>
+			<ul>
+				<li>componentタグでコンポーネントを定義します。  </li>
+				<li>componentタグの子タグの<a href="dicontainer-diconReference.html#propertyTag">propertyタグ</a>でコンポーネントのプロパティ値を定義します。 </li>
+			</ul>
+			
+			<p class="kindCode">Seasar.Examples/Reference/Injection/HelloPropertyInjection.dicon</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;?</span><span class="html">xml</span> <span class="attr">version</span><span class="kwrd">="1.0"</span> <span class="attr">encoding</span><span class="kwrd">="utf-8"</span>?<span class="kwrd">&gt;</span>
+
+<span class="kwrd">&lt;!</span><span class="html">DOCTYPE</span> <span class="attr">components</span> <span class="attr">PUBLIC</span> <span class="kwrd">"-//SEASAR2.1//DTD S2Container//EN"</span>
+<span class="kwrd">"http://www.seasar.org/dtd/components21.dtd"</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+
+    <span class="kwrd">&lt;</span><span class="html">component</span>
+<span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.Injection.HelloPropertyInjection"</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="Message"</span><span class="kwrd">&gt;</span>"Hello World!"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+    
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="PropertyInjection"</span> 
+<span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.Injection.HelloPropertyInjectionClient"</span> <span class="kwrd">/&gt;</span>
+
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
+</pre>
+
+			<h2>実行クラスの作成</h2>
+			<ul>
+				<li>S2ContainerFactory.Create(string path)を呼び出してS2Containerを作成します。 </li>
+				<li>GetComponent()を使用して、S2Containerからコンポーネントを取り出します。 </li>
+				<li>取得したコンポーネントのメソッドを呼び出します。 </li>
+			</ul>
+			
+			<p class="kindCode">C#</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">using</span> System;
+
+<span class="kwrd">using</span> Seasar.Framework.Container;
+<span class="kwrd">using</span> Seasar.Framework.Container.Factory;
+
+<span class="kwrd">namespace</span> Seasar.Examples.Reference.Injection
+{
+    <span class="kwrd">public</span> <span class="kwrd">class</span> HelloPropertyInjectionClient
+    {
+        <span class="kwrd">private</span> <span class="kwrd">static</span> <span class="kwrd">readonly</span> String PATH =
+            <span class="str">"Seasar.Examples/Reference/Injection/HelloPropertyInjection.dicon"</span>;
+
+        <span class="kwrd">public</span> <span class="kwrd">void</span> Main() 
+        {
+            IS2Container container = S2ContainerFactory.Create(PATH);
+            IHello hello = (IHello) container.GetComponent(<span class="kwrd">typeof</span>(IHello));
+            hello.ShowMessage();
+        }
+    }
+}
+</pre>
+
+			<h2>実行結果</h2>
+			<p>　propertyタグで指定した文字列が正しく表示されていることが確認できます。</p>
+<pre class="csharpcode">
+Hello World!
+</pre>
+
+			<p>　この演習は、Seasar.ExamplesプロジェクトのSeasar.Examples/Reference/Injection以下に用意されています。</p>
+
+		</div>	
+	</div>
+	
+	<!-- ############################################# メソッド・インジェクション ######################################################### -->
+
+	<div class="content">
+		<a name="MethodInjectionEx" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>メソッド・インジェクション</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<p>　メソッド・インジェクションを使ってメッセージを表示しましょう。作成するファイルは以下のとおりです。</p>
+			<ul>
+				<li>インターフェース(IHello.cs) </li>
+				<li>実装クラス(HelloMethodInjection.cs) </li>
+				<li>diconファイル(HelloMethodInjection.dicon) </li>
+				<li>実行クラス(HelloMethodInjection.cs中のHelloMethodInjectionClientクラス) </li>
+			</ul>
+			
+			<h2>インターフェースの作成</h2>
+			<ul><li>ShowMessage()を定義します。 </li></ul>
+			<p>　追加のメソッドを複数回呼び出すようなケースが代表的な使い方ですが、
+			今回の演習では、インターフェースはコンストラクタ・インジェクションの場合と同じにしました。 </p>
+			
+			<p class="kindCode">C#</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">namespace</span> Seasar.Examples.Reference.Injection
+{
+    <span class="kwrd">public</span> <span class="kwrd">interface</span> IHello
+    {
+        <span class="kwrd">void</span> ShowMessage();
+    }
+}
+</pre>
+
+			<h2>実装クラスの作成</h2>
+			<ul>
+				<li>AddMessage()を定義します。</li>
+				<li>ShowMessage()を実装します。</li>
+			</ul>
+			<p>　次は実装です。AddMessage(string message)でメッセージを複数回追加して、ShowMessage()で受け取ったメッセージを出力します。</p>
+			
+			<p class="kindCode">C#</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">using</span> System;
+<span class="kwrd">using</span> System.Text;
+
+<span class="kwrd">namespace</span> Seasar.Examples.Reference.Injection
+{
+    <span class="kwrd">public</span> <span class="kwrd">class</span> HelloMethodInjection : IHello
+    {
+        <span class="kwrd">private</span> StringBuilder builder = <span class="kwrd">new</span> StringBuilder();
+
+        <span class="kwrd">public</span> HelloMethodInjection() {}
+        
+        <span class="kwrd">public</span> <span class="kwrd">void</span> AddMessage(<span class="kwrd">string</span> message)
+        {
+            <span class="kwrd">this</span>.builder.Append(message);
+        }
+
+        <span class="kwrd">public</span> <span class="kwrd">void</span> ShowMessage()
+        {
+            Console.WriteLine(<span class="kwrd">this</span>.builder.ToString());
+        }
+    }
+}</pre>
+
+			<h2>diconファイルの作成</h2>
+			<ul>
+				<li>componentタグでコンポーネントを定義します。</li>
+				<li>componentタグの子タグの<a href="dicontainer-diconReference.html#initMethodTag">initMethodタグ</a>でコンポーネントのメソッドの引数値を定義します。</li>
+			</ul>
+			<p>　まずは、argタグを使ってAddMessage(string message)に"Hello "を指定します。 
+			次にJScript.NET式を使ってAddMessage(string message)に"World！"を指定します。 </p>
+			
+			<p class="kindCode">Seasar.Examples/Reference/Injection/HelloMethodInjection.dicon</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;?</span><span class="html">xml</span> <span class="attr">version</span><span class="kwrd">="1.0"</span> <span class="attr">encoding</span><span class="kwrd">="utf-8"</span>?<span class="kwrd">&gt;</span>
+
+<span class="kwrd">&lt;!</span><span class="html">DOCTYPE</span> <span class="attr">components</span> <span class="attr">PUBLIC</span> <span class="kwrd">"-//SEASAR2.1//DTD S2Container//EN"</span>
+<span class="kwrd">"http://www.seasar.org/dtd/components21.dtd"</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span>
+          <span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.Injection.HelloMethodInjection"</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">initMethod</span> <span class="attr">name</span><span class="kwrd">="AddMessage"</span><span class="kwrd">&gt;</span>
+            <span class="kwrd">&lt;</span><span class="html">arg</span><span class="kwrd">&gt;</span>"Hello "<span class="kwrd">&lt;/</span><span class="html">arg</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;/</span><span class="html">initMethod</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">initMethod</span><span class="kwrd">&gt;</span>self.AddMessage("World!")<span class="kwrd">&lt;/</span><span class="html">initMethod</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+    
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="MethodInjection"</span> 
+      <span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.Injection.HelloMethodInjectionClient"</span> <span class="kwrd">/&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
+</pre>
+
+			<h2>実行クラスの作成</h2>
+			<ul>
+				<li>S2ContainerFactory.Create(string path)を呼び出してS2Containerを作成します。</li>
+				<li>GetComponent()を使用して、S2Containerからコンポーネントを取り出します。</li>
+				<li>取得したコンポーネントのメソッドを呼び出します。</li>
+			</ul>
+			
+			<p class="kindCode">C#</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">using</span> System;
+
+<span class="kwrd">using</span> Seasar.Framework.Container;
+<span class="kwrd">using</span> Seasar.Framework.Container.Factory;
+
+<span class="kwrd">namespace</span> Seasar.Examples.Reference.Injection
+{
+    <span class="kwrd">public</span> <span class="kwrd">class</span> HelloMethodInjectionClient
+    {
+        <span class="kwrd">private</span> <span class="kwrd">static</span> <span class="kwrd">readonly</span> String PATH = 
+            <span class="str">"Seasar.Examples/Reference/Injection/HelloMethodInjection.dicon"</span>;
+
+        <span class="kwrd">public</span> <span class="kwrd">void</span> Main() 
+        {
+            IS2Container container = S2ContainerFactory.Create(PATH);
+            IHello hello = (IHello) container.GetComponent(<span class="kwrd">typeof</span>(IHello));
+            hello.ShowMessage();
+        }
+    }
+}
+</pre>
+
+			<h2>実行結果</h2>
+			<p>　initMethodタグで指定した文字列が正しく表示されていることが確認できます。</p>
+<pre class="csharpcode">
+Hello World!
+</pre>
+
+			<p>　この演習は、Seasar.ExamplesプロジェクトのSeasar.Examples/Reference/Injection以下に用意されています。</p>
+
+		</div>
+	</div>
+	
+	<!-- ############################################# 自動バインディング(コンストラクタ・インジェクション) ######################################################### -->
+
+	<div class="content">
+		<a name="AutoConstructorInjectionEx" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>自動バインディング(コンストラクタ・インジェクション)</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			
+			<p>　自動バインディングでメッセージを表示してみましょう。作成するファイルは以下のとおりです。</p>
+			<ul>
+				<li>インターフェース(IHello.cs) </li>
+				<li>インターフェースの実装クラス(AutoHelloConstructorInjection.cs) </li>
+				<li>diconファイル(AutoHelloConstructorInjection.dicon) </li>
+				<li>実行クラス(AutoHelloConstructorInjection.cs中のAutoHelloConstructorInjectionClientクラス) </li>
+			</ul>
+			
+			<h2>インターフェースの作成</h2>
+			<ul><li>ShowMessage()を定義します。 </li></ul>
+			
+			<p class="kindCode">C#</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">namespace</span> Seasar.Examples.Reference.AutoBinding
+{
+    <span class="kwrd">public</span> <span class="kwrd">interface</span> IHello
+    {
+        <span class="kwrd">void</span> ShowMessage();
+    }
+}
+</pre>
+
+			<h2>実装クラスの作成</h2>
+			<ul>
+				<li>引数がIDictionaryのコンストラクタを定義します。</li>
+				<li>ShowMessage()を実装します。</li>
+			</ul>
+			<p>　コンストラクタでIDictionaryを受け取り、 ShowMessage()でhelloをキーとしてIDictionaryから値を取得して出力します。</p>
+			
+			<p class="kindCode">C#</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">using</span> System;
+<span class="kwrd">using</span> System.Collections;
+
+<span class="kwrd">namespace</span> Seasar.Examples.Reference.AutoBinding
+{
+    <span class="kwrd">public</span> <span class="kwrd">class</span> AutoHelloConstructorInjection : IHello
+    {
+        <span class="kwrd">private</span> IDictionary dictionary;
+
+        <span class="kwrd">public</span> AutoHelloConstructorInjection(IDictionary dictionary)
+        {
+            <span class="kwrd">this</span>.dictionary = dictionary;
+        }
+
+        <span class="kwrd">public</span> <span class="kwrd">void</span> ShowMessage()
+        {
+            Console.WriteLine(dictionary[<span class="str">"hello"</span>]);
+        }
+    }
+}
+</pre>
+
+			<h2>diconファイルの作成</h2>
+			<ul>
+				<li><a href="dicontainer-diconReference.html#componentTag">componentタグ</a>でSystem.Collections.IDictionaryの実装クラスである System.Collections.Hashtableをコンポーネント定義します。 </li>
+				<li>componentタグの子タグである<a href="dicontainer-diconReference.html#initMethodTag">initMethodタグ</a>で Hashtableにキーとして"hello"、値として"Hello World!"を定義します。 </li>
+				<li>componentタグでAutoHelloConstructorInjectionをコンポーネント定義します。 autoBinding属性にautoを指定します。
+				演習であるため auto を明示的に指定していますが、 autoBinding属性のデフォルト値であるため本来は省略します。</li>
+			</ul>
+			<p>　AutoHelloConstructorInjectionには、argタグが定義されていないことに注目してください。
+			コンストラクタ・インジェクションを行う場合、argタグを定義する必要がありますが、
+			S2Container内にIDictionaryの実装クラスが登録されていれば、 S2Containerがコンテナ内を検索して自動的に引数を設定します。
+			ただし、引数の型がインターフェースでない場合、自動バインディングはできません。 </p>
+			
+			<p class="kindCode">Seasar.Examples/Reference/AutoBinding/AutoHelloConstructorInjection.dicon</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;?</span><span class="html">xml</span> <span class="attr">version</span><span class="kwrd">="1.0"</span> <span class="attr">encoding</span><span class="kwrd">="utf-8"</span> ?<span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;!</span><span class="html">DOCTYPE</span> <span class="attr">components</span> <span class="attr">PUBLIC</span> <span class="kwrd">"-//SEASAR2.1//DTD S2Container//EN"</span>
+<span class="kwrd">"http://www.seasar.org/dtd/components21.dtd"</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="System.Collections.Hashtable"</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">initMethod</span> <span class="attr">name</span><span class="kwrd">="Add"</span><span class="kwrd">&gt;</span>
+            <span class="kwrd">&lt;</span><span class="html">arg</span><span class="kwrd">&gt;</span>"hello"<span class="kwrd">&lt;/</span><span class="html">arg</span><span class="kwrd">&gt;</span>
+            <span class="kwrd">&lt;</span><span class="html">arg</span><span class="kwrd">&gt;</span>"Hello World!"<span class="kwrd">&lt;/</span><span class="html">arg</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;/</span><span class="html">initMethod</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="hello"</span> <span class="attr">autoBinding</span><span class="kwrd">="auto"</span>
+<span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.AutoBinding.AutoHelloConstructorInjection"</span> <span class="kwrd">/&gt;</span>
+    
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="AutoConstructorInjection"</span> <span class="attr">class</span><span class="kwrd">=
+"Seasar.Examples.Reference.AutoBinding.AutoHelloConstructorInjectionClient"</span> <span class="kwrd">/&gt;</span>
+
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
+</pre>
+
+			<h2>実行クラスの作成</h2>
+			<ul>
+				<li><a href="dicontainer-reference.html#S2ContainerCreation">S2ContainerFactory.Create(string path) を呼び出してS2Containerを作成します。</a></li>
+				<li>GetComponent()を使用して、<a href="dicontainer-reference.html#getComponent">S2Containerからコンポーネントを取り出します。</a></li>
+				<li>取得したコンポーネントのメソッドを呼び出します。 </li>
+			</ul>
+			
+			<p class="kindCode">C#</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">using</span> System;
+<span class="kwrd">using</span> Seasar.Framework.Container;
+<span class="kwrd">using</span> Seasar.Framework.Container.Factory;
+<span class="kwrd">namespace</span> Seasar.Examples.Reference.AutoBinding
+{
+    <span class="kwrd">public</span> <span class="kwrd">class</span> AutoHelloConstructorInjectionClient
+    {
+        <span class="kwrd">private</span> <span class="kwrd">static</span> <span class="kwrd">readonly</span> String PATH =
+<span class="str">"Seasar.Examples/Reference/AutoBinding/AutoHelloConstructorInjection.dicon"</span>;
+
+        <span class="kwrd">public</span> <span class="kwrd">void</span> Main() 
+        {
+            IS2Container container = S2ContainerFactory.Create(PATH);
+            IHello hello = (IHello) container.GetComponent(<span class="kwrd">typeof</span>(IHello));
+            hello.ShowMessage();
+        }
+    }
+}
+</pre>
+
+			<h2>実行結果</h2>
+			<p>　Hashtableの値が表示されていることから、自動的にコンストラクタの引数を設定していることが確認できます。</p>
+<pre class="csharpcode">
+Hello World!
+</pre>
+
+			<p>　この演習は、Seasar.ExamplesプロジェクトのSeasar.Examples/Reference/AutoBinding以下に用意されています。</p>
+		
+		</div>
+	</div>
+	
+	<!-- ############################################# 自動バインディング(プロパティ・インジェクション) ######################################################### -->
+
+	<div class="content">
+		<a name="AutoPropertyInjectionEx" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>自動バインディング(プロパティ・インジェクション)</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　自動バインディングでメッセージを表示してみましょう。作成するファイルは以下のとおりです。</p>
+			<ul>
+				<li>インターフェース(IHello.cs)</li>
+				<li>インターフェースの実装クラス(AutoHelloPropertyInjection.cs)</li>
+				<li>diconファイル(AutoHelloPropertyInjection.dicon)</li>
+				<li>実行クラス(AutoHelloPropertyInjection.cs中のAutoHelloPropertyInjectionClientクラス)</li>
+			</ul>
+			
+			<h2>インターフェースの作成</h2>
+			<ul><li>ShowMessage()を定義します。 </li></ul>
+			
+			<p class="kindCode">C#</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">namespace</span> Seasar.Examples.Reference.AutoBinding
+{
+    <span class="kwrd">public</span> <span class="kwrd">interface</span> IHello
+    {
+        <span class="kwrd">void</span> ShowMessage();
+    }
+}
+</pre>
+
+			<h2>実装クラスの作成</h2>
+			<ul>
+				<li>IDictionary型のプロパティを定義します。 </li>
+				<li>ShowMessage()を実装します。 </li>
+			</ul>
+			<p>　IDictionary MessageのsetアクセサでIDictionaryを受け取り、
+			ShowMessage()でhelloをキーとしてIDictionaryから値を取得して出力します。</p>
+			
+			<p class="kindCode">C#</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">using</span> System;
+<span class="kwrd">using</span> System.Collections;
+
+<span class="kwrd">namespace</span> Seasar.Examples.Reference.AutoBinding
+{
+    <span class="kwrd">public</span> <span class="kwrd">class</span> AutoHelloPropertyInjection : IHello
+    {
+        <span class="kwrd">private</span> IDictionary dictionary;
+
+        <span class="kwrd">public</span> AutoHelloPropertyInjection()
+        {
+        }
+        
+        <span class="kwrd">public</span> IDictionary Message
+        {
+            set { dictionary = <span class="kwrd">value</span>; }
+        }
+
+        <span class="kwrd">public</span> <span class="kwrd">void</span> ShowMessage()
+        {
+            Console.WriteLine(dictionary[<span class="str">"hello"</span>]);
+        }
+    }
+}
+</pre>
+
+			<h2>diconファイルの作成</h2>
+			<ul>
+				<li><a href="dicontainer-diconReference.html#componentTag">componentタグ</a>でSystem.Collections.IDictionaryの実装クラスであるSystem.Collections.Hashtableをコンポーネント定義します。</li>
+				<li>componentタグの子タグである<a href="dicontainer-diconReference.html#initMethodTag">initMethodタグ</a>でHashtableにキーとして"hello"、値として"Hello World!"を定義します。 </li>
+				<li>componentタグでAutoHelloPropertyInjectionをコンポーネント定義します。 autoBinding属性にautoを指定します。
+				演習であるため auto を明示的に指定していますが、 autoBinding属性のデフォルト値であるため本来は省略します。 
+				</li>
+			</ul>
+			<p>　AutoHelloPropertyInjectionには、propertyタグが定義されていないことに注目してください。
+			プロパティ・インジェクションを行う場合、propertyタグで任意のプロパティを定義する必要がありますが、
+			S2Container内にIDictionaryの実装クラスが登録されていれば、S2Containerがコンテナ内を検索して自動的にプロパティを設定します。
+			ただし、 プロパティの型がインターフェースでない場合、自動バインディングはできません。 </p>
+
+			<p class="kindCode">Seasar.Examples/Reference/AutoBinding/AutoHelloPropertyInjection.dicon</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;?</span><span class="html">xml</span> <span class="attr">version</span><span class="kwrd">="1.0"</span> <span class="attr">encoding</span><span class="kwrd">="utf-8"</span> ?<span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;!</span><span class="html">DOCTYPE</span> <span class="attr">components</span> <span class="attr">PUBLIC</span> <span class="kwrd">"-//SEASAR2.1//DTD S2Container//EN"</span>
+<span class="kwrd">"http://www.seasar.org/dtd/components21.dtd"</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="System.Collections.Hashtable"</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">initMethod</span> <span class="attr">name</span><span class="kwrd">="Add"</span><span class="kwrd">&gt;</span>
+            <span class="kwrd">&lt;</span><span class="html">arg</span><span class="kwrd">&gt;</span>"hello"<span class="kwrd">&lt;/</span><span class="html">arg</span><span class="kwrd">&gt;</span>
+            <span class="kwrd">&lt;</span><span class="html">arg</span><span class="kwrd">&gt;</span>"Hello World!"<span class="kwrd">&lt;/</span><span class="html">arg</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;/</span><span class="html">initMethod</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="hello"</span> <span class="attr">autoBinding</span><span class="kwrd">="auto"</span>
+<span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.AutoBinding.AutoHelloPropertyInjection"</span> <span class="kwrd">/&gt;</span>
+    
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="AutoPropertyInjection"</span> <span class="attr">class</span>=
+<span class="kwrd">"Seasar.Examples.Reference.AutoBinding.AutoHelloPropertyInjectionClient"</span> <span class="kwrd">/&gt;</span>
+
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span></pre>
+	
+			<h2>実行クラスの作成</h2>
+			<ul>
+				<li><a href="dicontainer-reference.html#S2ContainerCreation">S2ContainerFactory.Create(string path) を呼び出してS2Containerを作成します。</a></li>
+				<li>GetComponent()を使用して、<a href="dicontainer-reference.html#getComponent">S2Containerからコンポーネントを取り出します。</a></li>
+				<li>取得したコンポーネントのメソッドを呼び出します。 </li>
+			</ul>
+			
+			<p class="kindCode">C#</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">using</span> System;
+<span class="kwrd">using</span> Seasar.Framework.Container;
+<span class="kwrd">using</span> Seasar.Framework.Container.Factory;
+<span class="kwrd">namespace</span> Seasar.Examples.Reference.AutoBinding
+{
+    <span class="kwrd">public</span> <span class="kwrd">class</span> AutoHelloPropertyInjectionClient
+    {
+        <span class="kwrd">private</span> <span class="kwrd">static</span> <span class="kwrd">readonly</span> String PATH =
+<span class="str">"Seasar.Examples/Reference/AutoBinding/AutoHelloPropertyInjection.dicon"</span>;
+
+        <span class="kwrd">public</span> <span class="kwrd">void</span> Main() 
+        {
+            IS2Container container = S2ContainerFactory.Create(PATH);
+            IHello hello = (IHello) container.GetComponent(<span class="kwrd">typeof</span>(IHello));
+            hello.ShowMessage();
+        }
+    }
+}
+</pre>
+
+			<h2>実行環境</h2>
+			<p>　Hashtableの値が表示されていることから、自動的にプロパティを設定していることが確認できます。</p>
+<pre class="csharpcode">
+Hello World!
+</pre>
+
+			<p>　この演習は、Seasar.ExamplesプロジェクトのSeasar.Examples/Reference/AutoBinding以下に用意されています。</p>
+			
+		</div>
+	</div>
+	
+	
+<!-- div.contents -->
+</div>
+<br class="clear" />
+<!-- div.middle -->
+</div>
+
+<div class="bottom">
+	<hr />
+	<div class="copyright">
+		&#169; Copyright The Seasar Project and the others 2004-2013, all rights reserved.
+	</div>
+</div>
+
+</body>
+
+</html>

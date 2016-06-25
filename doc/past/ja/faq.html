@@ -1,0 +1,241 @@
+﻿<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>FAQ - S2Container.NET</title>
+	<link href="css/common.css" rel="stylesheet" type="text/css" media="screen,print" />
+	<link href="css/csharp.css" rel="stylesheet" type="text/css" media="screen,print" />
+</head>
+
+<body>
+<a name="top"/>
+<div class="container">
+
+<div>
+	<div class="logo"><img src="images/title_s2containernet.png" alt="S2Container.NET プロジェクト" /></div>
+	<hr />
+	<div class="pan">
+		<a href="http://www.seasar.org/">Seasarプロジェクト</a>
+		＞ <a href="seasarnet.html">Seasar.NETプロジェクト</a>
+		＞ <a href="index.html">S2Container.NET</a>
+		＞ FAQ
+	</div>
+</div>
+
+<div class="middle">
+
+<div class="menus">
+
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/s2containernet.png" alt="S2Container.NET" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li><a href="index.html">Welcome</a></li>
+				<li><a href="download.html">ダウンロード</a></li>
+			</ul>
+		</div>
+	</div>
+	</div>
+	
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/documentation.png" alt="ドキュメンテーション" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li><a href="setup.html">セットアップ</a></li>
+				<li><a href="update-operation.html">移行</a></li>
+				<li><a href="dicontainer.html">DIContainer</a></li>
+				<li><a href="aop.html">AOP</a></li>
+				<li><a href="asp.html">ASP.NETでの利用</a></li>
+				<li><a href="db.html">データベース接続</a></li>
+				<li><a href="tx.html">トランザクション</a></li>
+				<li><a href="s2unit.html">S2ADO</a></li>
+				<li><a href="s2unit.html">S2Unit.NET</a></li>
+				<li><a href="s2windows.html">S2Windows.NET</a></li>
+				<li><a href="jscript.html">JScript.NET式</a></li>
+				<li><a href="quill.html">Quillで簡単DI+AOP</a></li>
+				<li><a href="s2dxo.html">S2DXO</a></li>
+			</ul>
+		</div>
+	</div>
+	</div>
+	
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/support.png" alt="サポート" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li>
+					FAQ
+					<p>よくある質問と答えをまとめています。</p>
+				</li>
+				<li>
+					<a href="https://ml.seasar.org/mailman/listinfo/seasar-dotnet">Mailing List</a>
+					<p>Seasar.NETに関する議論を行うメーリングリストです。</p>
+				</li>
+				<li>
+					<a href="https://www.seasar.org/issues/browse/CONTAINERNET">トラッキング</a>
+					<p>S2Container.NETのバグや問題の検索、報告を行うことができます。</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+	</div>
+
+</div><!-- div.left -->
+
+<!-- ############################################# コンテンツ ######################################################### -->
+
+<div class="contents">
+	
+	<div class="content">
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>目次</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<ul>
+				<li><a href="#faq0001">diconファイルに登録したクラスが見つからず、ClassNotFoundRuntimeExceptionが発生する</a></li>
+				<li><a href="#faq0002">S2Container.NETのログが出力されない</a></li>
+				<li><a href="#faq0003">S2Unit.NETでExcelシートの定義順にデータが挿入されない</a></li>
+				<li><a href="#faq0004">Diconファイルが見つからない</a></li>
+				<li><a href="#faq0005">S2Container.NET 1.2.6にバージョンアップしたらS2Unitの実行に失敗する</a></li>
+			</ul>
+			
+		</div>
+	</div>
+	
+<!-- ############################################# diconファイルに登録したクラスが見つからず、ClassNotFoundRuntimeExceptionが発生する ######################################################### -->
+
+	<div class="content">
+		<a name="faq0001" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1 class="small">diconファイルに登録したクラスが見つからず、ClassNotFoundRuntimeExceptionが発生する</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　原因として以下の事が考えられます。</p>
+			<ul>
+				<li>diconファイルに登録したクラスのクラス名が間違っている</li>
+				<li>
+					アプリケーション構成ファイル(app.config)のseasarセクションで、アセンブリの登録が必要
+					<br />
+					ドキュメント<br />
+					<a href="dicontainer.html#AppConfig">
+						S2Container.NET リファレンス - アプリケーション構成ファイル
+					</a>
+					<br />参考投稿<br />
+					<a href="http://ml.seasar.org/archives/seasar-dotnet/2006-June/000225.html">http://ml.seasar.org/archives/seasar-dotnet/2006-June/000225.html</a><br />
+					<a href="http://ml.seasar.org/archives/seasar-dotnet/2006-June/000226.html">http://ml.seasar.org/archives/seasar-dotnet/2006-June/000226.html</a>
+				</li>
+			</ul>
+			
+		</div>
+	</div>
+	
+<!-- ############################################# S2Container.NETのログが出力されない ######################################################### -->
+
+	<div class="content">
+		<a name="faq0002" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>S2Container.NETのログが出力されない</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　原因としてlog4netの設定ができていない、もしくは設定を読み込めていないことが考えられます。 以下のドキュメントを参照して下さい。 </p>
+			<p>　<a href="setup.html#log4net">セットアップ - log4netのセットアップ</a></p>
+			
+		</div>
+	</div>
+	
+<!-- ############################################# S2Unit.NETでExcelシートの定義順にデータが挿入されない ######################################################### -->
+
+	<div class="content">
+		<a name="faq0003" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1 class="small">S2Unit.NETでExcelシートの定義順にデータが挿入されない</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　S2Unit.NETの制限事項になります。 代替手段は、以下のドキュメントを参照して下さい。</p>
+			<p>　<a href="s2unit.html#limit">制限事項</a></p>
+			
+		</div>
+	</div>
+	
+<!-- ############################################# Diconファイルが見つからない ######################################################### -->
+
+	<div class="content">
+		<a name="faq0004" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>Diconファイルが見つからない</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　Diconファイルを「名前空間/Diconファイル名」と埋め込まれたリソースとして指定する場合に、
+			Diconファイルのプロパティでビルドアクションを「埋め込まれたリソース」に設定しないといけません。
+			詳しくは下記のドキュメントを参照して下さい。</p>
+			<p>　<a href="dicontainer.html#S2ContainerCreation">
+			S2Container.NET - S2Containerの生成と定義ファイル(Diconファイル)</a></p>
+			
+		</div>
+	</div>
+
+<!-- div.contents -->
+</div>
+<br class="clear" />
+<!-- div.middle -->
+</div>
+
+<div class="bottom">
+	<hr />
+	<div class="copyright">
+		&#169; Copyright The Seasar Project and the others 2004-2013, all rights reserved.
+	</div>
+</div>
+
+</body>
+
+</html>

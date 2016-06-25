@@ -1,0 +1,512 @@
+﻿<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Dicon タグリファレンス - S2Container.NET</title>
+	<link href="css/common.css" rel="stylesheet" type="text/css" media="screen,print" />
+	<link href="css/csharp.css" rel="stylesheet" type="text/css" media="screen,print" />
+</head>
+
+<body>
+<a name="top"/>
+<div class="container">
+
+<div>
+	<div class="logo"><img src="images/title_s2containernet.png" alt="S2Container.NET プロジェクト" /></div>
+	<hr />
+	<div class="pan">
+		<a href="http://www.seasar.org/">Seasarプロジェクト</a>
+		＞ <a href="seasarnet.html">Seasar.NETプロジェクト</a>
+		＞ <a href="index.html">S2Container.NET</a>
+		＞ <a href="dicontainer.html">DIContainer</a>
+		＞ Dicon タグリファレンス
+	</div>
+</div>
+
+<div class="middle">
+
+<div class="menus">
+
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/s2containernet.png" alt="S2Container.NET" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li><a href="index.html">Welcome</a></li>
+				<li><a href="download.html">ダウンロード</a></li>
+			</ul>
+		</div>
+	</div>
+	</div>
+	
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/documentation.png" alt="ドキュメンテーション" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li><a href="setup.html">セットアップ</a></li>
+				<li><a href="update-operation.html">移行</a></li>
+				<li>
+					<a href="dicontainer.html">DIContainer</a>
+					<ul>
+						<li><a href="dicontainer-reference.html">S2Container リファレンス</a></li>
+						<li>Dicon タグリファレンス</li>
+						<li><a href="dicontainer-examples.html">Examples</a></li>
+					</ul>
+				</li>
+				<li><a href="aop.html">AOP</a></li>
+				<li><a href="asp.html">ASP.NETでの利用</a></li>
+				<li><a href="db.html">データベース接続</a></li>
+				<li><a href="tx.html">トランザクション</a></li>
+				<li><a href="s2ado.html">S2ADO</a></li>
+				<li><a href="s2unit.html">S2Unit.NET</a></li>
+				<li><a href="s2windows.html">S2Windows.NET</a></li>
+				<li><a href="jscript.html">JScript.NET式</a></li>
+				<li><a href="quill.html">Quillで簡単DI+AOP</a></li>
+				<li><a href="s2dxo.html">S2DXO</a></li>
+			</ul>
+		</div>
+	</div>
+	</div>
+	
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/support.png" alt="サポート" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li>
+					<a href="faq.html">FAQ</a>
+					<p>よくある質問と答えをまとめています。</p>
+				</li>
+				<li>
+					<a href="https://ml.seasar.org/mailman/listinfo/seasar-dotnet">Mailing List</a>
+					<p>Seasar.NETに関する議論を行うメーリングリストです。</p>
+				</li>
+				<li>
+					<a href="https://www.seasar.org/issues/browse/CONTAINERNET">トラッキング</a>
+					<p>S2Container.NETのバグや問題の検索、報告を行うことができます。</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+	</div>
+
+</div><!-- div.left -->
+
+<!-- ############################################# 目次 ######################################################### -->
+
+<div class="contents">
+	
+	<div class="content">
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>目次</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<ul>
+				<li><a href="#DOCTYPE">DOCTYPE</a></li>
+				<li><a href="#componentsTag">componentsタグ</a></li>
+				<li><a href="#includeTag">includeタグ</a></li>
+				<li><a href="#componentTag">componentタグ</a></li>
+				<li><a href="#argTag">argタグ</a></li>
+				<li><a href="#propertyTag">propertyタグ</a></li>
+				<li><a href="#metaTag">metaタグ</a></li>
+				<li><a href="#initMethodTag">initMethodタグ</a></li>
+				<li><a href="#destroyMethodTag">destroyMethodタグ</a></li>
+				<li><a href="#aspectTag">aspectタグ</a></li>
+				<li><a href="#descriptionTag">descriptionタグ</a></li>
+				<li><a href="#Jscript">JScript.NET式</a></li>
+			</ul>
+		</div>
+	</div>
+	
+<!-- ############################################# DOCTYPE ######################################################### -->
+
+	<div class="content">
+		<a name="DOCTYPE" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>DOCTYPE</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+
+			<p>　DOCTYPEは、XML宣言の次に指定します。下記のように指定してください。</p>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;?</span><span class="html">xml</span> <span class="attr">version</span><span class="kwrd">="1.0"</span> <span class="attr">encoding</span><span class="kwrd">="utf-8"</span>?<span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;!</span><span class="html">DOCTYPE</span> <span class="attr">components</span> <span class="attr">PUBLIC</span> <span class="kwrd">"-//SEASAR2.1//DTD S2Container//EN"</span>
+<span class="kwrd">"http://www.seasar.org/dtd/components21.dtd"</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="hello"</span>
+<span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.Injection.HelloConstructorInjection"</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">arg</span><span class="kwrd">&gt;</span>"Hello World!"<span class="kwrd">&lt;/</span><span class="html">arg</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+    
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="ConstructorInjection"</span>
+<span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.Injection.HelloConstructorInjectionClient"</span> <span class="kwrd">/&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
+</pre>
+
+		</div>
+	</div>
+
+<!-- ############################################# componentsタグ(必須) ######################################################### -->
+
+	<div class="content">
+		<a name="componentsTag" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>componentsタグ(必須)</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+
+			<p>　ルートのタグになります。</p>
+
+			<h2>namespace属性(任意)</h2>
+			<p>　<a href="dicontainer-reference.html#Namespace">名前空間</a>を指定することができます。</p>
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;?</span><span class="html">xml</span> <span class="attr">version</span><span class="kwrd">="1.0"</span> <span class="attr">encoding</span><span class="kwrd">="utf-8"</span>?<span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;!</span><span class="html">DOCTYPE</span> <span class="attr">components</span> <span class="attr">PUBLIC</span> <span class="kwrd">"-//SEASAR2.1//DTD S2Container//EN"</span>
+<span class="kwrd">"http://www.seasar.org/dtd/components21.dtd"</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;</span><span class="html">components</span> <span class="attr">namespace</span><span class="kwrd">="hoge"</span><span class="kwrd">&gt;</span>
+    ...
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
+</pre>
+
+		</div>
+	</div>
+
+<!-- ############################################# includeタグ(任意) ######################################################### -->
+
+	<div class="content">
+		<a name="includeTag" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>includeタグ(任意)</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+
+			<p>　分割されたS2Containerの定義を<a href="dicontainer-reference.html#Include">取り込む</a>場合に使います。</p>
+			
+			<h2>path属性(必須)</h2>
+			<p>　定義ファイルのパスを指定することができます。定義ファイルのパスには、埋め込まれたリソースもしくはファイルシステムで指定することができます。</p>
+			<p>　埋め込まれたリソースを使用する場合は、定義ファイルの名前空間を含む完全限定名です。セパレータは、/です。
+			定義ファイルのビルドアクションプロパティは、埋め込まれたりソースに設定します。</p>
+			<p>　C#プロジェクトの場合は、フォルダを作成すると名前空間が作成されます。VB.NETプロジェクトの場合は、フォルダを作成しても名前空間は作成されません。
+			例えば、プロジェクトフォルダ/Sample/Logic/aaa.diconとすると、C#プロジェクトの場合は、既定の名前空間/Sample/Logic/aaa.diconになります。
+			VB.NETの場合は、既定の名前空間/aaa.diconになります。</p>
+			<p>　ファイルシステムを使用する場合は、一般的なファイルパスを指定します。絶対パス、相対パスを指定できます。</p>
+			<p>　埋め込まれたリソース、ファイルシステムの定義ファイルを混在させることもできます。
+			同じパスで埋め込まれたリソース、ファイルシステムの両方でヒットする場合は、ファイルシステムの定義ファイルが優先されます。
+			componentタグの前に記述する必要があります。</p>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;?</span><span class="html">xml</span> <span class="attr">version</span><span class="kwrd">="1.0"</span> <span class="attr">encoding</span><span class="kwrd">="utf-8"</span>?<span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;!</span><span class="html">DOCTYPE</span> <span class="attr">components</span> <span class="attr">PUBLIC</span> <span class="kwrd">"-//SEASAR2.1//DTD S2Container//EN"</span>
+<span class="kwrd">"http://www.seasar.org/dtd/components21.dtd"</span><span class="kwrd">&gt;</span>
+
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">include</span> <span class="attr">path</span><span class="kwrd">="aaa/bbb/ccc.dicon"</span> <span class="kwrd">/&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
+</pre>
+			
+		</div>
+	</div>
+	
+<!-- ############################################# componentタグ(任意) ######################################################### -->
+
+	<div class="content">
+		<a name="componentTag" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>componentタグ(任意)</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+
+			<p>　コンポーネントを定義します。</p>
+			
+			<h2>class属性(任意)</h2>
+			<p>　クラスの完全限定名を指定します。
+			ボディで、<a href="#Jscript">JScript.NET</a>式を使って コンポーネントを指定した場合は、class属性を省略することができます。
+			JScript.NET式を使った場合にclass属性を指定すると、型チェックを行います。</p>
+
+			<h2>name属性(任意)</h2>
+			<p>　名前を指定することもできます。.NETの識別子として使えるものにします。
+			詳しくは、<a href="dicontainer-reference.html#getComponent">コンポーネントの取得</a>を参照してください。</p>
+			
+			<h2>instance属性(任意)</h2>
+			<p>　S2Containerがどのようにコンポーネントのインスタンスを管理するのかを指定することができます。
+			singleton(デフォルト)、prototype、outer、request、sessionを指定することができます。
+			詳しくは、<a href="dicontainer-reference.html#InstanceMode">インスタンス管理</a>を参照してください。</p>
+			
+			<h2>autoBinding属性(任意)</h2>
+			<p>　S2Containerがコンポーネントの依存関係をどのように解決するのかを指定できます。
+			auto(デフォルト)、constructor、property、noneを指定することができます。
+			詳しくは、<a href="dicontainer-reference.html#AutoBindingMode">自動バインディング</a>を参照してください。</p>
+			
+		</div>
+	</div>
+	
+<!-- ############################################# argタグ(任意) ######################################################### -->
+
+	<div class="content">
+		<a name="argTag" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>argタグ(任意)</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+
+			<p>　<a href="#componentTag">componentタグ</a>の子タグとして使った場合は、コンストラクタの引数になります。
+			記述した順番でコンストラクタに渡されます。
+			<a href="#initMethodTag">initMethodタグ</a>、
+			<a href="#destroyMethodTag">destroyMethodタグ</a>の子タグとして使った場合は、メソッドの引数になります。
+			記述した順番でメソッドに渡されます。
+			引数として渡される実際の値は、ボディで<a href="#Jscript">JScript.NET式</a>を使うか、
+			子タグで<a href="#componentTag">componentタグ</a>を使います。</p>
+			
+		</div>
+	</div>
+	
+<!-- ############################################# propertyタグ(任意) ######################################################### -->
+
+	<div class="content">
+		<a name="propertyTag" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>propertyタグ(任意)</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+
+			<p>　<a href="#componentTag">componentタグ</a>の子タグとして使います。
+			プロパティとして設定される実際の値は、ボディで<a href="#Jscript">JScript.NET式</a>を使うか、
+			子タグで<a href="#componentTag">componentタグ</a>を使います。</p>
+			
+			<h2>name属性(必須)</h2>
+			<p>　プロパティ名を指定します。</p>
+			
+		</div>
+	</div>
+	
+<!-- ############################################# metaタグ(任意) ######################################################### -->
+
+	<div class="content">
+		<a name="metaTag" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>metaタグ(任意)</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+
+			<p>　<a href="#componentsTag">componentsタグ</a>、<a href="#componentTag">componentタグ</a>、
+			<a href="#argTag">argタグ</a>、<a href="#propertyTag">propertyタグ</a>の子タグとして使います。
+			メタデータの値は、ボディで<a href="#Jscript">JScript.NET式</a>を使うか、
+			子タグで<a href="#componentTag">componentタグ</a>を使います。</p>
+			
+			<h2>name属性(任意)</h2>
+			<p>　メタ名を指定します。</p>
+			
+		</div>
+	</div>
+	
+<!-- ############################################# initMethodタグ(任意) ######################################################### -->
+
+	<div class="content">
+		<a name="initMethodTag" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>initMethodタグ(任意)</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+
+			<p>　<a href="#componentTag">componentタグ</a>の子タグとして使います。
+			引数は、子タグで<a href="#argTag">argタグ</a>を使います。
+			name属性を書かずに<a href="#Jscript">JScript.NET式</a>を使って、コンポーネントのメソッドを呼び出すこともできます。
+			initMethodタグが定義されているコンポーネント自身を表すself、Console.Outを表すout、
+			Console.Errorを表すerrがinitMethodタグ内だけで有効なオブジェクトとして使えます。</p>
+			
+			<h2>name属性(任意)</h2>
+			<p>　メソッド名を指定します。</p>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;?</span><span class="html">xml</span> <span class="attr">version</span><span class="kwrd">="1.0"</span> <span class="attr">encoding</span><span class="kwrd">="utf-8"</span>?<span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;!</span><span class="html">DOCTYPE</span> <span class="attr">components</span> <span class="attr">PUBLIC</span> <span class="kwrd">"-//SEASAR2.1//DTD S2Container//EN"</span>
+
+<span class="kwrd">"http://www.seasar.org/dtd/components21.dtd"</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="System.Collections.Hashtable"</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">initMethod</span> <span class="attr">name</span><span class="kwrd">="Add"</span><span class="kwrd">&gt;</span>
+            <span class="kwrd">&lt;</span><span class="html">arg</span><span class="kwrd">&gt;</span>"aaa"<span class="kwrd">&lt;/</span><span class="html">arg</span><span class="kwrd">&gt;</span>
+            <span class="kwrd">&lt;</span><span class="html">arg</span><span class="kwrd">&gt;</span>111<span class="kwrd">&lt;/</span><span class="html">arg</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;/</span><span class="html">initMethod</span><span class="kwrd">&gt;</span>
+        
+        <span class="kwrd">&lt;</span><span class="html">initMethod</span><span class="kwrd">&gt;</span>self.Add("aaa", 111)<span class="kwrd">&lt;/</span><span class="html">initMethod</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">initMethod</span><span class="kwrd">&gt;</span>out.WriteLine("Hello")<span class="kwrd">&lt;/</span><span class="html">initMethod</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
+</pre>
+			
+		</div>
+	</div>
+	
+<!-- ############################################# destroyMethodタグ(任意) ######################################################### -->
+
+	<div class="content">
+		<a name="destroyMethodTag" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>destroyMethodタグ(任意)</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+
+			<p>　<a href="#initMethodTag">initMethodタグ</a>と同様です。</p>
+			
+		</div>
+	</div>
+	
+<!-- ############################################# aspectタグ(任意) ######################################################### -->
+
+	<div class="content">
+		<a name="aspectTag" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>aspectタグ(任意)</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+
+			<p>　アスペクトをコンポーネントに組み込みます。
+			詳しくは、S2AOPの<a href="aop-reference.html#aspectTag">aspectタグ</a>の説明を参照してください。</p>
+			
+		</div>
+	</div>
+	
+<!-- ############################################# descriptionタグ(任意) ######################################################### -->
+
+	<div class="content">
+		<a name="descriptionTag" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>descriptionタグ(任意)</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+
+			<p>　<a href="#componentsTag">componentsタグ</a>、<a href="#componentTag">componentタグ</a>、
+			<a href="#argTag">argタグ</a>、<a href="#propertyTag">propertyタグ</a>の子タグとしてdescriptionタグを使うことができます。
+			自由に説明を記述できます。</p>
+			
+		</div>
+	</div>
+	
+<!-- ############################################# JScript.NET式 ######################################################### -->
+
+	<div class="content">
+		<a name="Jscript" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>JScript.NET式</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+
+			<p>　JScript.NETについては以下のドキュメントを参照して下さい。</p>
+			<p>　<a href="jscript.html">S2Container.NET JScript.NET式</a></p>
+			
+		</div>
+	</div>
+
+<!-- div.contents -->
+</div>
+<br class="clear" />
+<!-- div.middle -->
+</div>
+
+<div class="bottom">
+	<hr />
+	<div class="copyright">
+		&#169; Copyright The Seasar Project and the others 2004-2013, all rights reserved.
+	</div>
+</div>
+
+</body>
+
+</html>

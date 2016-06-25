@@ -1,0 +1,363 @@
+﻿<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>JScript.NET式 - S2Container.NET</title>
+	<link href="css/common.css" rel="stylesheet" type="text/css" media="screen,print" />
+	<link href="css/csharp.css" rel="stylesheet" type="text/css" media="screen,print" />
+</head>
+
+<body>
+<a name="top"/>
+<div class="container">
+
+<div>
+	<div class="logo"><img src="images/title_s2containernet.png" alt="S2Container.NET プロジェクト" /></div>
+	<hr />
+	<div class="pan">
+		<a href="http://www.seasar.org/">Seasarプロジェクト</a>
+		＞ <a href="seasarnet.html">Seasar.NETプロジェクト</a>
+		＞ <a href="index.html">S2Container.NET</a>
+		＞ JScript.NET式
+	</div>
+</div>
+
+<div class="middle">
+
+<div class="menus">
+
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/s2containernet.png" alt="S2Container.NET" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li><a href="index.html">Welcome</a></li>
+				<li><a href="download.html">ダウンロード</a></li>
+			</ul>
+		</div>
+	</div>
+	</div>
+	
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/documentation.png" alt="ドキュメンテーション" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li><a href="setup.html">セットアップ</a></li>
+				<li><a href="update-operation.html">移行</a></li>
+				<li><a href="dicontainer.html">DIContainer</a></li>
+				<li><a href="aop.html">AOP</a></li>
+				<li><a href="asp.html">ASP.NETでの利用</a></li>
+				<li><a href="db.html">データベース接続</a></li>
+				<li><a href="tx.html">トランザクション</a></li>
+				<li><a href="s2ado.html">S2ADO</a></li>
+				<li><a href="s2unit.html">S2Unit.NET</a></li>
+				<li><a href="s2windows.html">S2Windows.NET</a></li>
+				<li>JScript.NET式</li>
+				<li><a href="quill.html">Quillで簡単DI+AOP</a></li>
+				<li><a href="s2dxo.html">S2DXO</a></li>
+			</ul>
+		</div>
+	</div>
+	</div>
+
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/support.png" alt="サポート" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li>
+					<a href="faq.html">FAQ</a>
+					<p>よくある質問と答えをまとめています。</p>
+				</li>
+				<li>
+					<a href="https://ml.seasar.org/mailman/listinfo/seasar-dotnet">Mailing List</a>
+					<p>Seasar.NETに関する議論を行うメーリングリストです。</p>
+				</li>
+				<li>
+					<a href="https://www.seasar.org/issues/browse/CONTAINERNET">トラッキング</a>
+					<p>S2Container.NETのバグや問題の検索、報告を行うことができます。</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+	</div>
+
+</div><!-- div.left -->
+
+<!-- ############################################# コンテンツ ######################################################### -->
+
+<div class="contents">
+	
+	<div class="content">
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>目次</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<ul>
+				<li><a href="#overview">概要</a></li>
+				<li><a href="#object">定義済みのオブジェクト</a></li>
+				<li><a href="#veriable">定義済みの変数</a></li>
+				<li><a href="#example">Example</a></li>
+			</ul>
+			
+		</div>
+	</div>
+	
+<!-- ############################################# 概要 ######################################################### -->
+
+	<div class="content">
+		<a name="overview" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>概要</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　S2Container.NETでは、定義ファイル中に式言語として
+			<a href="http://www.gotdotnet.com/japan/team/jscript/">JScript.NET</a>
+			を利用しています。
+			定義ファイルの中で、文字列で記述した内容(式)を.NETのオブジェクトに変換することが出来ます。</p>
+			
+			<ul>
+				<li>文字列は、&quot;hoge&quot;のように&quot;で囲みます。</li>
+				<li>charは、'a'のように'で囲みます。</li>
+				<li>数値は、123のようにそのまま記述します。</li>
+				<li>論理値(System.Boolean)は、true,falseのようにそのまま記述します。</li>
+				<li>列挙体(System.Enum)は、System.Data.DbType.Decimalのように列挙体の完全修飾名とメンバ名で記述します。(厳密には、JScript.NETの記法ではありません)</li>
+				<li>型宣言(System.Type)は、Foo.BarのようにTypeの完全修飾名を記述します。(厳密には、JScript.NETの記法ではありません)</li>
+				<li>new DateTime()のように標準ライブラリ(mscorlib.dll)のクラスや構造体のコンストラクタを呼び出すことができます。(名前空間のSystemは省略して呼び出します）</li>
+			</ul>
+			<p>　詳しくは、<a href="http://msdn2.microsoft.com/ja-jp/library/x85xxsf4.aspx">
+			JScript.NETのマニュアル</a>を参照してください。</p>
+			
+		</div>
+	</div>
+	
+<!-- ############################################# 定義済みのオブジェクト ######################################################### -->
+
+	<div class="content">
+		<a name="object" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>定義済みのオブジェクト</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　定義ファイルで指定するJScript.NET式では、あらかじめ以下のオブジェクトが使用できるようになっています。</p>
+			
+			<table border="0" cellspacing="1">
+			  <tr>
+			    <th>名前</th>
+			    <th>型</th>
+			    <th>説明</th>
+			  </tr>
+			  <tr>
+			  	<td>container</td>
+			  	<td>Seasar.Framework.Container.<br />Impl.S2ContainerImpl</td>
+			  	<td>現在のdiconファイルを処理しているS2コンテナです</td>
+			  </tr>
+			  <tr>
+			  	<td>appSettings<br />(1.2.1以降)</td>
+			  	<td>System.Collections.Specialized.<br />NameValueCollection</td>
+			  	<td>
+			  		アプリケーション構成ファイルのappSettingsセクションの設定がセットされています<br />
+			  		.NET 2.0ではSystem.Configuration.ConfigurationManager.<br />AppSettings
+			  		の結果がセットされています<br />
+			  		.NET 1.1ではSystem.Configuration.ConfigurationSettings.<br />AppSettings
+			  		の結果がセットされています
+			  	</td>
+			  </tr>
+			  <tr>
+			  	<td>connectionStrings<br />(1.3.4以降)</td>
+			  	<td>System.Configuration.<br />ConnectionStringSettingsCollection</td>
+			  	<td>
+			  		アプリケーション構成ファイルのconnectionStringsセクションの設定がセットされます<br />
+			  		System.Configuration.ConfigurationManager.<br />ConnectionStrings
+			  		の結果がセットされます
+			  	</td>
+			  </tr>
+			  <tr>
+			  	<td>out</td>
+			  	<td>System.Console.Out</td>
+			  	<td>
+			  		&lt;initMethod&gt;または&lt;destroyMethod&gt;
+			  		のボディの中でのみ定義されています
+			  	</td>
+			  </tr>
+			  <tr>
+			  	<td>err</td>
+			  	<td>System.Console.Error</td>
+			  	<td>
+			  		&lt;initMethod&gt;または&lt;destroyMethod&gt;
+			  		のボディの中でのみ定義されています
+			  	</td>
+			  </tr>
+			</table>
+			
+		</div>
+	</div>
+
+<!-- ############################################# 定義済みの変数 ######################################################### -->
+
+	<div class="content">
+		<a name="veriable" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>定義済みの変数</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　定義ファイルで指定するJScript.NET式では、あらかじめ以下の変数が使用できるようになっています。</p>
+			
+			<table border="0" cellspacing="1">
+			  <tr>
+			    <th width="70">名前</th>
+			    <th>説明</th>
+			  </tr>
+			  <tr>
+			  	<td>self</td>
+			  	<td>
+					&lt;initMethod&gt;または&lt;destroyMethod&gt;
+					のボディの中でのみ定義されている変数です。
+					この変数は，現在のコンポーネント (&lt;initMethod&gt;または
+					&lt;destroyMethod&gt;を囲む&lt;component&gt;
+					要素で表されているオブジェクト) を参照します
+			  	</td>
+			  </tr>
+			</table>
+			
+		</div>
+	</div>
+	
+<!-- ############################################# Example ######################################################### -->
+
+	<div class="content">
+		<a name="veriable" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>Example</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　例としてpropertyタグのボディでJScript.NETを使用してみます。</p>
+			
+			<h2>文字列</h2>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="Message"</span><span class="kwrd">&gt;</span>"こんにちは"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+</pre>
+
+			<h2>数値</h2>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="Pi"</span><span class="kwrd">&gt;</span>3.14<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+</pre>
+
+			<h2>S2コンテナ</h2>
+			<p>　S2コンテナにMessageと名前が付けられたHashtableが登録されており、
+			"Hello"というキーでセットされている値を取り出す例です。</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="Message"</span><span class="kwrd">&gt;</span>container.GetComponent("Message")["Hello"]<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+</pre>
+			
+			<h2>アプリケーション構成ファイル（appSettings）</h2>
+			<p>　アプリケーション構成ファイルの appSettings に以下の設定がされており、
+			"message"というキーでセットされている値を取り出す例です。</p>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">configuration</span><span class="kwrd">&gt;</span>
+
+    <span class="kwrd">&lt;</span><span class="html">appSettings</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">add</span> <span class="attr">key</span><span class="kwrd">="message"</span> <span class="attr">value</span><span class="kwrd">="Hello"</span> <span class="kwrd">/&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">appSettings</span><span class="kwrd">&gt;</span>
+    
+<span class="kwrd">&lt;/</span><span class="html">configuration</span><span class="kwrd">&gt;</span>
+</pre>
+<p></p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="Message"</span><span class="kwrd">&gt;</span>appSettings['message']<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+</pre>
+
+			<h2>アプリケーション構成ファイル（connectionStrings）</h2>
+			<p>　アプリケーション構成ファイルの connectionStrings に以下の設定がされており、
+			接続文字列を取り出す例です。</p>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">configuration</span><span class="kwrd">&gt;</span>
+
+    <span class="kwrd">&lt;</span><span class="html">connectionStrings</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">add</span> <span class="attr">name</span><span class="kwrd">="con1"</span> <span class="attr">connectionString</span>=
+<span class="kwrd">"Server=(local);database=s2dotnetdemo;Integrated Security=SSPI"</span> 
+<span class="attr">providerName</span><span class="kwrd">="System.Data.SqlClient"</span><span class="kwrd">/&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">connectionStrings</span><span class="kwrd">&gt;</span>
+    
+<span class="kwrd">&lt;/</span><span class="html">configuration</span><span class="kwrd">&gt;</span>
+</pre>
+<p></p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="ConStr"</span><span class="kwrd">&gt;</span>connectionStrings['con1'].ConnectionString<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+</pre>
+			
+		</div>
+	</div>
+	
+<!-- div.contents -->
+</div>
+<br class="clear" />
+<!-- div.middle -->
+</div>
+
+<div class="bottom">
+	<hr />
+	<div class="copyright">
+		&#169; Copyright The Seasar Project and the others 2004-2013, all rights reserved.
+	</div>
+</div>
+
+</body>
+
+</html>

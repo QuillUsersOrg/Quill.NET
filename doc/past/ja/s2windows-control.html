@@ -1,0 +1,436 @@
+﻿<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>S2Windows.NET 画面遷移をコントロール - S2Container.NET</title>
+	<link href="css/common.css" rel="stylesheet" type="text/css" media="screen,print" />
+	<link href="css/csharp.css" rel="stylesheet" type="text/css" media="screen,print" />
+</head>
+
+<body>
+<a name="top"/>
+<div class="container">
+
+<div>
+	<div class="logo"><img src="images/title_s2containernet.png" alt="S2Container.NET プロジェクト" /></div>
+	<hr />
+	<div class="pan">
+		<a href="http://www.seasar.org/">Seasarプロジェクト</a>
+		＞ <a href="seasarnet.html">Seasar.NETプロジェクト</a>
+		＞ <a href="index.html">S2Container.NET</a>
+		＞ <a href="s2windows.html">S2Windows.NET</a>
+		＞ 画面遷移をコントロール
+	</div>
+</div>
+
+<div class="middle">
+
+<div class="menus">
+
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/s2containernet.png" alt="S2Container.NET" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li><a href="index.html">Welcome</a></li>
+				<li><a href="download.html">ダウンロード</a></li>
+			</ul>
+		</div>
+	</div>
+	</div>
+	
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/documentation.png" alt="ドキュメンテーション" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li><a href="setup.html">セットアップ</a></li>
+				<li><a href="update-operation.html">移行</a></li>
+				<li><a href="dicontainer.html">DIContainer</a></li>
+				<li><a href="aop.html">AOP</a></li>
+				<li><a href="asp.html">ASP.NETでの利用</a></li>
+				<li><a href="db.html">データベース接続</a></li>
+				<li><a href="tx.html">トランザクション</a></li>
+				<li><a href="s2ado.html">S2ADO</a></li>
+				<li><a href="s2unit.html">S2Unit.NET</a></li>
+				<li>
+					<a href="s2windows.html">S2Windows.NET</a>
+					<ul>
+						<li>画面遷移をコントロール</li>
+						<li><a href="s2windows-s2form.html">S2Form</a></li>
+					</ul>
+				</li>
+				<li><a href="jscript.html">JScript.NET式</a></li>
+				<li><a href="quill.html">Quillで簡単DI+AOP</a></li>
+				<li><a href="s2dxo.html">S2DXO</a></li>
+			</ul>
+		</div>
+	</div>
+	</div>
+
+	<div class="menuLine">	
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/support.png" alt="サポート" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li>
+					<a href="faq.html">FAQ</a>
+					<p>よくある質問と答えをまとめています。</p>
+				</li>
+				<li>
+					<a href="https://ml.seasar.org/mailman/listinfo/seasar-dotnet">Mailing List</a>
+					<p>Seasar.NETに関する議論を行うメーリングリストです。</p>
+				</li>
+				<li>
+					<a href="https://www.seasar.org/issues/browse/CONTAINERNET">トラッキング</a>
+					<p>S2Container.NETのバグや問題の検索、報告を行うことができます。</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+	</div>
+
+</div><!-- div.left -->
+
+<!-- ############################################# コンテンツ ######################################################### -->
+
+<div class="contents">
+	
+	<div class="content">
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>目次</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　S2Windows.NETを使ったWindowsFormの画面遷移の制御について説明します。 </p>
+			<p>　一般に、WindowsFormの画面遷移を制御するには、
+			それぞれのWindowsFormのメソッドの中で呼び出すWindowsFormのオブジェクトを生成し、表示してきました。 </p>
+			<p>　そこを、WindowsFormや画面遷移をDIするためには次のようにします。 </p>
+
+			<ul>
+				<li><a href="#interface">画面遷移用インターフェイスを用意する</a></li>
+				<li><a href="#form">WindowsFormにプロパティを用意する</a></li>
+				<li><a href="#startup">起動用クラスを用意する</a></li>
+				<li><a href="#dicon">diconファイルの修正</a></li>
+				<li><a href="#quill">Quillで利用する場合</a></li>
+				<li><a href="#utility">WindowsForm用ユーティリティクラス</a></li>
+			</ul>
+
+			<p>　<span class="important">S2Windows.NETを使用するときには、
+			アプリケーション構成ファイルの&lt;assemblys&gt;にアセンブリ(Seasar.Windows)を指定します。 </span></p>
+			<p>　<span class="important">S2Windows.NETはSeasar.Quill.NETを必要とするようになりました（1.3.8より）。</span></p>
+			
+		</div>
+	</div>
+	
+<!-- ############################################# 画面遷移用インターフェイスを用意する ######################################################### -->
+
+	<div class="content">
+		<a name="interface" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>画面遷移用インターフェイスを用意する</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　実行用ファイルを作成するプロジェクトにインターフェイスを追加します。  </p>
+			<p>　そして、WindowsFormを呼び出すメソッドを追加します。このメソッドを取り決めた命名規則に従って命名しておくと、
+			下記のdiconファイルを設定するときに楽になります。  </p>
+			<p>　Seasar.Windows.Attr.TargetForm属性を使ってメソッドに表示するフォームを設定します。 </p>
+
+			<p>　idは引数の例で、フォームのIDプロパティに引数の値がセットされます。
+			つまり、引数と同名のプロパティをフォームに用意していると引数の値をセットします。 </p>
+			
+			<p class="kindCode">C#</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">public</span> <span class="kwrd">interface</span> IFormDispatcher
+{
+    [TargetForm(typeof ( FrmHoge ), ModalType.Modal)]
+    <span class="kwrd">void</span> ShowHoge(int id);
+
+    [TargetForm(typeof ( FrmHoge2 ), ModalType.Modal, &quot;ReturnValue&quot;)]
+    <span class="kwrd">HogeDto</span> ShowHoge2(int id);
+}
+</pre>
+
+			<p class="kindCode">VB</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode vb">
+<span class="kwrd">Public</span> <span class="kwrd">Interface</span> IFormDispatcher
+    &lt;TargetForm(<span class="kwrd">GetType</span>(FrmHoge), ModalType.Modal)&gt; _
+    <span class="kwrd">Sub</span> ShowHoge(<span class="kwrd">ByVal</span> id <span class="kwrd">As</span> Integer)
+
+    &lt;TargetForm(<span class="kwrd">GetType</span>(FrmHoge2), ModalType.Modal, &quot;ReturnValue&quot;)&gt; _
+    <span class="kwrd">Function</span> ShowHoge2(<span class="kwrd">ByVal</span> id <span class="kwrd">As</span> Integer) As HogeDto
+<span class="kwrd">End</span> <span class="kwrd">Interface</span>
+</pre>
+
+			<p>　一番目のメソッドの例でのTargetForm属性の最初の引数は、遷移先WindowsFormのtypeを指定します。
+			二番目の引数はWindowsFormのモーダルタイプを指定します。こちらでメソッドの返値を指定するには、
+			diconファイルで遷移先対象WindowsFormからの返値を取得するためのプロパティ名を指定します。 </p>
+			
+			<p>　二番目のメソッドの例でのTargetForm属性の最初の引数は遷移先WindowsFormのtypeを指定します。
+			二番目の引数はWindowsFormのモーダルタイプを指定します。
+			三番目の引数は遷移先対象WindowsFormからの返値を取得するためのプロパティ名です。</p>
+			
+		</div>
+	</div>
+
+<!-- ############################################# WindowsFormにプロパティを用意する ######################################################### -->
+
+	<div class="content">
+		<a name="form" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>WindowsFormにプロパティを用意する</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　画面遷移用インターフェイスに作成したメソッドに引数がある場合、遷移先WindowsFormに引数と同名のプロパティを用意します。
+			型も一致させます。画面遷移時に、このプロパティに引数の値をセットすることになります。 </p>
+			<p>　画面遷移用インターフェイスに作成したメソッドに返値がある場合、遷移先WindowsFormに返値と同じ型のプロパティを用意します。
+			全てのFormで同じプロパティ名であれば、Diconファイルで指定し、Formごとに異なる場合はTargetForm属性で指定します。 </p>
+			
+		</div>
+	</div>
+	
+<!-- ############################################# 起動用クラスを用意する ######################################################### -->
+
+	<div class="content">
+		<a name="startup" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>起動用クラスを用意する</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　実行ファイルのプロジェクトにアプリケーション起動用クラスを用意します。
+			通常、プロジェクトの生成時に作られる最初のフォームからMain文を移してくればいいでしょう。
+			もちろん、プロジェクトのスタートアップオブジェクトもこの起動用クラスに変更します。 </p>
+			
+			<p class="kindCode">C#</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">public</span> <span class="kwrd">class</span> StartMain
+{
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// DIコンテナ設定ファイル
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+    <span class="kwrd">private</span> <span class="kwrd">const</span> string PATH = &quot;Examples.dicon&quot;;
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// コンストラクタ
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+    <span class="kwrd">public</span> StartMain()
+    {
+        ;
+    }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// アプリケーションのメイン エントリ ポイントです。
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+    [STAThread]
+    <span class="kwrd">private</span> <span class="kwrd">static</span> void Main()
+    {
+        Application.EnableVisualStyles();
+
+        IS2Container container = S2ContainerFactory.Create(PATH);
+        container.Init();
+
+        ApplicationContext context = (ApplicationContext)
+            container.GetComponent(typeof ( S2ApplicationContext ));
+        if (context.MainForm == null)
+            context.MainForm = (Form) container.GetComponent(&quot;MainForm&quot;);
+        Application.Run(context);
+    }
+}
+</pre>
+			
+		</div>
+	</div>
+	
+<!-- ############################################# diconファイルの修正 ######################################################### -->
+
+	<div class="content">
+		<a name="dicon" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>diconファイルの修正</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　diconファイルにWindowsForm、ApplicationContextの設定、AOPによる画面遷移コントロールを設定します。 </p>
+			<p>　WindowsFormの設定は次のように行います。 </p>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">=&quot;frmHoge&quot;</span> <span class="attr">class</span><span class="kwrd">=&quot;Seasar.Windows.Examples.FrmHoge&quot;</span> <span class="kwrd">/&gt;</span>
+</pre>
+
+			<p>　WindowsFormをModalessで表示するときには、該当するWindowsFormのinstance属性にはprototypeを指定します。
+			そうしないと、 WindowsFormを閉じて、再度表示されなくなります。 </p>
+			<p>　起動用クラスで使うApplicationContextの設定は次のように行います。 </p>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">=&quot;AppContext&quot;</span> <span class="attr">class</span><span class="kwrd">=&quot;Seasar.Windows.S2ApplicationContext&quot;</span> <span class="kwrd">&gt;</span>
+   <span class="kwrd">&lt;</span><span class="html">arg</span><span class="kwrd">&gt;</span>container<span class="kwrd">&lt;/</span><span class="html">arg</span><span class="kwrd">&gt;</span>
+   <span class="rem">&lt;!-- MainFormを初期起動フォームに変更する --&gt;</span>
+   <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">=&quot;MainForm&quot;</span><span class="kwrd">&gt;</span>frmHoge<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span></pre>
+
+			<p>　WindowsFormをS2Containerに自動登録したときには、IAutoNamingインターフェイスの実装クラスであるSeasar.Windows.DefaultFormNamingクラスを利用します。このクラスはMainFormNameプロパティで指定したWindowsFormクラスをLabelプロパティ名でs2containerにコンポーネントの自動登録時に登録します。</p>
+			<p>　AOPによる画面遷移の設定は次のように行います。画面遷移用インターフェイスのメソッドに対し、
+			Seasar.Windows.AOP.Interceptors.FormInterceptorでpointcutを設定します。 </p>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">=&quot;Dispatcher&quot;</span> <span class="attr">class</span><span class="kwrd">="Seasar.Windows.Examples.IFormDispatcher"</span><span class="kwrd">&gt;</span>
+    <span class="rem">&lt;!-- pointcutは命名規則に従ってつけたメソッド名を正規表現で表示する --&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">aspect</span> <span class="attr">pointcut</span><span class="kwrd">=&quot;Show.*&quot;</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">=&quot;Seasar.Windows.AOP.Interceptors.FormInterceptor&quot;</span> <span class="kwrd">&gt;</span>
+          <span class="rem">&lt;!-- プロパティPropertyはFormからの返値用プロパティを指定する --&gt;</span>
+          <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span> <span class="kwrd">=&quot;Property&quot;</span><span class="kwrd">&gt;</span>&quot;ReturnValue&quot;<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">aspect</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+</pre>
+
+			<p>　上記のWindowsFormを設定したdiconファイルとDao等を設定したS2Unit.NETで使うdiconファイルで分けておいた方が、
+			S2Unit.NETを使用する場合、テストに不要なWindowsFormのオブジェクトをS2Container.NETが生成しないで済みます。 </p>
+			
+		</div>
+	</div>
+	
+<!-- ############################################# quillで利用する場合 ###################################################################### -->
+	<div class="content">
+		<a name="quill" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>Quillで利用する場合</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+		<p>　Quillを使ってWindowsFormの画面遷移の制御を行う場合、上で説明したFormInterceptorに代わり、
+		Seasar.Windows.AOP.Interceptors.QuillFormInterceptorを利用します。 </p>
+		<p>　この場合、<a href="#interface">「画面遷移用インターフェイスを用意する」</a>にあるように作成する代わりに、次のようにQuillのAOP指定をします</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+[Implementation]
+[Aspect(typeof(Seasar.Windows.AOP.Interceptors.QuillFormInterceptor))]
+<span class="kwrd">public</span> <span class="kwrd">interface</span> IFormDispatcher
+{
+    [TargetForm(typeof ( FrmHoge ), ModalType.Modal)]
+    <span class="kwrd">void</span> ShowHoge(int id);
+
+    [TargetForm(typeof ( FrmHoge2 ), ModalType.Modal, &quot;ReturnValue&quot;)]
+    <span class="kwrd">HogeDto</span> ShowHoge2(int id);
+}
+</pre>
+
+			<p class="kindCode">VB</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode vb">
+&lt;Implementation&gt; _
+&lt;Aspect(<span class="kwrd">GetType</span>(Seasar.Windows.AOP.Interceptors.QuillFormInterceptor))&gt; _
+<span class="kwrd">Public</span> <span class="kwrd">Interface</span> IFormDispatcher
+    &lt;TargetForm(<span class="kwrd">GetType</span>(FrmHoge), ModalType.Modal)&gt; _
+    <span class="kwrd">Sub</span> ShowHoge(<span class="kwrd">ByVal</span> id <span class="kwrd">As</span> Integer)
+
+    &lt;TargetForm(<span class="kwrd">GetType</span>(FrmHoge2), ModalType.Modal, "ReturnValue")&gt; _
+    <span class="kwrd">Function</span> ShowHoge2(<span class="kwrd">ByVal</span> id <span class="kwrd">As</span> Integer) As HogeDto
+<span class="kwrd">End</span> <span class="kwrd">Interface</span>
+</pre>
+		<p>そして<a href="#form">「WindowsFormにプロパティを用意する」</a>にあるとおりプロパティを用意します。</p>
+		<p><a href="#startup">「起動用クラスを用意する」</a>、<a href="#dicon">「diconファイルの修正」</a>にあるようなことは不要です。
+		ただし、Quillの<a href="quill.html#form">「Windowsアプリケーションから簡単にQuillを利用する」</a>にあるような設定を行う必要があります。</p>
+		</div>
+	</div>
+
+<!-- ############################################# WindowsForm用ユーティリティクラス ######################################################### -->
+
+	<div class="content">
+		<a name="utility" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>WindowsForm用ユーティリティクラス</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　WindowsForm用にいくつかのユーティリティクラスを用意しています。入力チェックなどに使ってみてください。 </p>
+			<ul>
+				<li>Seasar.Windows.Util.Validator&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				-- 入力チェック用ユーティリティクラス</li>
+			</ul>
+			<p>　.NET 1.1版用では次のクラスもあります。</p>
+			<ul>
+				<li>Seasar.Windows.Util.Converter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				-- 変換用ユーティリティクラス</li>
+			</ul>
+		</div>
+	</div>
+	
+<!-- div.contents -->
+</div>
+<br class="clear" />
+<!-- div.middle -->
+</div>
+
+<div class="bottom">
+	<hr />
+	<div class="copyright">
+		&#169; Copyright The Seasar Project and the others 2004-2013, all rights reserved.
+	</div>
+</div>
+
+</body>
+
+</html>

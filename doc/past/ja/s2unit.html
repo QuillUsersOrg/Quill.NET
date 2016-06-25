@@ -1,0 +1,918 @@
+﻿<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>S2Unit.NET - S2Container.NET</title>
+	<link href="css/common.css" rel="stylesheet" type="text/css" media="screen,print" />
+	<link href="css/csharp.css" rel="stylesheet" type="text/css" media="screen,print" />
+</head>
+
+<body>
+<a name="top"/>
+<div class="container">
+
+<div>
+	<div class="logo"><img src="images/title_s2containernet.png" alt="S2Container.NET プロジェクト" /></div>
+	<hr />
+	<div class="pan">
+		<a href="http://www.seasar.org/">Seasarプロジェクト</a>
+		＞ <a href="seasarnet.html">Seasar.NETプロジェクト</a>
+		＞ <a href="index.html">S2Container.NET</a>
+		＞ S2Unit.NET
+	</div>
+</div>
+
+<div class="middle">
+
+<div class="menus">
+
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/s2containernet.png" alt="S2Container.NET" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li><a href="index.html">Welcome</a></li>
+				<li><a href="download.html">ダウンロード</a></li>
+			</ul>
+		</div>
+	</div>
+	</div>
+	
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/documentation.png" alt="ドキュメンテーション" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li><a href="setup.html">セットアップ</a></li>
+				<li><a href="update-operation.html">移行</a></li>
+				<li><a href="dicontainer.html">DIContainer</a></li>
+				<li><a href="aop.html">AOP</a></li>
+				<li><a href="asp.html">ASP.NETでの利用</a></li>
+				<li><a href="db.html">データベース接続</a></li>
+				<li><a href="tx.html">トランザクション</a></li>
+				<li><a href="s2ado.html">S2ADO</a></li>
+				<li>S2Unit.NET</li>
+				<li><a href="s2windows.html">S2Windows.NET</a></li>
+				<li><a href="jscript.html">JScript.NET式</a></li>
+				<li><a href="quill.html">Quillで簡単DI+AOP</a></li>
+				<li><a href="s2dxo.html">S2DXO</a></li>
+			</ul>
+		</div>
+	</div>
+	</div>
+	
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/support.png" alt="サポート" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li>
+					<a href="faq.html">FAQ</a>
+					<p>よくある質問と答えをまとめています。</p>
+				</li>
+				<li>
+					<a href="https://ml.seasar.org/mailman/listinfo/seasar-dotnet">Mailing List</a>
+					<p>Seasar.NETに関する議論を行うメーリングリストです。</p>
+				</li>
+				<li>
+					<a href="https://www.seasar.org/issues/browse/CONTAINERNET">トラッキング</a>
+					<p>S2Container.NETのバグや問題の検索、報告を行うことができます。</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+	</div>
+
+</div><!-- div.left -->
+
+<!-- ############################################# コンテンツ ######################################################### -->
+
+<div class="contents">
+	
+	<div class="content">
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>目次</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　S2Container.NET(バージョン1.1以降)では、
+			コンテナを使った開発のテストを楽しくおこなえるようにテスティングフレームワークが組み込まれています。
+			MbUnitを拡張しています。主な機能は以下のとおりです。</p>
+		
+			<ul>
+				<li><a href="install">S2Unit.NETのインストール</a></li>
+				<li>
+					<a href="#autoS2">S2Containerの自動作成</a>
+					<ul>
+						<li>テストメソッド(TestXxx)ごとに自動的にS2Containerを作成します。</li>
+						<li>S2Containerに対するRegister(),GetComponent(),Include()が用意されています。</li>
+						<li>Include()するdiconファイルのPATHがテストクラスと同じ名前空間にある場合は、名前空間部分のパスは省略できます。</li>
+					</ul>
+				</li>
+				<li>
+					<a href="#fieldBinding">フィールドへの自動バインディング</a>
+					<ul>
+						<li>Testクラスにstatic,readonly,finalのいずれでもないフィールドがあり、
+						その名前からアンダースコア(_)を(先頭もしくは後尾から)除いた名前のコンポーネントがコンテナに存在すれば自動的にセットされます。</li>
+						<li>Testクラスのフィールドに、代入することのできるコンポーネント(参照型かDateTime)がコンテナに存在すれば、S2Containerから取り出して自動的にセットされます。</li>
+						<li>テストメソッドが終わると、自動セットされた値は自動的にnull(VBの場合はNothing)がセットされます。</li>
+					</ul>	
+				</li>
+				<li>
+					<a href="#init">テストメソッドの初期化・終了処理</a>
+					<ul>
+						<li>テストメソッド(TestXxx)に対応するSetUpXxx(),TearDownXxx()を定義しておくと、
+						SetUp()の後、TearDown()の前に自動的に呼び出されます。
+						個別のテストメソッドごとの初期化・終了処理を簡単に行えるようになります。</li>
+					</ul>
+				</li>
+				<li>
+					<a href="#trans">トランザクションの自動制御</a>
+					<ul>
+						<li>テストメソッドのS2属性にTx列挙型(Seasar.Extension.Unit.Tx)のRollback(列挙子)を指定すると、
+						テストメソッドの直前にトランザクションを開始し、テストメソッドの直後にトランザクションをロールバックするので、
+						データベースに関するテストを行った場合のクリーンアップの処理が不要になります。</li>
+					</ul>
+				</li>
+				<li>
+					<a href="#DBTest">データベースに対するテスト</a>
+					<ul>
+						<li>Reload(DataSet)を使って、データの中身をプライマリーキーでリロードして新しいDataSetを取得できます。
+						更新後の予想される結果をExcelで定義しておき、
+						DataSet expected = ReadXls("予想される結果.xls");
+						S2Assert.AreEqual(expected, Reload(expected);
+						のようにして簡単に更新のテストができます。</li>
+						<li>S2Assert.AreEqual()で予想されるDataSetの結果に対して、
+						IDictionary、IDictionaryのIList、object、objectのIListと比較することができます。</li>
+					</ul>
+				</li>
+				<li><a href="#limit">制限事項</a></li>
+			</ul>
+			
+		</div>
+	</div>
+	
+<!-- ############################################# S2Unit.NETのインストール ######################################################### -->
+
+	<div class="content">
+		<a name="install" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>S2Unit.NETのインストール</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　<a href="setup.html#S2Unit">S2Unit.NETのインストールについてはこちらを参照して下さい。</a></p>
+		</div>
+	</div>
+	
+<!-- ############################################# S2Containerの自動作成 ######################################################### -->
+
+	<div class="content">
+		<a name="autoS2" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>S2Containerの自動作成</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　テストクラスはSeasar.Extension.Unit.S2TestCaseを継承して作成します。
+			クラスにはもちろんTestFixture属性(MbUnit.Framework.TestFixtureAttribute)も定義します。
+			テストメソッドにはTest属性(MbUnit.Framework.TestAttribute)と共に、 
+			S2属性(Seasar.Extension.Unit.S2Attribute)を定義します。
+			このようなテストクラスを準備するとS2Containerが自動的に作成されます。 </p>
+			
+			<p class="kindCode">C#</p>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+[TestFixture]
+<span class="kwrd">public</span> <span class="kwrd">class</span> HogeTest : S2TestCase
+{
+    [Test, S2]
+    <span class="kwrd">public</span> <span class="kwrd">void</span> TestHogeHoge()
+    {
+        <span class="rem">// テストコードを書きます</span>
+    }
+}</pre>
+
+			<p class="kindCode">VB</p>
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode vb">
+&lt;TestFixture()&gt; _
+<span class="kwrd">Public</span> <span class="kwrd">Class</span> HogeTest
+   <span class="kwrd">Inherits</span> S2TestCase
+   
+    &lt;Test(), S2()&gt; _
+    <span class="kwrd">Public</span> <span class="kwrd">sub</span> TestHogeHoge()
+        <span class="rem">' テストコードを書きます</span>
+    <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+    
+<span class="kwrd">End</span> Class</pre>
+			
+			<p>　S2TestClassにはS2Container.NETに対応するRegister(), GetComponent(), Include() が用意されています。</p>
+			
+			<p class="kindCode">C#</p>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">public</span> <span class="kwrd">void</span> TestHogeHoge()
+{
+    <span class="rem">// diconファイルを取り込みます</span>
+    Include(<span class="str">"Hoge.dicon"</span>);
+    
+    <span class="rem">// S2Containerにコンポーネントを登録します</span>
+    Register(<span class="kwrd">typeof</span>(Hashtable));
+    
+    <span class="rem">// S2Containerからコンポーネントを取得します</span>
+    Hashtable table = (Hashtable) GetComponent(<span class="kwrd">typeof</span>(Hashtable));
+}</pre>
+
+			<p class="kindCode">VB</p>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode vb">
+&lt;Test(), S2()&gt; _
+<span class="kwrd">Public</span> <span class="kwrd">sub</span> TestHogeHoge()
+
+    <span class="rem">' diconファイルを取り込みます</span>
+    Include(<span class="str">"Hoge.dicon"</span>)
+    
+    <span class="rem">' S2Containerにコンポーネントを登録します</span>
+    Register(<span class="kwrd">typeof</span>(Hashtable))
+    
+    <span class="rem">' S2Containerからコンポーネントを取得します</span>
+    <span class="kwrd">Dim</span> table <span class="kwrd">As</span> Hashtable = <span class="kwrd">CType</span>(GetComponent(<span class="kwrd">GetType</span>(Hashtable)), Hashtable)
+    
+    <span class="rem">' 明示的にキャストしない場合は以下でも可</span>
+    <span class="rem">' Dim table As Hashtable = GetComponent(GetType(Hashtable))</span>
+
+<span class="kwrd">End</span> Sub</pre>
+			
+			<p>　Include()するdiconファイルのPATHがテストクラスと同じ名前空間にある場合は、名前空間部分のパスは省略できます。
+			ファイルシステムでdiconファイルのPATHを指定する場合は、アセンブリと同じ位置の置くと相対パスとなり省略することができます。
+			（ただしビルドイベント等でアセンブリと同じフォルダにはき出す等の処理が必要です)</p>
+			<p>　Foo.Fuga名前空間にTest.diconを用意している場合、
+			Foo.Fuga名前空間にあるクラスでは以下のようにdiconファイルのパスを省略することが出来ます。</p>
+
+			<p class="kindCode">C#</p>
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">namespace</span> Foo.Fuga
+{
+    [TestFixture]
+    <span class="kwrd">public</span> <span class="kwrd">class</span> HogeTest : S2TestCase
+    {
+        [Test, S2]
+        <span class="kwrd">public</span> <span class="kwrd">void</span> TestHogeHoge()
+        {
+            Include(<span class="str">"Test.dicon"</span>);
+        }
+    }
+}</pre>
+
+			<p class="kindCode">VB</p>
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode vb">
+<span class="kwrd">Namespace</span> Foo.Fuga
+   &lt;TestFixture()&gt; _
+   <span class="kwrd">Public</span> <span class="kwrd">Class</span> HogeTest
+      <span class="kwrd">Inherits</span> S2TestCase
+      
+      &lt;Test(), S2()&gt; _
+      <span class="kwrd">Public</span> <span class="kwrd">Sub</span> TestHogeHoge()
+         Include(<span class="str">"Test.dicon"</span>)
+      <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+      
+   <span class="kwrd">End</span> <span class="kwrd">Class</span>
+<span class="kwrd">End</span> Namespace</pre>
+			
+		</div>
+	</div>
+	
+<!-- ############################################# フィールドへの自動バインディング ######################################################### -->
+
+	<div class="content">
+		<a name="fieldBinding" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>フィールドへの自動バインディング</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　Testクラスにstatic,readonly,finalのいずれでもないフィールドがあり、
+			その名前からアンダースコア(_)を(先頭もしくは後尾から)除いた名前のコンポーネントがコンテナに存在すれば自動的にセットされます。 </p>
+			
+			<p class="kindCode">Test.dicon</p>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="abc"</span><span class="kwrd">&gt;</span>"hoge"<span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span></pre>
+
+			<p class="kindCode">C#</p>
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+[TestFixture]
+<span class="kwrd">public</span> <span class="kwrd">class</span> HogeTest : S2TestCase
+{
+    <span class="kwrd">private</span> <span class="kwrd">string</span> _abc = <span class="kwrd">null</span>;
+
+    [Test, S2]
+    <span class="kwrd">public</span> <span class="kwrd">void</span> TestHogeHoge()
+    {
+        Include(<span class="str">"Test.dicon"</span>);
+        Assert.AreEqual(<span class="str">"hoge"</span>, _abc);
+    }
+}</pre>
+
+			<p class="kindCode">VB</p>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode vb">
+&lt;TestFixture()&gt; _
+<span class="kwrd">Public</span> <span class="kwrd">Class</span> HogeTest
+   <span class="kwrd">Inherits</span> S2TestCase
+   
+    <span class="kwrd">Private</span> _abc <span class="kwrd">As</span> <span class="kwrd">String</span> = <span class="kwrd">Nothing</span>
+   
+    &lt;Test(), S2()&gt; _
+    <span class="kwrd">Public</span> <span class="kwrd">Sub</span> TestHogeHoge()
+        Include(<span class="str">"Test.dicon"</span>)
+        Assert.AreEqual(<span class="str">"hoge"</span>, _abc)
+    <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+
+<span class="kwrd">End</span> Class</pre>
+
+			<p>　Testクラスのフィールドに、代入することのできるコンポーネント(参照型かDateTime)がコンテナに存在すれば、
+			S2Containerから取り出して自動的にセットされます。</p>
+			
+			<p class="kindCode">Test.dicon</p>
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="System.Collections.ArrayList"</span> <span class="kwrd">/&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span></pre>
+
+			<p class="kindCode">C#</p>
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+[TestFixture]
+<span class="kwrd">public</span> <span class="kwrd">class</span> HogeTest : S2TestCase
+{
+    <span class="kwrd">private</span> IList _list = <span class="kwrd">null</span>;
+
+    [Test, S2]
+    <span class="kwrd">public</span> <span class="kwrd">void</span> TestHogeHoge()
+    {
+        Include(<span class="str">"Test.dicon"</span>);
+        Assert.IsNotNull(_list);
+    }
+}</pre>
+
+			<p class="kindCode">VB</p>
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode vb">
+&lt;TestFixture()&gt;  _
+<span class="kwrd">Public</span> <span class="kwrd">Class</span> HogeTest
+    <span class="kwrd">Inherits</span> S2TestCase
+
+    <span class="kwrd">Private</span> _list <span class="kwrd">As</span> IList = <span class="kwrd">Nothing</span>
+
+    &lt;Test(), S2()&gt; _
+    <span class="kwrd">Public</span> <span class="kwrd">Sub</span> TestHogeHoge()
+        Include(<span class="str">"Test.dicon"</span>)
+        Assert.IsNotNull(_list)
+    <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+
+<span class="kwrd">End</span> Class</pre>
+
+			<p>　テストメソッドが終わると、自動セットされた値は自動的にnull(VBの場合はNothing)がセットされます。 </p>
+			
+			
+		</div>
+	</div>
+
+<!-- ############################################# テストメソッドの初期化・終了処理 ######################################################### -->
+
+	<div class="content">
+		<a name="init" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>テストメソッドの初期化・終了処理</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　テストメソッド(TestXxx)に対応するSetUpXxx(),TearDownXxx()を定義しておくと、
+			SetUp()の後、TearDown()の前に自動的に呼び出されます。
+			個別のテストメソッドごとの初期化・終了処理を簡単に行えるようになります。 </p>
+			
+			<p class="kindCode">C#</p>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="rem">// SetUpFirst(), SetUp(), SetUpHogeHoge(), TestHogeHoge(),</span>
+<span class="rem">// TearDownHogeHoge(), TearDown(), TearDownLast()の順に呼び出します。</span>
+[TestFixture]
+<span class="kwrd">public</span> <span class="kwrd">class</span> HogeTest : S2TestCase
+{
+    [MbUnit.Framework.SetUp]
+    <span class="kwrd">public</span> <span class="kwrd">void</span> SetUpFirst()
+    {
+        <span class="rem">// 初期化処理を行います (MbUnitが呼び出します)</span>
+    }
+
+    <span class="kwrd">public</span> <span class="kwrd">void</span> SetUp()
+    {
+        <span class="rem">// 初期化処理を行います (S2Unit.NETが呼び出します。)</span>
+        <span class="rem">// S2Container.NETに対する初期化処理はこのメソッドで呼び出します。</span>
+    }
+    
+    <span class="kwrd">public</span> <span class="kwrd">void</span> SetUpHogeHoge() 
+    {
+        <span class="rem">// テストメソッド毎の初期化処理を行います </span>
+    }
+
+    [Test, S2]
+    <span class="kwrd">public</span> <span class="kwrd">void</span> TestHogeHoge()
+    {
+        <span class="rem">// テストコードを書きます</span>
+    }
+
+    <span class="kwrd">public</span> <span class="kwrd">void</span> TearDownHogeHoge()
+    {
+        <span class="rem">// テストメソッド毎の終了処理を書きます</span>
+    }
+
+    <span class="kwrd">public</span> <span class="kwrd">void</span> TearDown()
+    {
+        <span class="rem">// 終了処理を書きます(S2Unit.NETが呼び出します。)</span>
+        <span class="rem">// S2Container.NETに対する終了処理はこのメソッドで呼び出します。</span>
+    }
+
+    [MbUnit.Framework.TearDown]
+    <span class="kwrd">public</span> <span class="kwrd">void</span> TearDownLast()
+    {
+        <span class="rem">// 終了処理を書きます (MbUnitが呼び出します)</span>
+    }
+}
+</pre>
+
+			<p class="kindCode">VB</p>
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode vb">
+<span class="rem">' SetUpFirst(), SetUp(), SetUpHogeHoge(), TestHogeHoge(),</span>
+<span class="rem">' TearDownHogeHoge(), TearDown(), TearDownLast()の順に呼び出します。</span>
+&lt;TestFixture&gt; _ 
+<span class="kwrd">Public</span> <span class="kwrd">Class</span> HogeTest
+     <span class="kwrd">Inherits</span> S2TestCase
+    &lt;MbUnit.Framework.SetUp&gt; _ 
+
+    <span class="kwrd">Public</span>  <span class="kwrd">Sub</span> SetUpFirst()
+        <span class="rem">' 初期化処理を行います (MbUnitが呼び出します)</span>
+    <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+ 
+    <span class="kwrd">Public</span>  <span class="kwrd">Sub</span> SetUp()
+        <span class="rem">' 初期化処理を行います (S2Unit.NETが呼び出します。)</span>
+        <span class="rem">' S2Container.NETに対する初期化処理はこのメソッドで呼び出します。</span>
+    <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+ 
+    <span class="kwrd">Public</span>  <span class="kwrd">Sub</span> SetUpHogeHoge()
+        <span class="rem">' テストメソッド毎の初期化処理を行います </span>
+    <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+ 
+    &lt;Test, S2&gt; _ 
+    <span class="kwrd">Public</span>  <span class="kwrd">Sub</span> TestHogeHoge()
+        <span class="rem">' テストコードを書きます</span>
+    <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+ 
+    <span class="kwrd">Public</span>  <span class="kwrd">Sub</span> TearDownHogeHoge()
+        <span class="rem">' テストメソッド毎の終了処理を書きます</span>
+    <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+ 
+    <span class="kwrd">Public</span>  <span class="kwrd">Sub</span> TearDown()
+        <span class="rem">' 終了処理を書きます(S2Unit.NETが呼び出します。)</span>
+        <span class="rem">' S2Container.NETに対する終了処理はこのメソッドで呼び出します。</span>
+    <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+ 
+    &lt;MbUnit.Framework.TearDown&gt; _ 
+    <span class="kwrd">Public</span>  <span class="kwrd">Sub</span> TearDownLast()
+        <span class="rem">' 終了処理を書きます (MbUnitが呼び出します)</span>
+    <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+<span class="kwrd">End</span> <span class="kwrd">Class</span>
+</pre>
+			
+		</div>
+	</div>
+
+<!-- ############################################# トランザクションの自動制御 ######################################################### -->
+
+	<div class="content">
+		<a name="trans" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>トランザクションの自動制御</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　テストメソッドのS2属性にTx列挙型(Seasar.Extension.Unit.Tx)のRollback(列挙子)を指定すると、
+			テストメソッドの直前にトランザクションを開始し、テストメソッドの直後にトランザクションをロールバックするので、
+			データベースに関するテストを行った場合のクリーンアップの処理が不要になります。 </p>
+			<p>　Rollbackの他に、Tx列挙型のCommit(列挙子)を指定すると、自動的にトランザクションをコミットします。
+			NotSupported(列挙子)を指定すると、トランザクションは開始しません。
+			S2属性にTx列挙型の列挙子を与えない場合は、デフォルトでNotSupported(列挙子)を指定したのと同じ動作をします。 </p>
+			<p>　またトランザクションを扱うためには、
+			下記のようにTransactionContextとDataSourceを定義したdiconファイルを読み込んでおく必要があります。 </p>
+			
+			<p class="kindCode">Ado.dicon</p>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">components</span> <span class="attr">namespace</span><span class="kwrd">="Ado"</span><span class="kwrd">&gt;</span>
+
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="SqlClient"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.ADO.DataProvider"</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="ConnectionType"</span><span class="kwrd">&gt;</span>
+        	"System.Data.SqlClient.SqlConnection"
+        <span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="CommandType"</span><span class="kwrd">&gt;</span>
+        	"System.Data.SqlClient.SqlCommand"
+        <span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="ParameterType"</span><span class="kwrd">&gt;</span>
+        	"System.Data.SqlClient.SqlParameter"
+        <span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="DataAdapterType"</span><span class="kwrd">&gt;</span>
+        	"System.Data.SqlClient.SqlDataAdapter"
+        <span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+    
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="DataSource"</span>
+            <span class="attr">class</span><span class="kwrd">="Seasar.Extension.Tx.Impl.TxDataSource"</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="DataProvider"</span><span class="kwrd">&gt;</span>SqlClient<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="ConnectionString"</span><span class="kwrd">&gt;</span>
+            "Server=サーバ名;database=s2dotnetdemo;Integrated Security=SSPI"
+        <span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.Tx.Impl.TransactionContext"</span> <span class="kwrd">/&gt;</span>
+    
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span></pre>
+
+			<p class="kindCode">C#</p>
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+[TestFixture]
+<span class="kwrd">public</span> <span class="kwrd">class</span> HogeTest : S2TestCase
+{
+    <span class="kwrd">public</span> <span class="kwrd">void</span> SetUpHogeHoge() 
+    {
+        Include(<span class="str">"Ado.dicon"</span>);
+    }
+
+    [Test, S2(Tx.Rollback)]
+    <span class="kwrd">public</span> <span class="kwrd">void</span> TestHogeHoge()
+    {
+        <span class="rem">// メソッド終了後に自動的にロールバックされます</span>
+    }
+}</pre>
+
+			<p class="kindCode">VB</p>
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode vb">
+&lt;TestFixture&gt; _ 
+<span class="kwrd">Public</span> <span class="kwrd">Class</span> HogeTest
+     <span class="kwrd">Inherits</span> S2TestCase
+
+    <span class="kwrd">Public</span>  <span class="kwrd">Sub</span> SetUpHogeHoge()
+        Include(<span class="str">"Ado.dicon"</span>)
+    <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+ 
+    &lt;Test, S2(Tx.Rollback)&gt; _ 
+    <span class="kwrd">Public</span>  <span class="kwrd">Sub</span> TestHogeHoge()
+        <span class="rem">' メソッド終了後に自動的にロールバックされます</span>
+    <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+
+<span class="kwrd">End</span> Class</pre>
+			
+		</div>
+	</div>
+	
+<!-- ############################################# データベースに対するテスト ######################################################### -->
+
+	<div class="content">
+		<a name="DBTest" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>データベースに対するテスト</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　S2では、データベースに対するテストも簡単に行えるような仕組みを用意しております。
+			それでは、さっそく例を見てみましょう。 SQL文を発行するためのフレームワークとしてS2ADOを使います。 </p>
+			
+			<h2>Select文に対するテスト</h2>
+			<p>　今回は、従業員を従業員番号で検索するDAOをサンプルにします。シナリオとして従業員番号で検索をかけると、
+			従業員番号9900の従業員テーブルと部署番号99の部署テーブルをジョインして返す想定とします。</p>
+			<p>　このケースをテストするためには、検索のための従業員テーブルと部署テーブルのデータを検索した結果を検証するためのデータが必要です。
+			データはExcelで用意します。シート名がテーブル名で、シートの第1行にカラム名を2行目以降にデータを書き込みます。
+			1から手でデータを作成してもいいのですが、ここでは既存のテーブルのデータを利用してテストデータを作成します。
+			<a href="setup.html#Examples">セットアップ-Examples</a> を参照してデータベースを作成しておきます。
+			Seasar.Examplesにデータベースの内容をExcelに書き出すDb2ExcelClientが用意されているのでそれを使います。 </p>
+			
+			<p class="kindCode">Seasar/Examples/Reference/S2Unit/Db2ExcelClient.dicon</p>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+  <span class="kwrd">&lt;</span><span class="html">include</span> <span class="attr">path</span><span class="kwrd">="Seasar.Examples/Ado.dicon"</span> <span class="kwrd">/&gt;</span>
+  <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="Db2ExcelClient"</span>
+      <span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.S2Unit.Db2ExcelClient"</span><span class="kwrd">/&gt;</span>
+  <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.DataSets.Impl.SqlReader"</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">initMethod</span><span class="kwrd">&gt;</span>self.AddTable("emp", "empno = 7788")<span class="kwrd">&lt;/</span><span class="html">initMethod</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">initMethod</span><span class="kwrd">&gt;</span>self.AddTable("dept", "deptno = 20")<span class="kwrd">&lt;/</span><span class="html">initMethod</span><span class="kwrd">&gt;</span>
+  <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+  <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.DataSets.Impl.XlsWriter"</span>
+      <span class="attr">instance</span><span class="kwrd">="prototype"</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">arg</span><span class="kwrd">&gt;</span>"Seasar.Examples/Reference/S2Unit/GetEmployeePrepare.xls"<span class="kwrd">&lt;/</span><span class="html">arg</span><span class="kwrd">&gt;</span>
+  <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
+</pre>
+
+			<p>　データベースの内容をDataSetに読み込んでくれるのがSqlReaderです。
+			AddTableの最初の引数はテーブル名(シート名)です。 2番目の引数は条件になります。 </p>
+			<p>　DataSetをExcelに書き出してくれるのがXlsWriterです。
+			コンストラクタでファイルのパスを指定します。パスは出力フォルダが基点になります。 </p>
+			
+			<p class="kindCode">Seasar/Examples/Reference/S2Unit/Db2ExcelClient</p>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">using</span> System;
+<span class="kwrd">using</span> Seasar.Extension.DataSets.Impl;
+<span class="kwrd">using</span> Seasar.Framework.Container;
+<span class="kwrd">using</span> Seasar.Framework.Container.Factory;
+
+<span class="kwrd">namespace</span> Seasar.Examples.Reference.S2Unit
+{
+    <span class="kwrd">public</span> <span class="kwrd">class</span> Db2ExcelClient
+    {
+        <span class="kwrd">private</span> <span class="kwrd">const</span> <span class="kwrd">string</span> PATH =
+            <span class="str">"Seasar.Examples/Reference/S2Unit/Db2ExcelClient.dicon"</span>;
+
+        <span class="kwrd">public</span> Db2ExcelClient() { }
+
+        <span class="kwrd">public</span> <span class="kwrd">void</span> Main()
+        {
+            IS2Container container = S2ContainerFactory.Create(PATH);
+            container.Init();
+            <span class="kwrd">try</span>
+            {
+                SqlReader reader = (SqlReader)
+                    container.GetComponent(<span class="kwrd">typeof</span>(SqlReader));
+                XlsWriter writer = (XlsWriter)
+                    container.GetComponent(<span class="kwrd">typeof</span>(XlsWriter));
+                writer.Write(reader.Read());
+                Console.Out.WriteLine(<span class="str">
+                    "output Excel File : {0}"</span>, writer.FullPath);
+            }
+            <span class="kwrd">catch</span> (ApplicationException e)
+            {
+                Console.Out.WriteLine(e.Message);
+            }
+        }
+    }
+}
+</pre>
+
+			<p>　IS2ContainerからSqlReaderを取り出しRead()、XlsWriterを取り出しWrite()するだけで、
+			データベースの内容をExcelに書き出すことができます。 Seasar.Examplesを起動し、
+			ツリーアイテムからS2Containerリファレンス-Select文に対するテスト(1)、
+			を選択すると Visual Studioの出力パス+指定パス(例：bin\Debug\Seasar.Examples\Reference\S2Unit)に
+			GetEmployeePrepare.xlsが作成されていることが確認できると思います。
+			GetEmployeePrepare.xlsをダブルクリックするとExcelが起動します。
+			empシートのEMPNOを9900、ENAMEをSCOTT2、DEPTNOを99に変更します。続いてdeptシートのDEPTNOを99、
+			DNAMEをRESEARCH2に変更します。これで検索用の元データは用意できます。Excelで保存を選び、終了します。 </p>
+			<p>　次に結果を検証するためのデータを用意します。
+			Seasar.Examplesに検証データを書き出すDb2ExcelClient2が用意されているのでそれを使います。 </p>
+			
+			<p class="kindCode">Seasar/Examples/Reference/S2Unit/Db2ExcelClient2.dicon</p>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+  <span class="kwrd">&lt;</span><span class="html">include</span> <span class="attr">path</span><span class="kwrd">="Seasar.Examples/Ado.dicon"</span> <span class="kwrd">/&gt;</span>
+  <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="EmployeeDaoTest"</span>
+    <span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.S2Unit.EmployeeDaoTest"</span><span class="kwrd">/&gt;</span>
+  <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.S2Unit.EmployeeDao"</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="GetEmployeeHandler"</span><span class="kwrd">&gt;</span>
+      <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.ADO.Impl.BasicSelectHandler"</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="Sql"</span><span class="kwrd">&gt;</span>
+"SELECT e.empno, e.ename, e.deptno, d.dname
+FROM emp e, dept d WHERE e.empno = @empno AND e.deptno = d.deptno"
+        <span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+      <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+  <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
+</pre>
+			
+			<p>　Seasar.Examplesを起動し、ツリーアイテムからS2Containerリファレンス-Select文に対するテスト(2)、
+			を選択すると Visual Studioの出力パス+指定パス(例：bin\Debug\Seasar.Examples\Reference\S2Unit)に
+			GetEmployeeResult.xlsを作成します。 </p>
+			<p>　先ほどと同様な手順でGetEmployeeResult.xlsのempシートのEMPNOを9900、ENAMEをSCOTT2、DEPTNOを99、
+			DNAMEをRESEARCH2に書き換えて保存します。これで、テスト用のデータがそろいました。いよいよテストに取り掛かります。 </p>
+			
+			<p class="kindCode">Seasar/Examples/Reference/S2Unit/EmployeeDao.dicon</p>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+  <span class="kwrd">&lt;</span><span class="html">include</span> <span class="attr">path</span><span class="kwrd">="Seasar.Examples/Ado.dicon"</span> <span class="kwrd">/&gt;</span>
+  <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="EmployeeDaoTest"</span>
+    <span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.S2Unit.EmployeeDaoTest"</span><span class="kwrd">/&gt;</span>
+  <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.S2Unit.EmployeeDao"</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="GetEmployeeHandler"</span><span class="kwrd">&gt;</span>
+      <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.ADO.Impl.BasicSelectHandler"</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="Sql"</span><span class="kwrd">&gt;</span>
+"SELECT e.empno, e.ename, e.deptno, d.dname 
+FROM emp e, dept d WHERE e.empno = @empno AND e.deptno = d.deptno"
+        <span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+      <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+  <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
+</pre>
+
+			<p class="kindCode">Seasar/Examples/Reference/S2Unit/EmployeeDaoTest.cs</p>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">using</span> System.Data;
+<span class="kwrd">using</span> MbUnit.Core.Cons;
+<span class="kwrd">using</span> MbUnit.Framework;
+<span class="kwrd">using</span> Seasar.Extension.DataSets.Impl;
+<span class="kwrd">using</span> Seasar.Extension.Unit;
+
+<span class="kwrd">namespace</span> Seasar.Examples.Reference.S2Unit
+{
+    [TestFixture]
+    <span class="kwrd">public</span> <span class="kwrd">class</span> EmployeeDaoTest : S2TestCase
+    {
+        <span class="kwrd">private</span> IEmployeeDao dao_ = <span class="kwrd">null</span>;
+
+        <span class="kwrd">public</span> <span class="kwrd">void</span> SetUpGetEmployee()
+        {
+            Include(<span class="str">"Seasar.Examples/Reference/S2Unit/EmployeeDao.dicon"</span>);
+        }
+
+        [Test, S2(Tx.Rollback)]
+        <span class="kwrd">public</span> <span class="kwrd">void</span> GetEmployee()
+        {
+            ReadXlsWriteDb(<span class="str">
+                "Seasar.Examples/Reference/S2Unit/GetEmployeePrepare.xls"</span>);
+            Employee emp = dao_.GetEmployee(9900);
+            DataSet expected = ReadXls(<span class="str">
+                "Seasar.Examples/Reference/S2Unit/GetEmployeeExpected.xls"</span>);
+            S2Assert.AreEqual(expected, emp, <span class="str">"1"</span>);
+        }
+
+        <span class="kwrd">public</span> <span class="kwrd">void</span> Main()
+        {
+            <span class="kwrd">using</span> (MainClass mc = <span class="kwrd">new</span> MainClass())
+            {
+                mc.Main(<span class="kwrd">new</span> <span class="kwrd">string</span>[] { <span class="str">"Seasar.Examples.exe"</span> });
+            }
+        }
+    }
+}
+</pre>
+
+			<p>　Seasar.Examplesを起動し、ツリーアイテムからS2Containerリファレンス-Select文に対するテスト(3)、
+			を選択するとテストが実行されます。ここでは説明のためにコンソールから
+			<a href="http://www.mertner.com/confluence/display/MbUnit/Home" target="_blank">MbUnit</a>を実行していますが、
+			MbUnit.GUI.exeや<a href="http://www.testdriven.net/" target="_blank">TestDriven.NET</a>
+			を使用したほうがテストしやすいでしょう。</p>
+			<p>　SetUpGetEmployee()がapp.diconの役割を担います。S2Assert.AreEqual()でDataSetとIDictionary、IDictionaryのIList、object、objectのIList
+			と比較できるのですっきりとしたテストコードになります。</p>
+			<p>　ReadXlsWriteDb()、ReadXlsAllReplaceDb()で、テストのために用意したデータをデータベースに格納します。
+			Excelのファイルがテストクラスと同じ名前空間にある場合は、名前空間部分のパスは省略できます。
+			(ただしビルドイベント等でアセンブリと同じフォルダにはき出す等の処理が必要です)</p>
+			<p>　ReadXlsWriteDb()、ReadXlsAllReplaceDb()はテスト後にロールバックしてデータが元に戻るようにテストメソッドの最初に実行してください。</p>
+			<p>　Daoを呼び出して取得したデータとReadXls()で読み込んだ結果検証用のExcelデータをS2Assert.AreEqual()に渡すと
+			Daoを呼び出して取得したデータがDataSetに変換され、結果検証用のExcelデータと比較します。</p>
+			
+		</div>
+	</div>
+	
+<!-- ############################################# 制限事項 ######################################################### -->
+
+	<div class="content">
+		<a name="limit" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>制限事項</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　S2Unit.NETは、S2Unit.Javaと異なりExcelのシートの定義順にデータを読み書きしません。
+			シート名の昇順にデータを読み書きします。</p>
+			<p>　データベースの外部キー制約に引っかかる等の理由でデータの挿入順序を制御する場合、
+			シート名の先頭に"# {順序}"を付けます。例えば、empテーブルのデータを3番目に挿入する場合、シート名は"#3 emp"になります。</p>
+			
+			<h2>Excelシートに定義したデータの読み書き順</h2>
+			<p>　S2Unit.NETは、S2Unit.Javaと異なりExcelのシートの定義順にデータを読み書きしません。
+			シート名の昇順にデータを読み書きします。</p>
+			<p>　データベースの外部キー制約に引っかかる等の理由でデータの挿入順序を制御する場合、
+			シート名の先頭に"# {順序}"を付けます。例えば、empテーブルのデータを3番目に挿入する場合、シート名は"#3 emp"になります。 </p>
+			
+			<h2>Excelシートに定義したデータの有効桁数</h2>
+			<p>　S2Assert.AreEqualを使用してExcelシートに定義したデータとデータベースのデータを比較する場合、次の制限事項があります。 </p>
+			<ul>
+				<li>データ値が整数の場合、有効桁数は15桁までです。</li>
+				<li>データ値が小数の場合、有効桁数は7桁までです。</li>
+				<li>データ値が文字列の場合、有効文字数は32767文字までです。</li>
+				<li>データ値が日付/時刻の場合、有効日時は1900年1月1日から9999年12月31日までです(※比較するデータベースに依存します)。
+				また、有効精度は、秒までです(ミリ秒は切り捨てて比較します)。 </li>
+			</ul>
+			
+		</div>
+	</div>
+	
+<!-- div.contents -->
+</div>
+<br class="clear" />
+<!-- div.middle -->
+</div>
+
+<div class="bottom">
+	<hr />
+	<div class="copyright">
+		&#169; Copyright The Seasar Project and the others 2004-2013, all rights reserved.
+	</div>
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,445 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Quill設定ファイル - S2Container.NET</title>
+	<link href="css/common.css" rel="stylesheet" type="text/css" media="screen,print" />
+	<link href="css/csharp.css" rel="stylesheet" type="text/css" media="screen,print" />
+</head>
+
+<body>
+<a name="top"/>
+<div class="container">
+
+<div>
+	<div class="logo"><img src="images/title_s2containernet.png" alt="S2Container.NET プロジェクト" /></div>
+	<hr />
+	<div class="pan">
+		<a href="http://www.seasar.org/">Seasarプロジェクト</a>
+		＞ <a href="seasarnet.html">Seasar.NETプロジェクト</a>
+		＞ <a href="index.html">S2Container.NET</a>
+		＞ <a href="quill.html">Quillで簡単DI+AOP</a>
+		＞ Quill設定ファイル
+	</div>
+</div>
+
+<div class="middle">
+
+<div class="menus">
+
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/s2containernet.png" alt="S2Container.NET" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li><a href="index.html">Welcome</a></li>
+				<li><a href="download.html">ダウンロード</a></li>
+			</ul>
+		</div>
+	</div>
+	</div>
+	
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/documentation.png" alt="ドキュメンテーション" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li><a href="setup.html">セットアップ</a></li>
+				<li><a href="update-operation.html">移行</a></li>
+				<li><a href="dicontainer.html">DIContainer</a></li>
+				<li><a href="aop.html">AOP</a></li>
+				<li><a href="asp.html">ASP.NETでの利用</a></li>
+				<li><a href="db.html">データベース接続</a></li>
+				<li><a href="tx.html">トランザクション</a></li>
+				<li><a href="s2ado.html">S2ADO</a></li>
+				<li><a href="s2unit.html">S2Unit.NET</a></li>
+				<li><a href="s2windows.html">S2Windows.NET</a></li>
+				<li><a href="jscript.html">JScript.NET式</a></li>
+				<li>Quillで簡単DI+AOP</li>
+				<li><a href="s2dxo.html">S2DXO</a></li>
+			</ul>
+		</div>
+	</div>
+	</div>
+
+	<div class="menuLine">	
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/support.png" alt="サポート" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li>
+					<a href="faq.html">FAQ</a>
+					<p>よくある質問と答えをまとめています。</p>
+				</li>
+				<li>
+					<a href="https://ml.seasar.org/mailman/listinfo/seasar-dotnet">Mailing List</a>
+					<p>Seasar.NETに関する議論を行うメーリングリストです。</p>
+				</li>
+				<li>
+					<a href="https://www.seasar.org/issues/browse/CONTAINERNET">トラッキング</a>
+					<p>S2Container.NETのバグや問題の検索、報告を行うことができます。</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+	</div>
+
+</div><!-- div.left -->
+
+<!-- ############################################# コンテンツ ######################################################### -->
+
+<div class="contents">
+	
+	<div class="content">
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>Quill設定ファイル</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>Quill設定ファイルの定義、記述内容について記載します。</p>
+			<ul>
+				<li><a href="#config_file">設定ファイル</a></li>
+				<ul>
+					<li><a href="#appoint_configfile">任意のファイル</a></li>
+					<li><a href="#app_configfile">アプリケーション構成ファイル(app.config)</a></li>
+					<li><a href="#quill_configfile">「Seasar.Quill.dll.config」ファイル</a></li>
+				</ul>
+				<li><a href="#quill_section">「quill」セクションの使い方</a></li>
+				<li><a href="#datasource">データソース</li>
+				<li><a href="#assembly">アセンブリ</li>
+				<li><a href="#s2dao">S2Dao設定</a></li>
+				<li><a href="#tx">トランザクション設定</a></li>
+				<li><a href="#default">デフォルト設定</li>
+			</ul>
+		</div>
+	</div>
+	
+
+<!-- ############################################# 設定ファイル ##################################################### -->
+	<div class="content">
+		<a name="config_file" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>設定ファイル</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<p>Quillの設定情報は下記ファイルのいずれかに記述します。</p>
+			<ul>
+				<li><a href="#appoint_configfile">任意のファイル</a></li>
+				<li><a href="#app_configfile">アプリケーション構成ファイル(app.config)</a></li>
+				<li><a href="#quill_configfile">「Seasar.Quill.dll.config」ファイル</a></li>
+			</ul>
+			<h2><a name="appoint_configfile">任意のファイル</a></h2>
+			<p><b>適用条件</b>
+			<ul>
+				<li>下記処理が<font color="#990000">QuillContainer,QuillInjectorを使用する前に</font>呼ばれている</li>
+			</ul>
+			</p>
+<pre class="csharpcode">
+Seasar.Quill.QuillConfig.ConfigPath = "c:/hoge.config"; // 任意のファイルパス
+</pre>
+			<p>ConfigPathに設定したパス上のファイル内にあるQuill設定情報が適用されます。</p><br/>
+			<h2><a name="app_configfile">アプリケーション構成ファイル(app.config)</a></h2>
+			<p><b>適用条件</b>
+			<ul>
+				<li>QuillConfig.ConfigPathに値を設定していない</li>
+				<li>アプリケーション構成ファイル内に「quill」セクションが存在する</li>
+			</ul>
+			<p>アプリケーション構成ファイル（App.config）で「quill」セクションを使うためには、以下のようにconfigSections/section要素を追加します。</p>
+		App.config
+<pre class="csharpcode">
+&lt;configuration&gt;
+  &lt;configSections&gt;
+    &lt;section name="quill"
+        type="Seasar.Quill.Xml.QuillSectionHandler, Seasar.Quill" /&gt;
+  &lt;/configSections&gt;
+    ・・・
+&lt;configuration&gt;
+</pre><br/>
+			<h2><a name="quill_configfile">「Seasar.Quill.dll.config」ファイル</a></h2>
+			<p><b>適用条件</b>
+			<ul>
+				<li>QuillConfig.ConfigPathに値を設定していない</li>
+				<li>アプリケーション構成ファイルが存在しない、<br/>または構成ファイル内にquillセクションが存在しない</li>
+				<li>「Seasar.Quill.dll.config」という名称のファイルが実行ファイルと同じフォルダ内に存在する</li>
+				<li>「Seasar.Quill.dll.config」内に「quill」セクションが存在する</li>
+			</ul></p>
+		</div>
+	<div><br/>
+<!-- ############################################# 「quill」セクションの使い方 ##################################################### -->
+	<div class="content">
+		<a name="quill_section" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>「quill」セクションの使い方</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<p>Quill設定情報は「<b>quill</b>」セクションに記述します。</p>
+			<p>設定する項目は下記の通りです。</p>
+			<ul>
+				<li><a href="#datasource">データソース</a></li>
+				<li><a href="#assembly">アセンブリ</a></li>
+				<li><a href="#s2dao">S2Dao</a></li>
+				<li><a href="#tx">トランザクション</a></li>
+			</ul>
+			<p>設定例
+<pre class="csharpcode">
+  &lt;quill&gt;
+    &lt;dataSources&gt;
+      &lt;dataSource name="ds"&gt;
+        &lt;provider&gt;SqlServer&lt;/provider&gt;
+        &lt;connectionString&gt;"（接続文字列）"&lt;/connectionString&gt;
+        &lt;class>Seasar.Extension.Tx.Impl.TxDataSource&lt;/class&gt;
+      &lt;/dataSource&gt;
+    &lt;/dataSources&gt;
+    &lt;assemblys&gt;
+      &lt;assembly&gt;（データベースドライバ）&lt;/assembly&gt;
+    &lt;/assemblys&gt;
+  &lt;/quill&gt;
+</pre></p>
+		</div>
+	</div><br>
+<!-- ############################################# データソースの設定 ##################################################### -->
+	<div class="content">
+		<a name="datasource" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>データソースの設定</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<p>各データソースの定義は「<font color="#009900">dataSource</font>」タグに記述し、<br/>
+			複数データソースを定義する場合は「<font color="#009900">dataSources</font>」タグ内に<br/>
+			各データソースの設定を書いていきます。</p>
+			<p><font color="#009900">dataSources</font>で定義されたデータソースは<br/>
+			<font color="#0000ff">Seasar.Quill.Database.DataSource.Impl.SelectableDataSourceProxyWithDictionary</font>という<br/>
+			クラスのインスタンスでQuillコンテナ内に保持し、DBアクセス時に使用します。</p>
+			<p><font color="009900">dataSource</font>タグ内で設定する内容は以下の通りです。</p>
+			<h2>・<u>データソース名</u></h2>
+			<p>データソースをアプリケーション中で一意に識別するための名前です。</p>
+			<h2>・<u>プロバイダクラス名</u></h2>
+			<p>ADO.NET上で使うクラス名を保持する<font color="#0000ff">Seasar.Extension.ADO.DataProvider</font>継承クラス名です。<br/>
+			独自のプロバイダクラスを使う場合は名前空間付きで指定します。<br/>
+			Quill内にあらかじめ定義されているプロバイダクラスを使用する場合は<br/>
+			クラス名のみの指定で使用可能です。</p>
+			<p>以下のプロバイダがQuill内に定義されています。</p>
+			<table border="0" cellspacing="1">
+				<tr><th width="140">プロバイダ</th><th>説明</th></tr>
+				<tr><td>SqlServer</td><td>SQLServer用プロバイダクラス</td></tr>
+				<tr><td>ODP</td><td>ODP.NET(Oracle)用プロバイダクラス</td></tr>
+				<tr><td>Oracle</td><td>Oracle用プロバイダクラス</td></tr>
+				<tr><td>DB2</td><td>DB2用プロバイダクラス</td></tr>
+				<tr><td>MySQL</td><td>MySQL用プロバイダクラス</td></tr>
+				<tr><td>PostgreSQL</td><td>PostgreSQL用プロバイダクラス</td></tr>
+				<tr><td>Firebird</td><td>Firebird用プロバイダクラス)</td></tr>
+				<tr><td>SQLite</td><td>SQLite用プロバイダクラス)</td></tr>
+				<tr><td>OleDb</td><td>OleDb用プロバイダクラス)</td></tr>
+			</table>
+			<h2>・<u>接続文字列</u></h2>
+			<p><u>クラスを指定する</u>方法と<u>文字列を直接書く</u>方法があります。</p>
+			<p>クラスを指定する場合は<br/>
+			<font color="#0000ff">Seasar.Quill.Database.DataSource.Connection.IConnectionString</font>インターフェースを<br/>
+			実装し、「<font color="#009900">connectionString</font>」タグにクラス名を名前空間付きで指定して下さい。</p>
+			<p>文字列で直接書く場合は接続文字列を「&quot;」で囲って指定して下さい。</p><!--"-->
+			<p>データソースは以下の優先順序でQuill内に保持されます。</p>
+			<li>１．<a href="#quill_section">「quill」セクション</a>の<font color="#009900">dataSources</font>、<font color="#009900">dataSource</font>の設定</li>
+			<li>２．App.config内<font color="#009900">ConnectionStrings</font>セクションの設定</li>
+			<li>３．XXX.dicon内に記述された設定</li>
+			<h2>・<u>データソースクラス名</u></h2>
+			<p>Seasar.Extension.ADO.Impl.DataSourceImplや<br/>
+			Seasar.Extension.Tx.Impl.TxDataSourcelなどの<br/>
+			<font color="#0000ff">Seasar.Extension.ADO.IDataSource</font>実装クラス名を<br/>
+			名前空間付きで指定します。</p>
+			<p><b>※使用可能なデータソースはS2Container.NETと同じです。</b></p>
+			<p>※<u>トランザクションを利用する</u>場合は必ず<br/>
+			<font color="#0000ff">Seasar.Extension.Tx.Impl.TxDataSourcel.TxDataSource</font>、<br/>
+			またはその継承クラスを使用して下さい。</font></p>
+			<p>設定例</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<p><pre class="csharpcode">
+&lt;quill&gt;
+    &lt;!-- (他設定は省略) --&gt;
+    &lt;!-- データソース設定 --&gt;
+    &lt;dataSources&gt;
+        &lt;dataSource name=&quot;ds&quot;&gt;
+            &lt;provider&gt;SqlServer&lt;/provider&gt;
+            &lt;connectionString&gt;&quot;Server=localhost(途中略)&quot;&lt;/connectionString&gt;
+            &lt;class&gt;Seasar.Extension.Tx.Impl.TxDataSource&lt;/class&gt;
+        &lt;/dataSource&gt;
+    &lt;/dataSources&gt;
+&lt;/quill&gt;
+</pre></p>
+		</div>
+	</div><br/>
+<!-- ############################################# アセンブリ ##################################################### -->
+	<div class="content">
+		<a name="assembly" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>アセンブリ</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<p><font color="#0000ff">Seasar.Quill.QuillContainer</font>(Quill用DIコンテナ)初期化時に読み込むアセンブリを<br/>
+			「<font color="#009900">assemblys</font>」、「<font color="#009900">assembly</font>」で指定します。</p>
+			<p>S2Dao.NETなどを使用する場合は下記アセンブリ名を指定します。</p>
+			<table border="0" cellspacing="1">
+				<tr><th width="140">使用機能</th><th>アセンブリ名</th></tr>
+				<tr><td>S2Dao.NET</td><td>Seasar.Dao</td></tr>
+				<tr><td>S2Windows.NET</td><td>Seasar.Windows</td></tr>
+				<tr><td>S2Dxo.NET</td><td>Seasar.Dxo</td></tr>
+			</table>
+			<p>SQLServer以外のデータベースを使用する<br/>
+			（SqlServer以外のプロバイダを利用する）場合は<br/>
+			参照するプロバイダ用のアセンブリも指定する必要があります。</p>
+			<p>設定例（Oracle Data Providerを使用する場合）</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<p><pre class="csharpcode">
+&lt;quill&gt;
+    &lt;!-- （省略） --&gt;
+    &lt;!-- ロードするアセンブリ名 --&gt;
+    &lt;assemblys&gt;
+      &lt;assembly&gt;Seasar.Dao&lt;/assembly&gt;      
+      &lt;!-- Oracle Data Provider for .NET を使用する場合に必要です。 --&gt;
+      &lt;assembly&gt;Oracle.DataAccess, version=10.2.0.100, Culture=neutral, 
+          PublicKeyToken=89b483f429c47342&lt;/assembly&gt;
+    &lt;/assemblys&gt;
+    &lt;!-- （省略） --&gt;
+&lt;/quill&gt;
+</pre></p>
+		</div>
+	</div><br/>
+<!-- ############################################# S2Dao設定 ##################################################### -->
+	<div class="content">
+		<a name="s2dao" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>S2Dao設定</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<p>S2Daoの機能を使用する際に適用される設定クラスを指定します。<br/>
+			<p>設定例</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<p><pre class="csharpcode">
+&lt;quill&gt;
+    &lt;!-- S2Dao設定 --&gt;
+    &lt;daoSetting&gt;Hoge.CustomDaoSetting&lt;/daoSetting&gt;
+    &lt;!-- (他設定は省略) --&gt;
+&lt;/quill&gt;
+</pre></p>
+			<p>S2Dao設定の詳細は<a href="quill.html#nodicon_s2dao">こちら</a>をご覧下さい。</p>
+<!-- div.contents -->
+		</div>
+	</div><br/>
+<!-- ############################################# トランザクション設定 ##################################################### -->
+	<div class="content">
+		<a name="tx" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>トランザクション設定</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<p>トランザクションをかける箇所を指定する際に適用される<br/>
+			設定クラスを指定します。</p>
+			<p>設定例</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<p><pre class="csharpcode">
+&lt;quill&gt;
+    &lt;!-- Transaction設定 --&gt;
+    &lt;transactionSetting&gt;Hoge.CustomTransactionSetting&lt;/transactionSetting&gt;
+    &lt;!-- (他設定は省略) --&gt;
+&lt;/quill&gt;
+</pre></p>		
+			<p>トランザクション設定の詳細は<a href="quill.html#nodicon_tx">こちら</a>をご覧下さい。</p>
+		</div>
+	</div><br/>
+<!-- ############################################# デフォルト設定 ##################################################### -->
+	<div class="content">
+		<a name="default" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>デフォルト設定</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<p>Quill設定ファイルが存在しない、または設定の記述がない場合、<br/>
+			下記設定が適用されます。</p>
+			<p><ul>
+				<li><b>データソースの設定</b></li>
+					アプリケーション構成ファイルの「ConnectionString」セクション、<br/>
+					またはdiconファイルの設定を読みに行く。<br/>
+					（どちらの設定もない場合はデータソース設定は行われない。）
+				<li><b>アセンブリ</b></li>
+					ロードは行われない。
+				<li><b>S2Dao設定クラス</b></li>
+					<font color="#000ff">Seasar.Quill.Dao.Impl.TypicalDaoSetting</font>クラス
+				<li><b>トランザクション設定クラス</b></li>
+					<font color="#000ff">Seasar.Quill.Database.Tx.Impl.TypicalTransactionSetting</font>クラス
+			</ul></p>
+		</div>
+	</div>
+<!-- div.contents -->
+</div>
+<br class="clear" />
+<!-- div.middle -->
+</div>
+
+<div class="bottom">
+	<hr />
+	<div class="copyright">
+		&#169; Copyright The Seasar Project and the others 2004-2013, all rights reserved.
+	</div>
+</div>
+
+</body>
+
+</html>

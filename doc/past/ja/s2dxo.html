@@ -1,0 +1,628 @@
+﻿<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>S2DXO - S2Container.NET</title>
+	<link href="css/common.css" rel="stylesheet" type="text/css" media="screen,print" />
+	<link href="css/csharp.css" rel="stylesheet" type="text/css" media="screen,print" />
+</head>
+
+<body>
+<a name="top"/>
+<div class="container">
+
+<div>
+	<div class="logo"><img src="images/title_s2containernet.png" alt="S2Container.NET プロジェクト" /></div>
+	<hr />
+	<div class="pan">
+		<a href="http://www.seasar.org/">Seasarプロジェクト</a>
+		＞ <a href="seasarnet.html">Seasar.NETプロジェクト</a>
+		＞ <a href="index.html">S2Container.NET</a>
+		＞ S2Dxo
+	</div>
+</div>
+
+<div class="middle">
+
+<div class="menus">
+
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/s2containernet.png" alt="S2Container.NET" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li><a href="index.html">Welcome</a></li>
+				<li><a href="download.html">ダウンロード</a></li>
+			</ul>
+		</div>
+	</div>
+	</div>
+	
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/documentation.png" alt="ドキュメンテーション" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li><a href="setup.html">セットアップ</a></li>
+				<li><a href="update-operation.html">移行</a></li>
+				<li><a href="dicontainer.html">DIContainer</a></li>
+				<li><a href="aop.html">AOP</a></li>
+				<li><a href="asp.html">ASP.NETでの利用</a></li>
+				<li><a href="db.html">データベース接続</a></li>
+				<li><a href="tx.html">トランザクション</a></li>
+				<li><a href="s2ado.html">S2ADO</a></li>
+				<li><a href="s2unit.html">S2Unit.NET</a></li>
+				<li><a href="s2windows.html">S2Windows.NET</a></li>
+				<li><a href="jscript.html">JScript.NET式</a></li>
+				<li><a href="quill.html">Quillで簡単DI+AOP</a></li>
+				<li>S2DXO</li>
+			</ul>
+		</div>
+	</div>
+	</div>
+
+	<div class="menuLine">	
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/support.png" alt="サポート" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li>
+					<a href="faq.html">FAQ</a>
+					<p>よくある質問と答えをまとめています。</p>
+				</li>
+				<li>
+					<a href="https://ml.seasar.org/mailman/listinfo/seasar-dotnet">Mailing List</a>
+					<p>Seasar.NETに関する議論を行うメーリングリストです。</p>
+				</li>
+				<li>
+					<a href="https://www.seasar.org/issues/browse/CONTAINERNET">トラッキング</a>
+					<p>S2Container.NETのバグや問題の検索、報告を行うことができます。</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+	</div>
+
+</div><!-- div.left -->
+
+<!-- ############################################# コンテンツ
+ ######################################################### -->
+
+<div class="contents">
+	
+	<div class="content">
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>目次</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<ul>
+				<li><a href="#s2dxo">S2Dxoとは</a></li>
+				<li><a href="#dxo">クイックスタート</a></li>
+				<li><a href="#difinition">Dxoの定義</a></li>
+				<li><a href="#rule">変換ルール</a></li>
+				<li><a href="#customize">変換のカスタマイズ</a></li>
+				<li><a href="#worning">Seasar.NET1.4.0,1.3.19に移行する際のの注意点</li>
+			</ul>
+
+			<p>　<span class="important">S2Dxo.NETを使用するときには、
+			アプリケーション構成ファイルの&lt;assemblys&gt;にアセンブリ(Seasar.Dxo)を指定します。 </span></p>
+			
+		</div>
+	</div>
+
+<!-- ############################################# S2Dxoとは
+######################################################### -->
+	<div class="content">
+		<a name="s2dxo" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>S2Dxoとは</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<p>DXO (Data eXchange Object) とは，PONO(Plain Old NET Object)とPONO、PONOとCollection、PONOとDictionaryを相互変換
+			 (exchange)することを目的としたオブジェクトです．主な用途としては，プレゼンテーション層のモデル
+			 (ページ) とドメイン層のモデル (エンティティ) を相互変換することを意図しています．</p>
+			<p>S2DxoはDXOを実現するためのフレームワークです．S2Dxoを使うと，インタフェースを定義するだけで			DXOを実現することが可能となります．</p>
+			<p>&nbsp;</p>
+
+		</div>
+	</div>
+
+<!-- ############################################# クイックスタート
+######################################################### -->
+	<div class="content">
+		<a name="dxo" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>クイックスタート</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<p>さっそく試してみましょう．登場人物はC#の場合、次のようになります．</p>
+			<p>変換元のPONO<br />
+				EmployeeとDepartmentの二つ．EmployeeはDepartmentを参照します．</p>
+			<img src="images/dxo_employeeDepartment.png" width="511" height="98" /></dd>
+			<p>変換先のPONO<br />
+				EmployeePage．EmployeePageはEmployeeとDepartmentの両方のプロパティを持っています．</p>
+			<img src="images/dxo_employeePage.png" width="163" height="100" /></dd>
+			<p>変換を行うDXO<br />
+				EmployeeDxo．EmployeeとDepartmentをEmployeePageに変換するDXOのインタフェースです．</p>
+			<p>S2Dxoは，上記3つのPONOに対して，以下の図のような変換を行います．<br />
+			<img src="images/dxo_s2dxo.png" width="520" height="300" /></p>
+			<p>&nbsp;</p>
+			<h5>Employee.cs</h5>
+			<p>変換元のPONOです．Departmentを参照します．</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">namespace</span> Seasar.Tests.Dxo 
+{
+    <span class="kwrd">public</span> <span class="kwrd">class</span> Employee
+    {
+        <span class="kwrd">private</span> <span class="kwrd">Department</span> _department;
+        <span class="kwrd">private</span> <span class="kwrd">string</span> _ename;
+
+        <span class="kwrd">public</span> <span class="kwrd">string</span> EName
+        {
+            get { return _ename; }
+            set { _ename = value; }
+        }
+
+        <span class="kwrd">public</span> <span class="kwrd">Department</span> Department
+        {
+            get { return _department; }
+            set { _department = value; }
+        }
+    }
+}
+</pre>
+			<p>&nbsp;</p>
+			<h5>Department.cs</h5>
+			<p>変換元のPONOです．Employeeから参照されます．</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">namespace</span> Seasar.Tests.Dxo 
+{
+    <span class="kwrd">public</span> <span class="kwrd">class</span> Department
+    {
+        <span class="kwrd">private</span> <span class="kwrd">string</span> _dname;
+
+        <span class="kwrd">public</span> <span class="kwrd">string</span> DName
+        {
+            get { return _dname; }
+            set { _dname = value; }
+        }
+    }
+}
+</pre>
+			<p>&nbsp;</p>
+			<h5>EmployeePage.cs</h5>
+			<p>変換先のPONOです．EmployeeのプロパティENameに加えて，DepartmentのプロパティDepartmentも
+			持っています．</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">namespace</span> Seasar.Tests.Dxo 
+{
+    <span class="kwrd">public</span> <span class="kwrd">class</span> EmployeePage
+    {
+        <span class="kwrd">private</span> <span class="kwrd">string</span> _dname;
+        <span class="kwrd">private</span> <span class="kwrd">string</span> _ename;
+
+        <span class="kwrd">public</span> <span class="kwrd">string</span> Department
+        {
+            get { return _dname; }
+            set { _dname = value; }
+        }
+
+        <span class="kwrd">public</span> <span class="kwrd">string</span> EName
+        {
+            get { return _ename; }
+            set { _ename = value; }
+        }
+    }
+}
+</pre>
+			<p>&nbsp;</p>
+			<h5>IEmployeeDxo.cs</h5>
+			<p>変換を行うDXOです．引数として変換元のPONOであるEmployeeを受け取り，戻り値として
+			変換先のPONOであるEmployeePageを返します．単なるインタフェースで実装がないことに
+			注目してください．</p>
+			<p>また、逆にEmployeePageからEmployeeへの変換も出来ます</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">namespace</span> Seasar.Tests.Dxo 
+{
+    <span class="kwrd">public</span> <span class="kwrd">interface</span> IEmployeeDxo
+    {
+        <span class="kwrd">EmployeePage</span> ConvertToEmployeePage(Employee emp);
+
+        <span class="kwrd">void</span> ConvertPageToEmp(EmployeePage page, Employee emp);
+    }
+}
+</pre>
+
+			<p>&nbsp;</p>
+			<h5>app.dicon</h5>
+			<p>EmployeeDxoを利用するために必要な設定を記述します．</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="html">&lt;?xml</span> <span class="attr">version</span>="1.0" <span class="attr">encoding</span>="UTF-8"?<span class="html">&gt;</span>
+<span class="html">&lt;!DOCTYPE</span> components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
+"http://www.seasar.org/dtd/components21.dtd"<span class="html">&gt;</span>
+<span class="html">&lt;</span><span class="html">components</span> <span class="attr">namespace</span>="dxo"<span class="html">&gt;</span>
+    <span class="rem">&lt;!-- インターセプタ --&gt;</span>
+    <span class="html">&lt;</span><span class="html">component</span> <span class="attr">name</span>="interceptor" <span class="attr">class</span>="Seasar.Dxo.Interceptor.DxoInterceptor"/<span class="html">&gt;</span>
+
+    <span class="rem">&lt;!-- コンポーネント --&gt;</span>
+    <span class="html">&lt;</span><span class="html">component</span> <span class="attr">class</span>="Seasar.Tests.Dxo.IEmployeeDxo"<span class="html">&gt;</span>
+        <span class="html">&lt;</span><span class="html">aspect</span> <span class="attr">pointcut</span>="*"<span class="html">&gt;</span>interceptor<span class="html">&lt;</span>/<span class="html">aspect</span><span class="html">&gt;</span>
+    <span class="html">&lt;</span>/<span class="html">component</span><span class="html">&gt;</span>
+<span class="html">&lt;</span>/<span class="html">components</span><span class="html">&gt;</span>
+</pre>
+			<p>&nbsp;</p>
+			<p>実行クラスの中では次のように記述します．</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+[Test, S2]
+<span class="kwrd">public</span> <span class="kwrd">void</span> TestSimple()
+{
+        Include(PATH);
+        IEmployeeDxo dxo = (IEmployeeDxo) GetComponent(typeof (IEmployeeDxo));
+
+        Employee employee = new Employee();
+        employee.EName = "Mike";
+        Department dept = new Department();
+        dept.Department = "Sales";
+        employee.Department = dept;
+
+        EmployeePage page = dxo.ConvertToEmployeePage(employee);
+        Assert.AreEqual("Mike", page.EName, "EName");
+        Assert.AreEqual("Sales", page.Department, "Department");
+        if (!String.IsNullOrEmpty(page.Name))
+            Assert.Fail("Name2");
+
+}
+</pre>			
+			<p>&nbsp;</p>
+		</div>
+	</div>
+	
+	
+<!-- ############################################# Dxoの定義 
+######################################################### -->
+
+	<div class="content">
+		<a name="difinition" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>Dxoの定義</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p><h3>インターフェイス定義</h3></p>
+			<p>　Dxoは通常インターフェイスとして定義します。</p>
+			<p>　次のようになります。 </p>			
+			<p class="kindCode">C#</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">public</span> <span class="kwrd">interface</span> IFooDxo
+{
+	...
+}
+</pre>
+
+			<p class="kindCode">VB</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode vb">
+<span class="kwrd">Public</span> <span class="kwrd">Interface</span> IFooDxo
+	...	   
+<span class="kwrd">End</span> <span class="kwrd">Interface</span>
+</pre>
+			<p>&nbsp;</p>
+			<p><h3>メソッド定義</h3></p>
+			<p>　Dxoには変換を行うメソッドを定義します。メソッド名は自由に定義できますが、
+			慣例的にConvertで始めます。</p>
+			<p>DXOのメソッドは次の2つの形式のいずれかにすることができます。</p>
+			<p><ul>
+				<li><i>変換先型&nbsp;&nbsp;メソッド名(変換元型)</i>
+				<li>void<i>&nbsp;&nbsp;メソッド名(変換元型,&nbsp;変換元型)</i>
+			</ul></p>
+			<p>　戻り値が変換後型の場合はS2Dxo.NETがインスタンスを生成して返します。
+			戻り値がvoidの場合は第2引数で受け取ったインスタンスを更新します。</p>
+			<p>変換前及び変換後の型の組み合わせは次のものがサポートされています。</p>
+			<table border="0">
+			<tbody>
+			<tr><th>変換前型</th><th>変換後型</th></tr>
+			<tr><td>PONO</td><td>PONO</td></tr>
+			<tr><td>PONO[]</td><td>PONO[]</td></tr>
+			<tr><td>PONO</td><td>System.Collections.Generic.IList&lt;PONO&gt;</td></tr>
+			<tr><td>System.Collections.Generic.IList&lt;PONO&gt;</td>
+			    <td>System.Collections.Generic.IList&lt;PONO&gt;</td>
+			<tr><td>PONO</td><td>System.Collections.IDictionary</td></tr>
+			<tr><td>System.Collections.IDictionary</td><td>PONO</td></tr>
+			</table>
+			<p>例えば次のようになります。</p>
+			<p class="kindCode">C#</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">public</span> <span class="kwrd">interface</span> IFooDxo
+{
+        <span class="kwrd">void</span> ConvertPonoToPono(FromBean fromBean, ToBean toBean);
+        <span class="kwrd">ToBean</span> ConvertToPono(FromBean fromBean);
+
+        <span class="kwrd">void</span> ConvertFromArrayToArray(FromBean[] fromArray, ToBean[]toArray);
+        <span class="kwrd">ToBean[]</span> ConvertToArray(FromBean[] fromArray);
+
+        <span class="kwrd">void</span> ConvertListToList(IList&lt;FromBean&gt; fromArray, IList&lt;ToBean&gt; toArray);
+        <span class="kwrd">List&lt;ToBean&gt;</span> ConvertToList(IList&lt;FromBean&gt; toArray);
+
+        <span class="kwrd">void</span> ConvertToDictinary(FromBean emp, IDictionary dict);
+        <span class="kwrd">void</span> ConvertFromDictionaryToPONO(IDictionary dict, FromBean emp);
+
+}
+</pre>
+			<p>&nbsp;&nbsp;</p>
+			<p><h3>インターセプタの適用</h3></p>
+			<p>DXOインタフェースにはS2Dxo.NETの提供するインターセプタを適用します</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="html">&lt;</span><span class="html">components</span> <span class="attr">namespace</span>="dxo"<span class="html">&gt;</span>
+    <span class="rem">&lt;!-- インターセプタ --&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span>="interceptor" <span class="attr">class</span>="Seasar.Dxo.Interceptor.DxoInterceptor"/<span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;</span>/<span class="html">components</span><span class="kwrd">&gt;</span>
+</pre>
+			<p>&nbsp;</p>
+		</div>
+	</div>
+
+<!-- ############################################# 変換ルール
+ ######################################################### -->
+
+	<div class="content">
+		<a name="rule" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>変換ルール</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p><h3>変換の基本</h3></p>
+			<p>　PONOまたはIDictionaryからPONOに変換する場合，変換先となるPONOのプロパティを変換元から探し，
+			(必要なら)型変換を行って変換先のプロパティに設定します．</p>
+			<p>　PONOからIDicitionaryに変換する場合は，変換元のPONOの全プロパティについて変換先の
+			IDictionaryに追加します．追加されるエントリのキーは変換元のプロパティ名(string)，値は変換元のプロパティ値です.</p>
+			<p>&nbsp;</p>
+			<p><h3>型変換</h3></p>
+			<p>　変換元と変換先の型が異なる場合は型変換が行われます.S2Dxoが標準で提供する型変換は以下の通りです.変換先の型を基準に参照してください.</p>
+			<table border="0">
+			<tbody>
+			<tr><th>変換元の型</th><th>変換先の型</th><th>説明</th></tr>
+			<tr><td>bool</td><td rowspan=3>bool</td><td>-</td></tr>
+			<tr><td>short, int, long</td><td>1以上であればtrue, それ以外はfalseに変換．</td></tr>
+			<tr><td>その他任意の型</td>
+			  <td>変換元を文字列化し、それが"yes", "y", "true", "on", "1"の<br />いずれかならばtrue, 
+			  そうでなければfalseに変換</td></tr>
+			<tr><td>bool</td><td rowspan=3>short, int, long</td>
+			  <td>変換元がtrueなら1，そうでなければ0に変換．</td></tr>
+			<tr><td>short, int, long</td><td>同等の値に変換します．</td></tr>
+			<tr><td>string</td><td>文字列の表現する数値と同等の値に変換します．</td></tr>
+			<tr><td>char</td><td>char</td><td>-</td>
+			<tr><td>string</td><td rowspan=3>string</td><td>-</td>
+			<tr><td>char[]</td><td>変換元を文字シーケンスとして持つstringに変換します．</td></tr>
+			<tr><td>System.DataTime</td><td>DatePattern属性に従い変換します．<br/>詳細は<a href="#formatDate">「日付・時刻のフォーマット」</a>を参照してください．</td></tr>
+			<tr><td>char[]</td><td rowspan=2>char[]</td><td>-</td></tr>
+			<tr><td>string</td><td>変換元の持つ文字配列に変換します．</td></tr>
+			<tr><td>System.DateTime</td><td rowspan=3>System.DateTime</td><td>-</td></tr>
+			<tr><td>long</td><td>変換元のlong値を時刻値として持つSystem.DateTimeに変換します．</td></tr>
+			<tr><td>string</td><td>DatePattern属性に従いSystem.DateTimeに変換します．<br/>詳細は<a href="#formatDate">「日付・時刻のフォーマット」</a>を参照してください．</td></tr>
+			<tr><td>PONO</td><td>PONO</td><td>変換元PONOを変換先PONOに変換します．<br/>
+変換元PONOのプロパティは変換先PONOの対応するプロパティに変換されます．</td></tr>
+			</tbody>
+			</table>
+			<p>&nbsp;</p>
+		</div>
+	</div>
+<!-- ######################################### ネストしたPONOのプロパティ ##################################################### -->
+	<div class="content">
+	    <a name="nested" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>ネストしたPONOのプロパティ</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<p>　変換先のPONOに存在するプロパティと同名のプロパティが変換元のPONOに存在しない場合，
+			S2DxoはネストしたPONOのプロパティを探します．ネストしたPONOのプロパティとは，
+			変換元PONOが持つPONOを型とするプロパティのプロパティです.</p>
+			<p>　この探索はJava版と同様に一段階のみ行われます．</p>
+			<p class="kindCode">C#</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">public</span> <span class="kwrd">class</span> Employee
+{
+    <span class="kwrd">private </span> Department _department;
+    <span class="kwrd">public</span> <span class="kwrd">Department</span> Dept
+    {
+       get { return _department; }
+       set { _department = value; }
+    }
+	...
+}
+
+<span class="kwrd">public</span> <span class="kwrd">class</span> Department
+{
+    <span class="kwrd">private </span> string _dname;
+    <span class="kwrd">public</span> <span class="kwrd">string</span> DName
+    {
+       get { return _dname; }
+       set { _dname = value; }
+    }
+	...
+}
+
+<span class="kwrd">public</span> <span class="kwrd">class</span> EmployeePage
+{
+    <span class="kwrd">private </span> string _dname;
+    <span class="kwrd">public</span> <span class="kwrd">string</span> DName
+    {
+       get { return _dname; }
+       set { _dname = value; }
+    }
+	...
+}
+</pre>
+       <p>　上の例で，EmployeeからEmployeePageへの変換を行うと，EmployeePageのDNameプロパティには，
+　　　　　EmployeeのDeptプロパティが参照する，DepartmentのDNameプロパティが設定されます．</p>
+		</div>
+		<p>&nbsp;</p>
+	</div>
+	
+<!-- ############################################# 変換のカスタマイズ ######################################################### -->
+
+	<div class="content">
+		<a name="customize" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>変換のカスタマイズ</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<p><h3><a name="propertyName" id="propertyName">変換元プロパティの指定</a></h3></p>
+			<p>　変換元PONOまたはマップのプロパティ名と変換先PONOまたはマップのプロパティ名が
+			異なる場合は属性で変換ルールを指定することができます．</p>
+			<p>変換元のプロパティと変換先のプロパティをSeasar.Dxo.Annotation.ConversionRuleAttributeで指定します．</p>
+			<p>例えば次のようになります。</p>
+			<p class="kindCode">C#</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">public</span> <span class="kwrd">interface</span> IFooDxo
+{
+    [ConversionRule(PropertyName = "EName", TargetPropertyName = "DName")]
+    [ConversionRule("DName","EName")]
+    <span class="kwrd">ToBean</span> ConvertBeanToTarget(FromBean source);
+}
+</pre>
+			<p class="kindCode">VB</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode vb">
+<span class="kwrd">Public</span> <span class="kwrd">Interface</span> IFooDxo
+    &lt;ConversionRule(PropertyName = "EName", TargetPropertyName = "DName")&gt; _
+    &lt;ConversionRule("DName","EName")&gt; _
+    <span class="kwrd">Function</span> ConvertBeanToTarget(<span class="kwrd">ByVal</span> source <span class="kwrd">As</span> FromBean) As ToBean
+<span class="kwrd">End</span> <span class="kwrd">Interface</span>
+</pre>
+
+
+			<p>&nbsp;</p>
+			<p><h3><a name="formatDate">日付時刻のフォーマット</a></h3></p>
+			<p>　System.DateTimeとstringとの相互変換を行う場合にはフォーマットパターンを指定できます．</p>
+			<p>　フォーマットパターンは解釈することができるパターン文字列で，DXOインタフェースのメソッドにSeasar.Dxo.Annotation.DatePatternAttributeで指定することができます．属性が指定されたメソッドで行われる変換の際に，PONOのプロパティにSystem.DateTimeとstringとの変換が必要になると，指定されたフォーマットパターンが使われます．フォーマットパターンが指定されなかった場合は，デフォルトロケールのデフォルトパターンが使われます．</p>
+			<p>例えば次のようになります。</p>
+			<p class="kindCode">C#</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">public</span> <span class="kwrd">interface</span> IFooDxo
+{
+    [DatePattern("yyyyMMdd")]
+    <span class="kwrd">ToBean</span> ConvertBeanToTarget(FromBean source);
+}
+</pre>
+			<p class="kindCode">VB</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode vb">
+<span class="kwrd">Public</span> <span class="kwrd">Interface</span> IFooDxo
+    &lt;DatePattern("yyyyMMdd")&gt; _
+    <span class="kwrd">Function</span> ConvertBeanToTarget(<span class="kwrd">ByVal</span> source <span class="kwrd">As</span> FromBean) As ToBean
+<span class="kwrd">End</span> <span class="kwrd">Interface</span>
+</pre>
+		</div>
+	</div>
+<!-- ############################################# Seasar.NET1.4.0,1.3.19に移行する際のの注意点 ######################################################### -->
+
+	<div class="content">
+		<a name="worning" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>Seasar.NET1.4.0,1.3.19に移行する際のの注意点</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<p>　Seasar.NET 1.4.0, 1.3.19以降では、<a href="https://www.seasar.org/issues/browse/CONTAINERNET-155">DxoInterceptorをスレッドセーフにする対応</a>のため、下記プロパティ、メソッドが変更になっています。<br>
+		　Seasar.Dxo.Interceptor.DxoInterceptorを拡張してご利用している場合はご注意下さい。</p>
+		<ul>
+			<li>DxoMappingプロパティ　⇒　廃止</li>
+			<li>AssignFromArrayToArrayメソッド　⇒　シグネチャ変更</li>
+			<li>AssignFromListToListメソッド　⇒　シグネチャ変更</li>
+			<li>AssignFromObjectToListメソッド　⇒　シグネチャ変更</li>
+			<li>AssignToメソッド　⇒　シグネチャ変更</li>
+			<li>_CollectConversionRuleAttributeメソッド　⇒　シグネチャ変更</li>
+			<li>_TryExchangeSameNamePropertyメソッド　⇒　シグネチャ変更</li>
+			<li>_ConvertPropertyメソッド　⇒　シグネチャ変更</li>
+			<li>_CollectDatePatternMappingメソッド　⇒　GetDataPatternFormatに名称変更、シグネチャ変更</li>
+			<li>CreateDxoMappingメソッド（protected, 拡張可）　⇒　新規追加</li>
+		</ul>
+		<br>
+	</div>
+<!-- div.contents -->
+</div>
+<br class="clear" />
+<!-- div.middle -->
+</div>
+
+<div class="bottom">
+	<hr />
+	<div class="copyright">
+		&#169; Copyright The Seasar Project and the others 2004-2013, all rights reserved.
+	</div>
+</div>
+
+</body>
+
+</html>

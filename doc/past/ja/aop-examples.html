@@ -1,0 +1,444 @@
+﻿<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>S2AOP.NET Examples - S2Container.NET</title>
+	<link href="css/common.css" rel="stylesheet" type="text/css" media="screen,print" />
+	<link href="css/csharp.css" rel="stylesheet" type="text/css" media="screen,print" />
+</head>
+
+<body>
+<a name="top"/>
+<div class="container">
+
+<div>
+	<div class="logo"><img src="images/title_s2containernet.png" alt="S2Container.NET プロジェクト" /></div>
+	<hr />
+	<div class="pan">
+		<a href="http://www.seasar.org/">Seasarプロジェクト</a>
+		＞ <a href="seasarnet.html">Seasar.NETプロジェクト</a>
+		＞ <a href="index.html">S2Container.NET</a>
+		＞ <a href="aop.html">AOP</a>
+		＞ S2AOP.NET Examples
+	</div>
+</div>
+
+<div class="middle">
+
+<div class="menus">
+
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/s2containernet.png" alt="S2Container.NET" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li><a href="index.html">Welcome</a></li>
+				<li><a href="download.html">ダウンロード</a></li>
+			</ul>
+		</div>
+	</div>
+	</div>
+	
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/documentation.png" alt="ドキュメンテーション" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li><a href="setup.html">セットアップ</a></li>
+				<li><a href="update-operation.html">移行</a></li>
+				<li><a href="dicontainer.html">DIContainer</a></li>
+				<li>
+					<a href="aop.html">AOP</a>
+					<ul>
+						<li><a href="aop-summary.html">概要</a></li>
+						<li><a href="aop-reference.html">リファレンス</a></li>
+						<li>Examples</li>
+					</ul>
+				</li>
+				<li><a href="asp.html">ASP.NETでの利用</a></li>
+				<li><a href="db.html">データベース接続</a></li>
+				<li><a href="tx.html">トランザクション</a></li>
+				<li><a href="s2ado.html">S2ADO</a></li>
+				<li><a href="s2unit.html">S2Unit.NET</a></li>
+				<li><a href="s2windows.html">S2Windows.NET</a></li>
+				<li><a href="jscript.html">JScript.NET式</a></li>
+				<li><a href="quill.html">Quillで簡単DI+AOP</a></li>
+				<li><a href="s2dxo.html">S2DXO</a></li>
+			</ul>
+		</div>
+	</div>
+	</div>
+	
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/support.png" alt="サポート" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li>
+					<a href="faq.html">FAQ</a>
+					<p>よくある質問と答えをまとめています。</p>
+				</li>
+				<li>
+					<a href="https://ml.seasar.org/mailman/listinfo/seasar-dotnet">Mailing List</a>
+					<p>Seasar.NETに関する議論を行うメーリングリストです。</p>
+				</li>
+				<li>
+					<a href="https://www.seasar.org/issues/browse/CONTAINERNET">トラッキング</a>
+					<p>S2Container.NETのバグや問題の検索、報告を行うことができます。</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+	</div>
+
+</div><!-- div.left -->
+
+<!-- ############################################# コンテンツ ######################################################### -->
+
+<div class="contents">
+	
+	<div class="content">
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>目次</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<ul>
+	           	<li><a href="#TraceInterceptorSample">TraceInterceptor</a></li>
+				<li><a href="#OriginalInterceptorSample">独自実装によるInterceptor</a></li>
+	        </ul>
+		</div>
+	</div>
+	
+<!-- ############################################# TraceInterceptor ######################################################### -->
+
+	<div class="content">
+		<a name="TraceInterceptorSample" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>TraceInterceptor</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　TraceInterceptor を使用してSystem.Collections.ArrayListクラスと
+			System.Collections.HashtableクラスのAddメソッドとClearメソッドが呼ばれた場合にトレースを出力させましょう。
+			作成するファイルは以下のとおりです。</p>
+			<ul>
+				<li>コンポーネントを定義するdiconファイル(Trace.dicon) </li>
+				<li>設定が正しく行われているか確認する実行ファイル(AopTraceClient.cs) </li>
+			</ul>
+			<h2>diconファイルの作成</h2>
+			<ul>
+				<li>TraceInterceptorをコンポーネント定義します。name属性をtraceInterceptorとします。</li>
+				<li>System.Collections.ArrayListクラスのコンポーネントの定義します。 aspectタグにInterceptorを指定します。</li>
+				<li>System.Collections.Hashtableクラスのコンポーネントの定義します。
+				pointcut属性にAddメソッドとClearメソッドを指定します。aspectタグにInterceptorを指定します。</li>
+			</ul>
+			
+			<p class="kindCode">Trace.dicon</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;?</span><span class="html">xml</span> <span class="attr">version</span><span class="kwrd">="1.0"</span> <span class="attr">encoding</span><span class="kwrd">="utf-8"</span>?<span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;!</span><span class="html">DOCTYPE</span> <span class="attr">components</span> <span class="attr">PUBLIC</span> <span class="kwrd">"-//SEASAR//DTD S2Container//EN"</span>
+<span class="kwrd">"http://www.seasar.org/dtd/components.dtd"</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="traceInterceptor"</span>
+        <span class="attr">class</span><span class="kwrd">="Seasar.Framework.Aop.Interceptors.TraceInterceptor"</span><span class="kwrd">/&gt;</span>
+    
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span>="<span class="attr">System</span>.<span class="attr">Collections</span>.<span class="attr">ArrayList</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">aspect</span><span class="kwrd">&gt;</span>traceInterceptor<span class="kwrd">&lt;/</span><span class="html">aspect</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+    
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="System.Collections.Hashtable"</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">aspect</span> <span class="attr">pointcut</span><span class="kwrd">="Add, GetHashCode"</span><span class="kwrd">&gt;</span>
+            traceInterceptor
+        <span class="kwrd">&lt;/</span><span class="html">aspect</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+    
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="AopTraceInterceptor"</span>
+        <span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.Aop.AopTraceClient"</span> <span class="kwrd">/&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
+</pre>
+
+			<h2>実行ファイルの作成</h2>
+			<ul>
+				<li>Seasar.Framework.Container.S2Container#Create()メソッドの最初の引数に、
+				作成したdiconファイル(Trace.dicon)のパスを指定してコンテナを作成します。</li>
+				<li>Seasar.Framework.Container.S2Container#GetComponent()メソッドの第１引数に
+				コンポーネントに登録したクラスが実装しているインターフェースのTypeクラス
+				（typeof(IList)、typeof(IDictionary)を指定してコンポーネントを取得します。</li>
+				<li>トレースがAspectされるか確認するために取得したコンポーネント(IList)のCountプロパティを実行します。</li>
+				<li>同様に取得したコンポーネント(IDictionary)のAddメソッド、Clearメソッドを実行します。</li>
+			</ul>
+			
+			<p class="kindCode">AopTraceClient.cs</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">using</span> System;
+<span class="kwrd">using</span> System.Collections;
+<span class="kwrd">using</span> Seasar.Framework.Container;
+<span class="kwrd">using</span> Seasar.Framework.Container.Factory;
+
+<span class="kwrd">namespace</span> Seasar.Examples.Reference.Aop
+{
+    <span class="kwrd">public</span> <span class="kwrd">class</span> AopTraceClient
+    {
+        <span class="kwrd">private</span> <span class="kwrd">const</span> <span class="kwrd">string</span> PATH =
+            <span class="str">"Seasar.Examples/Reference/Aop/Trace.dicon"</span>;
+
+        <span class="kwrd">public</span> <span class="kwrd">void</span> Main()
+        {
+            IS2Container container = S2ContainerFactory.Create(PATH);
+            IList list = (IList) container.GetComponent(<span class="kwrd">typeof</span>(IList));
+            <span class="kwrd">int</span> count = list.Count;
+
+            IDictionary dictionary = (IDictionary) 
+                container.GetComponent(<span class="kwrd">typeof</span>(IDictionary));
+            dictionary.Add(<span class="str">"aaa"</span>, <span class="str">"bbb"</span>);
+            dictionary.GetHashCode();
+        }
+    }
+}
+</pre>
+
+			<h2>実行結果</h2>
+			<p>　メソッドが呼ばれる前と後でトレースが出力されているのが確認できます。（名前空間も出力されますが省略しています）</p>
+<pre class="csharpcode">
+DEBUG 2005-09-26 23:12:16,138 [2564] BEGIN ICollection#get_Count()
+DEBUG 2005-09-26 23:12:16,138 [2564] END ICollection#get_Count() : 0
+DEBUG 2005-09-26 23:12:16,138 [2564] BEGIN IDictionary#Add(aaa, bbb)
+DEBUG 2005-09-26 23:12:16,138 [2564] END IDictionary#Add(aaa, bbb) : 
+DEBUG 2005-09-26 23:12:16,138 [2564] BEGIN Object#GetHashCode()
+DEBUG 2005-09-26 23:12:16,138 [2564] END Object#GetHashCode() : 23
+</pre>
+			<p>　このサンプルは、Seasar.ExamplesプロジェクトのSeasar.Examples/Reference/Aop以下に用意されています。</p>
+			
+		</div>
+	</div>
+	
+<!-- ############################################# 独自実装によるInterceptor ######################################################### -->
+
+	<div class="content">
+		<a name="OriginalInterceptorSample" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>独自実装によるInterceptor</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　クラス名、メソッド名、引数とメソッドの処理時間を計測してトレースするInterceptorを作成しましょう。
+			また、そのInterceptorを使用して重い処理を行った時間をトレースさせましょう。作成するファイルは以下のとおりです。</p>
+			<ul>
+				<li>クラス名、メソッド名、引数とメソッドの処理時間を計測して出力するInterceptor(MeasurementInterceptor.cs)</li>
+				<li>重い処理を行うクラス(HeavyProcess.cs)</li>
+				<li>コンポーネントの定義を行うdiconファイル(Measurement.dicon)</li>
+				<li>設定が正しく行われているか確認する実行ファイル(AopMeasurementClient.cs)</li>
+			</ul>
+			
+			<h2>独自実装のIntercepterの作成</h2>
+			<ul>
+				<li>Seasar.Framework.Aop.Interceptors.AbstractInterceptorクラスを実装します。</li>
+				<li>Invoke(IMethodInvocation invocation)メソッドを実装します。</li>
+				<li>GetComponentDef(invocation).ComponentType.FullNameでクラスの完全限定名を取得します。</li>
+				<li>invocation.Method.Nameでメソッド名を取得します。</li>
+				<li>invocation.Argumentsで引数を取得します。</li>
+				<li>invocation.Proceed()で実際のメソッドが呼ばれるので、その前の時間を取得します。</li>
+				<li>invocation.Proceed()で実際のメソッドが呼ばれた後の時間を取得してfinallyで出力します。</li>
+			</ul>
+			
+			<p class="kindCode">MeasurementInterceptor.cs</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">using</span> System;
+<span class="kwrd">using</span> System.Text;
+<span class="kwrd">using</span> Seasar.Framework.Aop.Interceptors;
+
+<span class="kwrd">namespace</span> Seasar.Examples.Reference.Aop
+{
+    <span class="kwrd">public</span> <span class="kwrd">class</span> MeasurementInterceptor : AbstractInterceptor
+    {
+        <span class="kwrd">public</span> <span class="kwrd">override</span> <span class="kwrd">object</span> Invoke
+            (Seasar.Framework.Aop.IMethodInvocation invocation)
+        {
+            <span class="kwrd">long</span> start = 0;
+            <span class="kwrd">long</span> end = 0;
+            StringBuilder buf = <span class="kwrd">new</span> StringBuilder(100);
+            
+            buf.Append(GetComponentDef(invocation).ComponentType.FullName);
+            buf.Append(<span class="str">"#"</span>);
+            buf.Append(invocation.Method.Name);
+            buf.Append(<span class="str">"("</span>);
+            <span class="kwrd">object</span>[] args = invocation.Arguments;
+            <span class="kwrd">if</span>(args != <span class="kwrd">null</span> &amp;&amp; args.Length &gt; 0)
+            {
+                <span class="kwrd">foreach</span>(<span class="kwrd">object</span> arg <span class="kwrd">in</span> args)
+                {
+                    buf.Append(arg);
+                    buf.Append(<span class="str">", "</span>);
+                }
+                buf.Length = buf.Length - 2;
+            }
+            buf.Append(<span class="str">")"</span>);
+            <span class="kwrd">try</span>
+            {
+                start = DateTime.Now.Ticks;
+                <span class="kwrd">object</span> ret = invocation.Proceed();
+                end = DateTime.Now.Ticks;
+                buf.Append(<span class="str">" : "</span>);
+                <span class="kwrd">return</span> ret;
+            }
+            <span class="kwrd">catch</span>(Exception ex)
+            {
+                buf.Append(<span class="str">" Exception:"</span>);
+                buf.Append(ex);
+                <span class="kwrd">throw</span> ex;
+            }
+            <span class="kwrd">finally</span>
+            {
+                Console.WriteLine(buf.ToString() + ((end - start) / 10000));
+            }
+        }
+    }
+}
+</pre>
+
+			<h2>重い処理を行うクラスの作成</h2>
+			<ul><li>重い処理を行ったということにするために5秒間Sleepします。 </li></ul>
+			
+			<p class="kindCode">HeavyProcess.cs</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">using</span> System;
+
+<span class="kwrd">namespace</span> Seasar.Examples.Reference.Aop
+{
+    <span class="kwrd">public</span> <span class="kwrd">class</span> HeavyProcess : MarshalByRefObject
+    {
+        <span class="kwrd">public</span> <span class="kwrd">void</span> Heavy()
+        {
+            <span class="kwrd">try</span>
+            {
+                System.Threading.Thread.Sleep(5000);
+            }
+            <span class="kwrd">catch</span>(Exception ex)
+            {
+                Console.WriteLine(ex.StackTrace);
+            }
+        }
+    }
+}
+</pre>
+
+			<h2>diconファイルの作成</h2>
+			<ul>
+				<li>作成したMeasurementInterceptorをコンポーネント定義します。name属性をmeasurementとします。</li>
+				<li>HeavyProcessクラスのHeavy()メソッドにMeasurementInterceptorをaspectします。</li>
+			</ul>
+			
+			<p class="kindCode">Measurement.dicon</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;?</span><span class="html">xml</span> <span class="attr">version</span><span class="kwrd">="1.0"</span> <span class="attr">encoding</span><span class="kwrd">="utf-8"</span>?<span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;!</span><span class="html">DOCTYPE</span> <span class="attr">components</span> <span class="attr">PUBLIC</span> <span class="kwrd">"-//SEASAR//DTD S2Container//EN"</span>
+<span class="kwrd">"http://www.seasar.org/dtd/components.dtd"</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="measurement"</span>
+        <span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.Aop.MeasurementInterceptor"</span> <span class="kwrd">/&gt;</span>
+
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.Aop.HeavyProcess"</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">aspect</span> <span class="attr">pointcut</span><span class="kwrd">="Heavy"</span><span class="kwrd">&gt;</span>measurement<span class="kwrd">&lt;/</span><span class="html">aspect</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+    
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="AopMeasurementInterceptor"</span>
+        <span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.Aop.AopMeasurementClient"</span> <span class="kwrd">/&gt;</span>
+
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span></pre>
+			
+			<h2>実行ファイルの作成</h2>
+			<ul>
+				<li>Seasar.Framework.Container.S2Container#Create()メソッドの第１引数に作成したdiconファイル
+				(Measurement.dicon)のパスを指定してコンテナを作成します。</li>
+				<li>Seasar.Framework.Container.S2Container#GetComponent()メソッドの
+				第１引数にコンポーネントに登録したクラス名（typeof(HeavyProcess))を指定して取得します。</li>
+				<li>コンテナから取得したHeavyProcess#Heavy()メソッドを実行します。</li>
+			</ul>
+			
+			<p class="kindCode">AopMeasurementClient.cs</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">using</span> System;
+<span class="kwrd">using</span> Seasar.Framework.Container;
+<span class="kwrd">using</span> Seasar.Framework.Container.Factory;
+
+<span class="kwrd">namespace</span> Seasar.Examples.Reference.Aop
+{
+    <span class="kwrd">public</span> <span class="kwrd">class</span> AopMeasurementClient
+    {
+        <span class="kwrd">private</span> <span class="kwrd">const</span> <span class="kwrd">string</span> PATH = 
+            <span class="str">"Seasar.Examples/Reference/Aop/Measurement.dicon"</span>;
+
+        <span class="kwrd">public</span> <span class="kwrd">void</span> Main()
+        {
+            IS2Container container = S2ContainerFactory.Create(PATH);
+            HeavyProcess heavyProcess = (HeavyProcess) 
+                container.GetComponent(<span class="kwrd">typeof</span>(HeavyProcess));
+            heavyProcess.Heavy();
+        }
+    }
+}
+</pre>
+
+			<h2>実行結果</h2>
+			<p>　クラス名、メソッド名、引数とメソッドの処理時間がトレースされているのが確認できます。</p>
+			
+<pre class="csharpcode">
+Seasar.Examples.Reference.Aop.HeavyProcess#Heavy() : 5007
+</pre>
+
+			<p>　このサンプルは、Seasar.ExamplesプロジェクトのSeasar.Examples/Reference/Aop以下に用意されています。</p>
+			
+		</div>
+	</div>
+	
+<!-- div.contents -->
+</div>
+<br class="clear" />
+<!-- div.middle -->
+</div>
+
+<div class="bottom">
+	<hr />
+	<div class="copyright">
+		&#169; Copyright The Seasar Project and the others 2004-2013, all rights reserved.
+	</div>
+</div>
+
+</body>
+
+</html>

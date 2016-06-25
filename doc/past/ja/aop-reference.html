@@ -1,0 +1,369 @@
+﻿<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>S2AOP.NET リファレンス - S2Container.NET</title>
+	<link href="css/common.css" rel="stylesheet" type="text/css" media="screen,print" />
+	<link href="css/csharp.css" rel="stylesheet" type="text/css" media="screen,print" />
+</head>
+
+<body>
+<a name="top"/>
+<div class="container">
+
+<div>
+	<div class="logo"><img src="images/title_s2containernet.png" alt="S2Container.NET プロジェクト" /></div>
+	<hr />
+	<div class="pan">
+		<a href="http://www.seasar.org/">Seasarプロジェクト</a>
+		＞ <a href="seasarnet.html">Seasar.NETプロジェクト</a>
+		＞ <a href="index.html">S2Container.NET</a>
+		＞ <a href="aop.html">AOP</a>
+		＞ S2AOP.NET リファレンス
+	</div>
+</div>
+
+<div class="middle">
+
+<div class="menus">
+
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/s2containernet.png" alt="S2Container.NET" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li><a href="index.html">Welcome</a></li>
+				<li><a href="download.html">ダウンロード</a></li>
+			</ul>
+		</div>
+	</div>
+	</div>
+	
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/documentation.png" alt="ドキュメンテーション" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li><a href="setup.html">セットアップ</a></li>
+				<li><a href="update-operation.html">移行</a></li>
+				<li><a href="dicontainer.html">DIContainer</a></li>
+				<li>
+					<a href="aop.html">AOP</a>
+					<ul>
+						<li><a href="aop-summary.html">概要</a></li>
+						<li>リファレンス</li>
+						<li><a href="aop-examples.html">Examples</a></li>
+					</ul>
+				</li>
+				<li><a href="asp.html">ASP.NETでの利用</a></li>
+				<li><a href="db.html">データベース接続</a></li>
+				<li><a href="tx.html">トランザクション</a></li>
+				<li><a href="s2ado.html">S2ADO</a></li>
+				<li><a href="s2unit.html">S2Unit.NET</a></li>
+				<li><a href="s2windows.html">S2Windows.NET</a></li>
+				<li><a href="jscript.html">JScript.NET式</a></li>
+				<li><a href="quill.html">Quillで簡単DI+AOP</a></li>
+				<li><a href="s2dxo.html">S2DXO</a></li>
+			</ul>
+		</div>
+	</div>
+	</div>
+	
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/support.png" alt="サポート" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li>
+					<a href="faq.html">FAQ</a>
+					<p>よくある質問と答えをまとめています。</p>
+				</li>
+				<li>
+					<a href="https://ml.seasar.org/mailman/listinfo/seasar-dotnet">Mailing List</a>
+					<p>Seasar.NETに関する議論を行うメーリングリストです。</p>
+				</li>
+				<li>
+					<a href="https://www.seasar.org/issues/browse/CONTAINERNET">トラッキング</a>
+					<p>S2Container.NETのバグや問題の検索、報告を行うことができます。</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+	</div>
+
+</div><!-- div.left -->
+
+<!-- ############################################# コンテンツ ######################################################### -->
+
+<div class="contents">
+	
+	<div class="content">
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>目次</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+	        <ul>
+	            <li><a href="#AOPMakeFile">作成すべきファイル</a></li>
+	            <li><a href="#AOPExplanationFile">設定ファイルの説明</a></li>
+				<li><a href="#AOPInterceptor">S2AOP.NETで用意されているInterceptor</a>
+					<ul>
+						<li><a href="#TraceInterceptor">TraceInterceptor</a></li>
+						<li><a href="#MockInterceptor">MockInterceptor</a></li>
+						<li><a href="#OriginalInterceptor">独自実装によるInterceptor</a></li>
+					</ul>
+	            </li>
+		        <li><a href="#nodicon">diconファイルを使用しないでアスペクトを組み込む方法</a></li>
+			</ul>
+		</div>
+	</div>
+	
+<!-- ############################################# 作成すべきファイル ######################################################### -->
+
+	<div class="content">
+		<a name="AOPMakeFile" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>作成すべきファイル</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　S2AOP.NET を使用するにはS2Container の設定ファイル(diconファイル)で行います。
+			設定ファイルの配置場所は、とくに指定がありませんが、
+			通常「Crosscutting Concern」と同じ場所に配置するか、設定を行うコンポーネントと同じ場所に配置します。</p>		
+			
+		</div>
+	</div>
+	
+<!-- ############################################# 設定ファイルの説明 ######################################################### -->
+
+	<div class="content">
+		<a name="AOPExplanationFile" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>設定ファイルの説明</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<h2><a name="aspectTag">aspectタグ（AOPを使用する場合は必須）</a></h2>
+			<p>　アスペクトをコンポーネントに組み込みます。
+			Interceptorの指定は、ボディでJScript.NET式を使うか、子タグでcomponentタグを使います。</p>
+			
+			<h2>注意点</h2>
+			<p>　aspectタグで指定されたコンポーネントは、コンテナの初期化時にコンテナから取得されます。
+			そのため、aspectタグで指定されたコンポーネントのinstance属性がprototypeだったとしても、
+			Interceptor のメソッドが呼び出される度に新しいインスタンスが作成されるわけではありません。</p>
+			
+			<h2>pointcut属性(任意)</h2>
+			<p>　カンマ区切りで対象となるメソッド名を指定することができます。
+			pointcutを指定しない場合は、コンポーネントが実装しているインターフェースのすべてのメソッドが対象になります。
+			メソッド名には正規表現(System.Text.RegularExpressions.Regex)も使えます。</p>
+			
+			<h2>設定例</h2>
+			<p>　pointcut 属性を指定してSystem.Collections.HashtableのAddメソッドとClearメソッドを対象とする場合以下のようになります。
+			pointcut属性を指定しない場合はSystem.Collections.Hashtableが実装しているインターフェース
+			(ここではSystem.Collections.IDictionary)のメソッドが対象になります。</p>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="System.Collections.Hashtable"</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">aspect</span> <span class="attr">pointcut</span><span class="kwrd">="Add,Clear"</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">component</span>
+            <span class="attr">class</span><span class="kwrd">="Seasar.Framework.Aop.Interceptors.TraceInterceptor"</span><span class="kwrd">/&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">aspect</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+</pre>
+
+			<p>　正規表現を使ってSystem.Collections.Hashtableが実装しているインターフェース
+			（ここではSystem.Collections.IDictionary）のメソッドすべてを対象としたい場合は、以下のように設定します。 </p>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="System.Collections.Hashtable"</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">aspect</span> <span class="attr">pointcut</span><span class="kwrd">=".*"</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">component</span>
+            <span class="attr">class</span><span class="kwrd">="Seasar.Framework.Aop.Interceptors.TraceInterceptor"</span><span class="kwrd">/&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">aspect</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+</pre>
+				
+		</div>
+	</div>
+
+<!-- ############################################# S2AOP.NETで用意されているInterceptor ######################################################### -->
+
+	<div class="content">
+		<a name="AOPInterceptor" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>S2AOP.NETで用意されているInterceptor</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　S2AOP.NETでは、以下のInterceptorを用意しています。また独自のInterceptorを簡単に作成できるようになっています。</p>		
+			
+			<h2><a name="TraceInterceptor">(1) TraceInterceptor</a></h2>
+			<h3>クラス名</h3>
+			<p>　Seasar.Framework.Aop.Interceptors.TraceInterceptor</p>
+			<h3>説明</h3>
+			<p>　トレース処理を「Crosscutting Concern」として扱うためのInterceptorです。
+			HashtableクラスにTraceInterceptorを適用したdiconファイルは、以下のようになります。対象とするメソッドはAddとします。</p>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="System.Collections.Hashtable"</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">aspect</span> <span class="attr">pointcut</span><span class="kwrd">="Add"</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">component</span>
+            <span class="attr">class</span><span class="kwrd">="Seasar.Framework.Aop.Interceptors.TraceInterceptor"</span><span class="kwrd">/&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">aspect</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+</pre>
+			<p>　詳しい使用方法は<a href="aop-examples.html#TraceInterceptorSample">ExamplesのTraceInterceptor</a>を参照してください。</p>
+			
+			<h2><a name="MockInterceptor">(2) MockInterceptor</a></h2>
+			<h3>クラス名</h3>
+			<p>　Seasar.Framework.Aop.Interceptors.MockInterceptor</p>
+			<h3>説明</h3>
+			<p>　Mockを使ったテストを簡単に行うためのInterceptorです。 </p>
+			
+			<h2><a name="OriginalInterceptor">(3) 独自実装によるInterceptor</a></h2>
+			<h3>説明</h3>
+			<p>　独自にInterceptorを作成する場合は、次のインターフェースまたは、抽象クラスを実装します。</p>
+			<p>　Seasar.Framework.Aop.IMethodInterceptor (インターフェース)<br />
+			　Seasar.Framework.Aop.Interceptors.AbstractInterceptor (抽象クラス)</p>
+			<p>　インターフェースを実装する場合は、以下のInvokeメソッドを実装します。</p>
+			<p>　public object Invoke(IMethodInvocation invocation)</p>
+			<p>　抽象クラスを継承する場合は、以下のInvokeメソッドをオーバーライドします。</p>
+			<p>　public override object Invoke(IMethodInvocation invocation)</p>
+			<p>　AbstractInterceptor は、IMethodInterceptorを実装した抽象クラスです。
+			AbstractInterceptorには、Proxyオブジェクトを取得するCreateProxyメソッドとアスペクトを適用するコンポーネント定義を取得するGetComponentDefメソッドがあります。
+			アスペクトを適用したクラス名を必要とするInterceptor(例えば、ログ出力を行うInterceptor)を作成する場合は、
+			AbstractInterceptorを使用することで簡単にクラス名を取得することができます。</p>
+			<p>　public object CreateProxy(Type proxyType)<br />
+			protected IComponentDef GetComponentDef(IMethodInvocation invocation)</p>
+			<p>　IMethodInvocation のプロパティTarget、Method、Argumentsで対象となるオブジェクト、メソッド、引数を取得できます。
+			proceed()を呼び出すと実際のメソッドが呼び出され実行結果を取得することができます。
+			以下のような独自のInterceptorを作成したとします。</p>
+			<h3>作成例</h3>
+			<p class="kindCode">C#</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">public</span> <span class="kwrd">class</span> TestInterceptor : IMethodInterceptor
+{
+    <span class="kwrd">public</span> <span class="kwrd">object</span> Invoke(IMethodInvocation invocation)
+    {
+        Console.WriteLine(<span class="str">"Before"</span>);    <span class="rem">// 呼ぶ前はBefore</span>
+        
+        <span class="kwrd">object</span> ret = invocation.Proceed();
+        
+        Console.WriteLine(<span class="str">"After"</span>);     <span class="rem">// 呼んだ後はAfter</span>
+        
+        <span class="kwrd">return</span> ret;
+    }
+}
+</pre>
+
+			<p>　IMethodInvocation#Proceed()を呼ぶ前と後で2分され、呼ぶ前は Beforeの個所を実行し、呼んだ後はAfterの個所を実行します。
+			1つのコンポーネントに複数のアスペクトが定義されている場合は、以下のよう実行されます。</p>
+		   	<ol>
+		    	<li>Aspectの登録順にIMethodInterceptorのBefore部分が実行されます。</li>
+		    	<li>最後のIMethodInterceptorのBefore部分を実行した後にコンポーネント自身のメソッドが呼び出されます。</li>
+		    	<li>Aspectの登録の逆順にIMethodInterceptorのAfter部分が実行されます。</li>
+		   	</ol>
+		   	<p>　詳しい使用方法は<a href="aop-reference.html#OriginalInterceptorSample">Examplesの独自実装によるInterceptor</a>を参照してください。</p>
+			
+		</div>
+	</div>
+	
+<!-- ############################################# diconファイルを使用しないでアスペクトを組み込む方法 ######################################################### -->
+
+	<div class="content">
+		<a name="nodicon" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>diconファイルを使用しないでアスペクトを組み込む方法</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　diconファイルの設定を行わずプログラム上でアスペクトを組み込むこともできます。作成方法は次のようになります。</p>		
+		    <ul>
+			    <li>Seasar.Framework.Aop.Impl.PointcutImpl
+				のコンストラクタの引数で対象となるメソッド名を指定(複数可)します。
+				System.Collections.Hashtableのようにインターフェースを実装しているなら、new
+				PointcutImpl(typeof(Hashtable))のようにTypeクラスを指定することで、
+				そのクラスが実装しているインターフェースのメソッドをすべて自動的に適用させることもできます。</li>
+		        <li>Seasar.Framework.Aop.Impl.AspectImplのコンストラクタの第1引数にInterceptorを指定して、
+	        	第2引数にPointcutImplで作成したPointcutを指定します。</li>
+		        <li>Seasar.Framework.Aop.Proxy.AopProxyのコンストラクタで、
+	        	対象となるクラス（この場合はSystem.MarshalByRefObjectの派生クラスである必要があります）、
+	        	もしくは対象となるクラスが実装しているインターフェースとAspectImplで作成したAspectの配列を指定します。</li>
+		        <li>Seasar.Framework.Aop.Proxy.AopProxy#Create()でAspectが適用されたオブジェクトを取得できます。</li>
+			</ul>
+			<p>　System.Collections.HashtableクラスにTraceInterceptorをプログラム上で適用する場合は、
+			次のようになります。 対象となるメソッドはgetTime()とします。</p>
+			<p class="kindCode">C#</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+IPointcut pointcut = <span class="kwrd">new</span> PointcutImpl(<span class="kwrd">new</span> <span class="kwrd">string</span>[]{<span class="str">"Add"</span>});
+IAspect aspect = <span class="kwrd">new</span> AspectImpl(<span class="kwrd">new</span> TraceInterceptor(), pointcut);
+AopProxy aopProxy = <span class="kwrd">new</span> AopProxy(<span class="kwrd">typeof</span>(IDictionary),
+     <span class="kwrd">new</span> IAspect[]{aspect}, <span class="kwrd">null</span>, <span class="kwrd">new</span> Hashtable());
+IDictionary proxy = (IDictionary) aopProxy.Create();
+proxy.Add(<span class="str">"aaa"</span>, <span class="str">"bbb"</span>);
+</pre>
+			
+		</div>
+	</div>
+	
+<!-- div.contents -->
+</div>
+<br class="clear" />
+<!-- div.middle -->
+</div>
+
+<div class="bottom">
+	<hr />
+	<div class="copyright">
+		&#169; Copyright The Seasar Project and the others 2004-2013, all rights reserved.
+	</div>
+</div>
+
+</body>
+
+</html>

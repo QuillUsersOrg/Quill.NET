@@ -1,0 +1,1178 @@
+﻿<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Quillで簡単DI+AOP - S2Container.NET</title>
+	<link href="css/common.css" rel="stylesheet" type="text/css" media="screen,print" />
+	<link href="css/csharp.css" rel="stylesheet" type="text/css" media="screen,print" />
+</head>
+
+<body>
+<a name="top"/>
+<div class="container">
+
+<div>
+	<div class="logo"><img src="images/title_s2containernet.png" alt="S2Container.NET プロジェクト" /></div>
+	<hr />
+	<div class="pan">
+		<a href="http://www.seasar.org/">Seasarプロジェクト</a>
+		＞ <a href="seasarnet.html">Seasar.NETプロジェクト</a>
+		＞ <a href="index.html">S2Container.NET</a>
+		＞ Quillで簡単DI+AOP
+	</div>
+</div>
+
+<div class="middle">
+
+<div class="menus">
+
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/s2containernet.png" alt="S2Container.NET" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li><a href="index.html">Welcome</a></li>
+				<li><a href="download.html">ダウンロード</a></li>
+			</ul>
+		</div>
+	</div>
+	</div>
+	
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/documentation.png" alt="ドキュメンテーション" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li><a href="setup.html">セットアップ</a></li>
+				<li><a href="update-operation.html">移行</a></li>
+				<li><a href="dicontainer.html">DIContainer</a></li>
+				<li><a href="aop.html">AOP</a></li>
+				<li><a href="asp.html">ASP.NETでの利用</a></li>
+				<li><a href="db.html">データベース接続</a></li>
+				<li><a href="tx.html">トランザクション</a></li>
+				<li><a href="s2ado.html">S2ADO</a></li>
+				<li><a href="s2unit.html">S2Unit.NET</a></li>
+				<li><a href="s2windows.html">S2Windows.NET</a></li>
+				<li><a href="jscript.html">JScript.NET式</a></li>
+				<li>Quillで簡単DI+AOP</li>
+				<li><a href="s2dxo.html">S2DXO</a></li>
+			</ul>
+		</div>
+	</div>
+	</div>
+
+	<div class="menuLine">	
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/support.png" alt="サポート" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li>
+					<a href="faq.html">FAQ</a>
+					<p>よくある質問と答えをまとめています。</p>
+				</li>
+				<li>
+					<a href="https://ml.seasar.org/mailman/listinfo/seasar-dotnet">Mailing List</a>
+					<p>Seasar.NETに関する議論を行うメーリングリストです。</p>
+				</li>
+				<li>
+					<a href="https://www.seasar.org/issues/browse/CONTAINERNET">トラッキング</a>
+					<p>S2Container.NETのバグや問題の検索、報告を行うことができます。</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+	</div>
+
+</div><!-- div.left -->
+
+<!-- ############################################# コンテンツ ######################################################### -->
+
+<div class="contents">
+	
+	<div class="content">
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>目次</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>Quillを使うことにより簡単にDIやAOPを行うことができます。
+			Quillでは属性を用いてDIやAOPの設定を行います。
+			S2Container.NET 1.3.0から追加された機能です。</p>
+			<p>ステートレスな業務ロジックを構築するために作成された為、S2Container.NETに比べると機能が制限されています。
+			ただしS2Container.NETと連携してS2Container.NETに登録されているコンポーネントを利用する機能があります。</p>
+
+			<ul>
+				<li><a href="#setup">セットアップ</a></li>
+				<li>
+					<a href="#di">DIを利用する</a>
+					<ul>
+						<li><a href="#di_quill">Quillでインスタンスを管理するオブジェクトをDIする</a></li>
+						<li><a href="#di_s2">S2Containerでインスタンスを管理するオブジェクトをDIする</a></li>
+						<li><a href="#di_notice">注意点</a></li>
+					</ul>
+				</li>
+				<li>
+					<a href="#aop">AOPを利用する</a>
+					<ul>
+						<li><a href="#aop_quill">Quillでインスタンスを管理するInterceptorを使用する</a></li>
+						<li><a href="#aop_s2">S2Containerでインスタンスを管理するInterceptorを使用する</a></li>
+						<li><a href="#aop_interceptor">Interceptorの作成方法</a></li>
+						<li><a href="#aop_ordinal">Interceptorが呼び出される順番</a></li>
+						<li><a href="#aop_notice">注意点</a></li>
+					</ul>
+				</li>
+				<li>
+					<a href="#nodicon">diconファイルを書かずにSeasarの機能を利用する</a>
+					<ul>
+						<li><a href="#nodicon_advantage">diconファイルを使わないことによる利点</a></li>
+						<li><a href="#nodicon_s2dao">S2Daoを利用してDBアクセス</a></li>
+						<li><a href="#nodicon_tx">トランザクションをかける</a></li>
+						<li><a href="#nodicon_notice">注意点</a></li>
+						<!--<li><a href="#nodicon_ut">Quillを利用した単体テスト</a></li>-->
+					</ul>
+				</li>
+				<li><a href="quill_multiple_datasource.html">複数データソースへの接続</a></li>
+				<li><a href="#form">Windowsアプリケーションから簡単にQuillを利用する</li>
+				<li><a href="#dispose">アンマネージ リソースを解放する</li>
+				<li><a href="#destroy">Quill が保持するオブジェクトの参照を破棄する</li>
+				<li><a href="#mock">テスト時に Mock を利用する</li>
+			</ul>
+			
+		</div>
+	</div>
+	
+
+<!-- ############################################# セットアップ ######################################################### -->
+	<div class="content">
+		<a name="setup" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>セットアップ</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>Quillのセットアップについては、以下のドキュメントを参照してください。
+			<ul>
+				<li><a href="setup.html#quill">セットアップ - Quillのセットアップ</a></li>
+				<li><a href="quill_config.html">設定ファイル</a></li>
+			</ul><p>
+		</div>
+	</div>
+	
+<!-- ############################################# DIを利用する ######################################################### -->
+	<div class="content">
+		<a name="di" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>DIを利用する</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+
+			<p>DIを行う為にはSeasar.Quill.QuillInjectorクラスのInjectメソッドに、DIを行わせたいオブジェクトを渡します。</p>
+			<p>QuillInjectorはInjectメソッドに渡されたオブジェクトのフィールドから自動的に判断して、
+			必要なオブジェクトをフィールドにバインドします。その際にあらかじめ設定ファイルでコンポーネントを登録しておく必要はありません。</p>
+			<p>QuillではQuillでインスタンスを管理するオブジェクトとS2Containerでインスタンスを管理するオブジェクトをDIすることができます。</p>
+			
+			<h2><a name="di_quill">Quillでインスタンスを管理するオブジェクトをDIする</a></h2>
+
+			<p>Quillでインスタンスを管理するオブジェクトをDIする場合は、
+			フィールドの型にSeasar.Quill.Attrs.ImplementationAttributeクラスを属性として設定します。
+			Quillは設定された属性からバインドすべきと判断して自動的にバインドを行います。</p>
+			<p>DI対象となるフィールドのアクセス修飾子(可視性)は以下の通りです。</p>
+			<ul>
+				<li>public</li>
+				<li>protected <strong>※推奨</strong></li>
+				<li>private <a href="#di_notice">※但し、AOP有効コンポーネントは不可</a></li>
+			</ul>
+			<p>初めてバインドされるオブジェクトは新しくインスタンス化されますが、
+			一度バインドされたオブジェクトは以後同じインスタンスがバインドされることになります。
+			つまりQuillでバインドするためにインスタンス化されるオブジェクトは全てsingletonになります。
+			これはQuillがステートレスな業務ロジックを構築することを目的に作られたからです。</p>
+			<p>下記の例ではIEmployeeLogicインターフェースの実装クラスであるEmployeeLogicクラスを
+			Form1のフィールドにバインドします。もしEmployeeLogicクラスがフィールドを持ち、
+			そのフィールドの型にImplementationAttributeクラスが属性として設定されていれば連鎖的にバインディングが行われていきます。</p>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">static</span> <span class="kwrd">class</span> Program
+{
+    [STAThread]
+    <span class="kwrd">static</span> <span class="kwrd">void</span> Main()
+    {
+        Form1 form = <span class="kwrd">new</span> Form1();
+
+        QuillInjector injector = QuillInjector.GetInstance();
+        injector.Inject(form);
+        ・・(略)・・
+    }
+}
+
+
+<span class="kwrd">public</span> <span class="kwrd">partial</span> <span class="kwrd">class</span> Form1 : Form
+{
+    <span class="rem">// IEmployeeLogicの実装クラスであるEmployeeLogicのインスタンスがバインドされる</span>
+    <span class="kwrd">protected</span> IEmployeeLogic employeeLogic;
+    
+    <span class="kwrd">public</span> Form1()
+    {
+            InitializeComponent();
+    }
+    ・・(略)・・
+}
+
+
+[Implementation(<span class="kwrd">typeof</span>(EmpployeeLogic))]
+<span class="kwrd">public</span> <span class="kwrd">interface</span> IEmployeeLogic
+{
+    ・・(略)・・
+}
+
+
+<span class="kwrd">public</span> <span class="kwrd">class</span> EmployeeLogic : IEmployeeLogic
+{
+    ・・(略)・・
+}</pre>
+
+			<p>上記のようなインターフェースを用意せずに直接クラスのインスタンスをバインディングする場合は、
+			下記のようにImplementationAttributeクラスに引数を指定しません。</p>
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">public</span> <span class="kwrd">partial</span> <span class="kwrd">class</span> Form1 : Form
+{
+    <span class="rem">// EmployeeLogicのインスタンスがバインドされる</span>
+    <span class="kwrd">protected</span> EmployeeLogic employeeLogic;
+    
+    <span class="kwrd">public</span> Form1()
+    {
+            InitializeComponent();
+    }
+    ・・(略)・・
+}
+
+
+[Implementation]
+<span class="kwrd">public</span> <span class="kwrd">class</span> EmployeeLogic
+{
+    ・・(略)・・
+}</pre>
+
+			<p>また下記のように引数無しのImplementationAttributeクラスをインターフェースに指定して、
+			Aspectで実装を持たせることもできます。</p>
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">public</span> <span class="kwrd">partial</span> <span class="kwrd">class</span> Form1 : Form
+{
+    <span class="rem">// Aspectによって拡張された型のインスタンスがバインドされる</span>
+    <span class="kwrd">protected</span> IEmployeeLogic employeeLogic;
+    
+    <span class="kwrd">public</span> Form1()
+    {
+            InitializeComponent();
+    }
+    ・・(略)・・
+}
+
+
+[Implementation]
+[Aspect(<span class="kwrd">typeof</span>(HogeInterceptor))]
+<span class="kwrd">public</span> <span class="kwrd">interface</span> IEmployeeLogic
+{
+    ・・(略)・・
+}</pre>
+
+			<h2><a name="di_s2">S2Containerでインスタンスを管理するオブジェクトをDIする</a></h2>
+			
+			<p>フィールドにSeasar.Quill.Attrs.BindingAttributeクラスが属性として指定されている場合は、
+			S2Containerでインスタンスを管理するオブジェクトをバインディングします。
+			BindingAttributeクラスの引数にはS2Containerのコンポーネント名を指定します。</p>
+			<p>下記の例ではS2Containerにコンポーネント名"empLogic"として定義されているコンポーネントのインスタンスを
+			 Form1のフィールドにバインドします。</p>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">static</span> <span class="kwrd">class</span> Program
+{
+    [STAThread]
+    <span class="kwrd">static</span> <span class="kwrd">void</span> Main()
+    {
+
+        <span class="rem">// 定義(dicon)ファイルをセットする</span>
+        SingletonS2ContainerFactory.ConfigPath = <span class="str">"App.dicon"</span>;
+
+        <span class="rem">// S2Containerを初期化する</span>
+        SingletonS2ContainerFactory.Init();
+
+        Form1 form = <span class="kwrd">new</span> Form1();
+
+        QuillInjector injector = QuillInjector.GetInstance();
+        injector.Inject(form);
+        ・・(略)・・
+    }
+}
+
+
+<span class="kwrd">public</span> <span class="kwrd">partial</span> <span class="kwrd">class</span> Form1 : Form
+{
+    [Binding(<span class="str">"empLogic"</span>)]
+    <span class="kwrd">protected</span> IEmployeeLogic employeeLogic;
+    
+    <span class="kwrd">public</span> Form1()
+    {
+            InitializeComponent();
+    }
+    ・・(略)・・
+}
+
+
+<span class="kwrd">public</span> <span class="kwrd">interface</span> IEmployeeLogic
+{
+    ・・(略)・・
+}
+
+
+<span class="kwrd">public</span> <span class="kwrd">class</span> EmployeeLogic : IEmployeeLogic
+{
+    ・・(略)・・
+}</pre>
+
+			<p class="kindCode">App.dicon</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;?</span><span class="html">xml</span> <span class="attr">version</span><span class="kwrd">="1.0"</span> <span class="attr">encoding</span><span class="kwrd">="utf-8"</span> ?<span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;!</span><span class="html">DOCTYPE</span> <span class="attr">components</span> <span class="attr">PUBLIC</span> <span class="kwrd">"-//SEASAR2.1//DTD S2Container//EN"</span>
+<span class="kwrd">"http://www.seasar.org/dtd/components21.dtd"</span><span class="kwrd">&gt;</span>
+
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="empLogic"</span>
+        <span class="attr">class</span><span class="kwrd">="HogeNamespace.EmployeeLogic"</span> <span class="kwrd">/&gt;</span>
+
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span></pre>
+			
+
+			<h2><a name="di_notice">注意点</a></h2>
+			<ul>
+				<li>バインディングさせるために用意するフィールドのアクセス修飾子はprotectedかpublicにします
+				（Aspectを利用しない場合はprivateでも可）</li>
+				<li>Quillでインスタンスを管理するオブジェクトのインスタンスはsingletonになります</li>
+				<li>Quillでインスタンスを管理するオブジェクトはインターフェース1つに実装クラス2つという場合に、
+				動的に実装クラスを切り替えるといったことはできません
+				（ImplementationAttributeの引数を変更して静的に変更することは可能です）
+				そのような場合はS2Containerで実装クラスを切り替える仕組みを作成する必要があります</li>
+				<li>QuillからS2Containerを利用する場合、
+				SingletonS2ContainerFactoryから取得できるS2Containerのみを利用することができます</li>
+			</ul>
+
+		</div>
+	</div>
+
+<!-- ############################################# AOPを利用する ######################################################### -->
+	<div class="content">
+		<a name="aop" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>AOPを利用する</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>QuillでAOPを利用する為にはSeasar.Quill.Attrs.AspectAttributeクラスを属性として設定します。
+			AspectAttributeクラスはクラス・インターフェース、メソッドに設定することができます。
+			ただしQuillによってインスタンス化されたオブジェクトにのみ設定が有効となります。</p>
+			<p>AspectAttributeクラスの第1引数にはInterceptorを指定します。
+			Quillでインスタンスを管理するInterceptorを指定する場合はInterceptorのTypeクラスを指定します。
+			S2Containerでインスタンスを管理するInterceptorを指定する場合はInterceptorのコンポーネント名を指定します。</p>
+			<p>クラス・インターフェースにAspectAttributeクラスを設定した場合は、
+			クラス・インターフェースに含まれるメソッドにAspectが適用されます。
+			ただしインターフェースに定義されたメソッド、virtualキーワードが指定されたメソッドが対象となります。</p>
+			<p>メソッドにAspectAttributeクラスを設定することでメソッド毎にAspectを適用することができます。
+			ただしインターフェースに定義されたメソッド、virtualキーワードが指定されたメソッドにしか設定することはできません。</p>
+			
+			<h2><a name="aop_quill">Quillでインスタンスを管理するInterceptorを使用する</a></h2>
+			<p>Quillでインスタンスを管理するInterceptorを使用する場合は、
+			Seasar.Quill.Attrs.AspectAttributeクラスを属性として、
+			第1引数にInterceptorのTypeクラスを指定します。</p>
+			<p>Interceptorのインスタンスは必ずsingletonになります。</p>
+			<p>下記の例ではEmployeeLogicのGetEmployeeByEmpNoにAspectを適用します。
+			InterceptorのインスタンスはQuillで管理されます。</p>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">static</span> <span class="kwrd">class</span> Program
+{
+    [STAThread]
+    <span class="kwrd">static</span> <span class="kwrd">void</span> Main()
+    {
+        Form1 form = <span class="kwrd">new</span> Form1();
+
+        QuillInjector injector = QuillInjector.GetInstance();
+        injector.Inject(form);
+        ・・(略)・・
+    }
+}
+
+
+<span class="kwrd">public</span> <span class="kwrd">partial</span> <span class="kwrd">class</span> Form1 : Form
+{
+    <span class="rem">// EmployeeLogicのインスタンスがバインドされる</span>
+    <span class="kwrd">protected</span> EmployeeLogic employeeLogic;
+    
+    <span class="kwrd">public</span> Form1()
+    {
+            InitializeComponent();
+    }
+    ・・(略)・・
+}
+
+
+[Implementation]
+<span class="kwrd">public</span> <span class="kwrd">class</span> EmployeeLogic
+{
+        [Aspect(<span class="kwrd">typeof</span>(ConsoleWriteInterceptor))]
+        <span class="kwrd">public</span> <span class="kwrd">virtual</span> Employee GetEmployeeByEmpNo(<span class="kwrd">int</span> empNo)
+        {
+            Console.WriteLine(<span class="str">"メソッドが呼び出されました"</span>);
+        }
+    ・・(略)・・
+}
+
+
+<span class="kwrd">public</span> <span class="kwrd">class</span> ConsoleWriteInterceptor : IMethodInterceptor
+{
+    <span class="preproc">#region</span> IMethodInterceptor メンバ
+
+    <span class="kwrd">public</span> <span class="kwrd">object</span> Invoke(IMethodInvocation invocation)
+    {
+        MethodBase method = invocation.Method;
+        Console.WriteLine(<span class="str">"メソッドを開始します"</span>);
+
+        <span class="rem">// 実際の処理を実行する</span>
+        <span class="kwrd">object</span> ret = invocation.Proceed();
+
+        Console.WriteLine(<span class="str">"メソッドを終了します"</span>);
+
+        <span class="kwrd">return</span> ret;
+    }
+
+    <span class="preproc">#endregion</span>
+}</pre>
+
+			<p>EmployeeLogicのGetEmployeeByEmpNoをForm1から実行すると下記のようなメッセージがコンソールに出力されます。</p>
+			
+<pre class="csharpcode">
+メソッドを開始します
+メソッドが呼び出されました
+メソッドを終了します
+</pre>
+			
+			
+			<h2><a name="aop_s2">S2Containerでインスタンスを管理するInterceptorを使用する</a></h2>
+			<p>S2Containerでインスタンスを管理するInterceptorを使用する場合は、
+			Seasar.Quill.Attrs.AspectAttributeクラスを属性として、
+			第1引数にInterceptorのコンポーネント名を指定します。</p>
+			<p>下記の例ではEmployeeLogicのGetEmployeeByEmpNoにAspectを適用します。
+			InterceptorのインスタンスはS2Containerで管理されます。</p>
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">static</span> <span class="kwrd">class</span> Program
+{
+    [STAThread]
+    <span class="kwrd">static</span> <span class="kwrd">void</span> Main()
+    {
+        <span class="rem">// 定義(dicon)ファイルをセットする</span>
+        SingletonS2ContainerFactory.ConfigPath = <span class="str">"App.dicon"</span>;
+
+        <span class="rem">// S2Containerを初期化する</span>
+        SingletonS2ContainerFactory.Init();
+
+        Form1 form = <span class="kwrd">new</span> Form1();
+
+        QuillInjector injector = QuillInjector.GetInstance();
+        injector.Inject(form);
+        ・・(略)・・
+    }
+}
+
+
+<span class="kwrd">public</span> <span class="kwrd">partial</span> <span class="kwrd">class</span> Form1 : Form
+{
+    <span class="rem">// EmployeeLogicのインスタンスがバインドされる</span>
+    <span class="kwrd">protected</span> EmployeeLogic employeeLogic;
+    
+    <span class="kwrd">public</span> Form1()
+    {
+            InitializeComponent();
+    }
+    ・・(略)・・
+}
+
+
+[Implementation]
+<span class="kwrd">public</span> <span class="kwrd">class</span> EmployeeLogic
+{
+        [Aspect(<span class="str">"consoleInterceptor"</span>)]
+        <span class="kwrd">public</span> <span class="kwrd">virtual</span> Employee GetEmployeeByEmpNo(<span class="kwrd">int</span> empNo)
+        {
+            Console.WriteLine(<span class="str">"メソッドが呼び出されました"</span>);
+        }
+    ・・(略)・・
+}
+
+
+<span class="kwrd">public</span> <span class="kwrd">class</span> ConsoleWriteInterceptor : IMethodInterceptor
+{
+    <span class="preproc">#region</span> IMethodInterceptor メンバ
+
+    <span class="kwrd">public</span> <span class="kwrd">object</span> Invoke(IMethodInvocation invocation)
+    {
+        MethodBase method = invocation.Method;
+        Console.WriteLine(<span class="str">"メソッドを開始します"</span>);
+
+        <span class="rem">// 実際の処理を実行する</span>
+        <span class="kwrd">object</span> ret = invocation.Proceed();
+
+        Console.WriteLine(<span class="str">"メソッドを終了します"</span>);
+
+        <span class="kwrd">return</span> ret;
+    }
+
+    <span class="preproc">#endregion</span>
+}</pre>
+
+			<p class="kindCode">App.dicon</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;?</span><span class="html">xml</span> <span class="attr">version</span><span class="kwrd">="1.0"</span> <span class="attr">encoding</span><span class="kwrd">="utf-8"</span> ?<span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;!</span><span class="html">DOCTYPE</span> <span class="attr">components</span> <span class="attr">PUBLIC</span> <span class="kwrd">"-//SEASAR2.1//DTD S2Container//EN"</span>
+<span class="kwrd">"http://www.seasar.org/dtd/components21.dtd"</span><span class="kwrd">&gt;</span>
+
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="consoleInterceptor"</span>
+        <span class="attr">class</span><span class="kwrd">="HogeNamespace.ConsoleWriteInterceptor"</span> <span class="kwrd">/&gt;</span>
+
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span></pre>
+			
+			<p>EmployeeLogicのGetEmployeeByEmpNoをForm1から実行すると下記のようなメッセージがコンソールに出力されます。</p>
+			
+<pre class="csharpcode">
+メソッドを開始します
+メソッドが呼び出されました
+メソッドを終了します
+</pre>
+			
+
+			<h2><a name="aop_interceptor">Interceptorの作成方法</a></h2>
+			<p>Interceptorの作成方法はS2AOP.NETと同じです。下記のドキュメントを参照して下さい。</p>
+			<p><a href="aop-reference.html#OriginalInterceptor">AOP - (3) 独自実装によるInterceptor</a></p>
+			
+			<h2><a name="aop_ordinal">Interceptorが呼び出される順番</a></h2>
+			<p>クラス・インタフェースに設定されたInterceptorは、メソッドに設定されたInterceptorより先に呼び出されます。
+			クラス・インターフェースに複数のAspectAttributeクラスが設定された場合、
+			もしくはメソッドに複数のAspectAttributeクラスが設定された場合は、
+			AspectAttributeクラスの第2引数に並び順を指定して呼び出される順番を制御することができます。
+			数字の小さい方が先に呼び出されます。第2引数を省略した場合は0が設定されたと判断します。
+			ただしメソッドに指定したInterceptorをクラス･インターフェースに設定されたInterceptorより先に呼び出すことはできません。</p>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+[Implementation]
+<span class="kwrd">public</span> <span class="kwrd">class</span> EmployeeLogic
+{
+        [Aspect(<span class="str">"consoleInterceptor"</span>, 1)]
+        [Aspect(<span class="kwrd">typeof</span>(TraceInterceptor), 2)]
+        <span class="kwrd">public</span> <span class="kwrd">virtual</span> Employee GetEmployeeByEmpNo(<span class="kwrd">int</span> empNo)
+        {
+            ・・(略)・・
+        }
+    ・・(略)・・
+}</pre>
+			
+			<h2><a name="aop_notice">注意点</a></h2>
+			<ul>
+				<li>Aspectを適用する為にはインターフェースに定義されたメソッド、virtualキーワードが指定されたメソッドである必要があります</li>
+				<li>Aspectを適用するクラスとメソッドはpublicである必要があります</li>
+				<li>staticキーワードが指定されたクラス・メソッドにはAspectを適用できません</li>
+				<li>Interceptorのインスタンスはsingletonです</li>
+				<li>S2Dao.NETやトランザクションを利用する場合はS2Containerに登録したInterceptorを使うようにしてください
+				（配布物のSeasarソリューションに含まれるSeasar.Quill.Examplesプロジェクトに使用例があります）</li>
+			</ul>
+			
+		</div>
+	</div>
+	
+<!-- ############################################# diconファイルを書かずにSeasarの機能を利用する ######################################################### -->
+	<div class="content">
+		<a name="nodicon" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>diconファイルを書かずにSeasarの機能を利用する</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png"/>上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<h2><a name="nodicon_advantage">diconファイルを使わないことによる利点</a></h2>
+			<p>QuillではS2Daoやトランザクションの設定も含めてdiconファイルを書かずに<br/>
+			属性を使用することでDI+AOPを利用することができます。</p>
+			<p>その利点は大まかに以下のものが挙げられます。</p>
+			<ul>
+				<li>＜タイプセーフ＞<br/>
+				・文字列で定義していた項目をコンパイル対象となる属性で定義しているため</li>
+				<li>＜diconファイルへの「埋め込まれたリソース」の設定を意識しなくてもよくなる＞</li>
+				<li>＜遅延初期化で起動が速い＞<br/>
+				DIコンテナの初期化をアプリケーション起動時よりも遅らせることが<br/>
+				できるため、初回起動時のコストが低くなる。</li>
+			</ul>
+
+			<h2><a name="nodicon_s2dao">S2Dao.NETを利用してDBアクセス</a></h2>
+			<p>S2Dao.NETの機能を利用して検索、更新などのDBアクセスを行いたい場合は<br/>
+			<font color="#0000ff"><b>S2Dao属性</b></font>を使用します。</p>
+			<p>（必要な設定についてはこちらをご覧下さい）
+			<ul>
+				<li><a href="quill_config.html#datasource">データソース</a></li>
+				<li><a href="quill_config.html#assembly">アセンブリ</a></li>
+			</ul>
+			</p>
+			<h3>・<u>適用範囲</u></h3>
+			<p>S2Dao属性は<b>クラス、インターフェース</b>、<b>メソッド</b>に対して付けることができます。</br>
+			それぞれのS2Dao(S2DaoInterceptor)の適用範囲は以下の通りです。
+			<table border="0" cellspacing="1">
+				<tr><th>指定箇所</th><th>適用範囲</th></tr>
+				<tr><td>クラス、インターフェース</td><td>クラス、インターフェース内の全てのメソッド(public以外も含む)</td></tr>
+				<tr><td>メソッド</td><td>指定したメソッド(public以外も含む)</td></tr>
+			</table>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<p><pre class="csharpcode">
+// クラス、インターフェースに対して設定する場合
+[Implementation]
+[S2Dao]
+[Bean(typeof(Hoge))]
+public interface IHogeDao {
+    Employee GetHoge(int hogeNo); // S2DaoInterceptorが適用される
+    void Update(Hoge entity);     // S2DaoInterceptorが適用される
+}
+
+// メソッドに対して設定する場合
+[Implementation]
+[Bean(typeof(Hoge))]
+public interface IHogeDao {
+    [S2Dao]
+    Employee GetHoge(int hogeNo); // S2DaoInterceptorが適用される
+    
+    void DoSomething();  // このメソッドにはS2DaoInterceptorは適用されない
+}
+</pre></p>
+			<h3>・<u>設定</u></h3>
+			<h4><b>・標準の設定を使う</b></h4>
+			<p>S2Dao属性を引数なしで設定し、<a href="quill_config.html#s2dao">設定ファイル</a>にも設定の記述がない場合<br/>
+			S2Daoの標準的な設定が使われます。</br>
+			具体的には以下のクラスのインスタンスがQuill内で生成され使用されます。</p>
+			<p><li>Seasar.Extension.ADO.Impl.BasicCommandFactory</li>
+			<li>Seasar.Extension.ADO.Impl.BasicDataReaderFactory</li>
+			<li>Seasar.Dao.Impl.FieldAnnotationReaderFactory</li>
+			<li>Seasar.Dao.Interceptor.S2DaoInterceptor</li></p>
+			<h4><b>・カスタムした設定を使う</b></h4>
+			<p>独自に拡張した設定を使用する場合、<br/>
+			<font color="#0000ff">Seasar.Quill.Dao.IDaoSetting</font>実装クラスを作成し<br/>
+			後述の方法でカスタム設定の適用範囲を定義します。</p>
+			<p>IDaoSettingは以下のプロパティ、メソッドをもっています。</p>
+			<p><table border="0" cellspacing="1">
+				<tr><th width="130">プロパティ名</th><th width="300">説明</th><th>戻り値Null</th></tr>
+				<tr><td>DaoMetaDataFactory</td><td>IDaoMetaDataFactory実装クラス</td><td>×不可</td></tr>
+				<tr><td>DaoInterceptor</td><td>IMethodInterceptor実装クラス</td><td>×不可</td></tr>
+				<tr><td>DataSourceName</td><td>使用するデータソース名<br/>
+				（<a href="quill_config.html#datasource">設定ファイル</a>の<font color="009900">dataSource</font>タグで設定したもの）</td><td>○可能</td></tr>
+			</table></p>
+			<p><table border="0" cellspacing="1">
+				<tr><th width="130">メソッド名</th><th width="300">説明</th></tr>
+				<tr><td>Setup</td><td>S2DaoInterceptorなどの設定などを行う</td></tr>
+				<tr><td>IsNeedSetup</td><td>Setupメソッドを呼ぶかどうかを返す</td></tr>
+			</table></p>
+			<p>※<font color="#0000ff">Seasar.Quill.Dao.Impl.AbstractDaoSetting</font>（IDaoSettingを実装する抽象クラス）を使うと<br/>
+			プロパティの定義とIsNeedSetupの実装を省略できます。</p>
+			<p>AbstractDaoSettingを継承した実装例</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<p><pre class="csharpcode">
+/// &lt;summary&gt;
+/// 一般的なDaoSetting実装クラス
+/// &lt;/summary&gt;
+public class TypicalDaoSetting : AbstractDaoSetting
+{
+    protected override void SetupDao(IDataSource dataSource)
+    {
+        BasicCommandFactory commandFacoty = new BasicCommandFactory();
+        BasicDataReaderFactory dataReaderFactory =
+            new BasicDataReaderFactory(commandFacoty);
+        FieldAnnotationReaderFactory annotationReaderFactory =
+            new FieldAnnotationReaderFactory();
+        _daoMetaDataFactory = new DaoMetaDataFactoryImpl(
+            dataSource, commandFacoty, annotationReaderFactory, dataReaderFactory);
+        _daoInterceptor = new S2DaoInterceptor(_daoMetaDataFactory);
+    }
+}
+</pre></p>
+			<h5>カスタム設定を全てのS2Dao属性に一括して適用する</h5>
+			<p><a href="quill_config.html#quill_section">「quill」セクション</a>内に「<font color="#009900">daoSetting</font>」タグを<br/>
+			記述し、その中に作成した設定クラスを名前空間付で書きます(「&quot;」は不要）。</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<p><pre class="csharpcode">
+&lt;quill&gt;
+    &lt;!-- S2Dao設定 --&gt;
+    &lt;daoSetting&gt;Hoge.CustomDaoSetting&lt;/daoSetting&gt;
+    &lt;!-- (他設定は省略) --&gt;
+&lt;/quill&gt;
+</pre></p>
+			<h5>カスタム設定をS2Dao属性ごとに適用する</h5>
+			<p>S2Dao属性の引数にtypeof(カスタム設定クラス)の戻り値を渡します。</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<p><pre class="csharpcode"> 
+[Implementation]
+[Bean(typeof(Hoge))]
+public interface IHogeDao
+{
+    [S2Dao(typeof(CustomDaoSetting))]
+    Hoge GetHoge(int hogeNo);
+}
+</pre></p>
+		<p>※S2Dao属性に渡した型のインスタンスはQuillコンテナの中に一つしか作られませんが<br/>
+		SetupメソッドはIsNeedSetupの戻り値がtrueであれば設定されたS2Dao属性の数だけ呼ばれます。</p>
+		<p>S2Daoの設定は以下の優先順で適用されます。</p>
+		<li>１．S2Dao属性の引数で指定されたS2Dao設定クラス</li>
+		<li>２．<a href="quill_config.html#s2dao">設定ファイル</a>の<font color="#009900">daoSetting</font>タグで定義されたS2Dao設定クラス</li>
+		<li>３．標準設定</li>
+		<br>
+		<h2><a name="nodicon_tx">トランザクションをかける</a></h2>
+		<p>トランザクションをかける箇所を指定したい場合は<br/>
+		<font color="#0000ff"><b>Transaction属性</b></font>を使用します。</p>
+		<h3>・<u>適用範囲</u></h3>
+			<p>Transaction属性は<b>クラス、インターフェース</b>、<b>メソッド</b>に対して付けることができます。<br/>
+			トランザクションが適用されたメソッドは、呼び出された時点でトランザクションを開始し、正常終了でコミット、例外終了でロールバックとなります。
+			<p>それぞれのトランザクション(TransactionInterceptor)の適用範囲は以下の通りです。
+			<table border="0" cellspacing="1">
+				<tr><th>指定箇所</th><th>適用範囲</th></tr>
+				<tr><td>クラス、インターフェース</td><td>クラス、インターフェース内の全てのメソッド(public以外も含む)</td></tr>
+				<tr><td>メソッド</td><td>指定したメソッド(public以外も含む)</td></tr>
+			</table>
+			<p>※全てのメソッドに属性を付けることと、クラス、インターフェースに付けることは等価です。
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+// クラス、インターフェースに対して設定する場合
+[Implementation]
+[Transaction]
+public class HogeBhv {
+    // トランザクションが適用される
+    public virtual Employee GetHoge(int hogeNo) {
+        (省略)
+    }
+    
+    // トランザクションが適用される
+    public virtual void Update(Hoge entity) {
+        (省略)
+    }
+}
+
+// メソッドに対して設定する場合
+[Implementation]
+public class HogeBhv {
+    // トランザクションが適用される
+    [Transaction]
+    public virtual void Update(Hoge entity) {
+        (省略)
+    }
+    
+    // このメソッドにはトランザクションは適用されない
+    public void DoSomething() {
+        (省略)
+    }
+}
+</pre>
+			<p>トランザクションは AOP を利用しますので、「<a href="#aop_notice">AOP利用の注意点</a>」を必ずお読み下さい</br>
+			特に、virtual キーワードの定義し忘れにご注意下さい。
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+
+// クラスに対して設定する場合
+[Implementation]
+[Transaction]
+public class HogeBhv {
+    // virtual が付いている
+    public virtual void Update(Hoge entity) {  // トランザクションが適用される
+        ...
+    }
+
+    // virtual が無い
+    public void DoSomething() {  // このメソッドにはトランザクションは適用されない
+        ...
+    }
+}
+
+// クラスのメソッドに対して設定する場合
+[Implementation]
+public class HogeBhv {
+    [Transaction] // virtual が付いている
+    public virtual void Update(Hoge entity) {  // トランザクションが適用される
+        ...
+    }
+
+    [Transaction] // virtual が無い
+    public void DoSomething() {  // このメソッドにはトランザクションは適用されない
+        ...
+    }
+}
+</pre>
+
+			<h3>・<u>設定</u></h3>
+			<h4><b>・標準の設定を使う</b></h4>
+			<p>Transaction属性を引数なしで設定し、<a href="quill_config.html#tx">設定ファイル</a>にも設定の記述がない場合<br/>
+			S2Daoにおけるトランザクションの標準的な設定が使われます。</br>
+			具体的には以下のクラスのインスタンスがQuill内で生成され使用されます。</p>
+			<p><li>Seasar.Extension.Tx.Impl.TransactionContext</li>
+			<li>Seasar.Extension.Tx.Impl.LocalRequiredTxHandler</li>
+			<li>Seasar.Extension.Tx.TransactionInterceptor</li></p>
+			<h4><b>・カスタムした設定を使う</b></h4>
+			<p>独自に拡張した設定を使用する場合、<br/>
+			<font color="#0000ff">Seasar.Quill.Database.Tx.ITransactionSetting</font>実装クラスを作成し<br/>
+			後述の方法でカスタム設定の適用範囲を定義します。</p>
+			<p>ITransactionSettingは以下のプロパティ、メソッドをもっています。</p>
+			<p><table border="0" cellspacing="1">
+				<tr><th width="130">プロパティ名</th><th width="300">説明</th><th>戻り値Null</th></tr>
+				<tr><td>TransactionContext</td><td>ITransactionContext実装クラス</td><td>×不可</td></tr>
+				<tr><td>TransactionInterceptor</td><td>IMethodInterceptor実装クラス</td><td>×不可</td></tr>
+			</table></p>
+			<p><table border="0" cellspacing="1">
+				<tr><th width="130">メソッド名</th><th width="300">説明</th></tr>
+				<tr><td>Setup</td><td>TransactionInterceptorなどの設定などを行う</td></tr>
+				<tr><td>IsNeedSetup</td><td>Setupメソッドを呼ぶかどうかを返す</td></tr>
+			</table></p>
+			<p>※<font color="#0000ff">Seasar.Quill.Database.Tx.Impl.AbstractTransactionSetting</font><br/>
+			（ITransactionSettingを実装する抽象クラス）を使うと<br/>
+			プロパティの定義とIsNeedSetupの実装を省略できます。</p>
+			<p>AbstractTransactionSettingを継承した実装例</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<p><pre class="csharpcode">
+/// &lt;summary&gt;
+/// 一般的なトランザクションの設定クラス
+/// &lt;/summary&gt;
+public class TypicalTransactionSetting : AbstractTransactionSetting
+{
+    protected override void SetupTransaction(IDataSource dataSource)
+    {
+        //  TransactionContext
+        _transactionContext = new TransactionContext();
+        TransactionContext txContext = (TransactionContext)_transactionContext;
+        txContext.DataSouce = dataSource;
+        txContext.IsolationLevel = IsolationLevel.ReadCommitted;
+
+        //  TransactionContextを使用するデータソースにも設定
+        Type dataSourceType = dataSource.GetType();
+        if (typeof(SelectableDataSourceProxyWithDictionary).IsAssignableFrom(
+            dataSourceType))
+        {
+            ((SelectableDataSourceProxyWithDictionary)dataSource)
+                .SetTransactionContext(txContext);
+        }
+        else if (typeof(TxDataSource).IsAssignableFrom(dataSourceType))
+        {
+            ((TxDataSource)dataSource).Context = txContext;
+        }
+
+        //  TransactionInterceptor
+        LocalRequiredTxHandler handler = new LocalRequiredTxHandler();
+        handler.Context = txContext;
+        _transactionInterceptor = new TransactionInterceptor(handler);
+        ((TransactionInterceptor)_transactionInterceptor).TransactionStateHandler
+            = txContext;
+    }
+}
+</pre></p>
+			<h5>カスタム設定を全てのTransaction属性に一括して適用する</h5>
+			<p><a href="quill_config.html#quill_section">「quill」セクション</a>内に「<font color="#009900">transactionSetting</font>」タグを<br/>
+			記述し、その中に作成した設定クラスを名前空間付で書きます(「&quot;」は不要）。</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<p><pre class="csharpcode">
+&lt;quill&gt;
+    &lt;!-- Transaction設定 --&gt;
+    &lt;transactionSetting&gt;Hoge.CustomTransactionSetting&lt;/transactionSetting&gt;
+    &lt;!-- (他設定は省略) --&gt;
+&lt;/quill&gt;
+</pre></p>
+			<h5>カスタム設定をTransaction属性ごとに適用する</h5>
+			<p>Transaction属性の引数にtypeof(カスタム設定クラス)の戻り値を渡します。</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<p><pre class="csharpcode">
+[Implementation]
+public class HogeBhv
+{
+    [Transaction(typeof(CustomTransactionSetting))]
+    public virtual void Update(Hoge entity) {
+        // (省略)
+    }
+}
+</pre></p>
+		<p>※Transaction属性に渡した型のインスタンスはQuillコンテナの中に一つしか作られませんが<br/>
+		SetupメソッドはIsNeedSetupの戻り値がtrueであれば設定されたTransaction属性の数だけ呼ばれます。</p>
+		<p>Transactionの設定は以下の優先順で適用されます。</p>
+		<li>１．Transaction属性の引数で指定されたTransaction設定クラス</li>
+		<li>２．<a href="quill_config.html#tx">設定ファイル</a>の<font color="#009900">transactionSetting</font>タグで定義されたTransaction設定クラス</li>
+		<li>３．標準設定</li>
+		<br>
+		<h2><a name="nodicon_notice">注意点</a></h2>
+		<ul>
+		<li>データソースに<font color="#0000ff">TxDataSource</font>を使う場合は必ず<font color="#0000ff"><b>Transaction属性</b></font>を<br/>
+		どこかで使用していることが必要になります。<br/>
+		（TxDataSourceを使用=トランザクションが使われることが前提のため）</li>
+		<li><font color="#0000ff"><b>S2Dao属性</b></font>、<font color="#0000ff"><b>Transaction属性</b></font>が設定されている箇所には<br/>
+		Interceptor(Aspect)が適用されます。そのため「<a href="#aop_notice">AOP利用の注意点</a>」と<br/>
+		同様の制約があります。</li>
+		</ul>
+		</div>
+	</div><br>
+<!-- ############################################# Windowsアプリケーションから簡単にQuillを利用する ######################################################### -->
+	<div class="content">
+		<a name="form" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>Windowsアプリケーションから簡単にQuillを利用する</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>Seasar.Quill.QuillInjectorクラスのInjectメソッドを用いてDIを行ってきましたが、
+			ツールボックスからコントロール（Seasar.Quill.QuillControl）をFormに貼り付けるだけで簡単にDIを利用することもできます。</p>
+			<p>Seasar.Quill.QuillControlを使う場合はツールボックスに登録する必要があります。
+			「ツールボックスアイテムの選択」からSeasar.Quill.dllを選択してください。</p>
+			<p>下記はForm1のフィールドにCulcLogicをバインドする例です。</p>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+Public <span class="kwrd">partial</span> <span class="kwrd">class</span> Form1 : Form
+{
+    <span class="kwrd">protected</span> CulcLogic culcLogic = <span class="kwrd">null</span>;
+
+    <span class="kwrd">private</span> <span class="kwrd">void</span> button1_Click(<span class="kwrd">object</span> sender, EventArgs s)
+    {
+        <span class="kwrd">int</span> ret = culcLogic.Plus(1, 2);
+        Console.WriteLine(“戻り値：” + ret);
+    }
+}
+
+
+[Implementation]
+Public <span class="kwrd">class</span> CulcLogic
+{
+    [Aspect(<span class="kwrd">typeof</span>(ConsoleWriteInterceptor))]
+    <span class="kwrd">public</span> <span class="kwrd">virtual</span> <span class="kwrd">int</span> Plus(<span class="kwrd">int</span> x, <span class="kwrd">int</span> y)
+    {
+        Console.WriteLine(“Plusが呼ばれました”);
+        <span class="kwrd">return</span> x + y;
+    }
+}</pre>
+
+			<p>次にデザイナでQuillControlをForm1に貼り付けます。</p>
+			<p><img src="images/quillControl1.png" /></p>
+			<p>これでフィールドのculcLogicにAspectが適用されたインスタンスがDIされるようになります。
+			実行して「Plusを呼ぶ」ボタンを押すとコンソールにメッセージが出力されます。</p>
+			<p><img src="images/quillControl2.png" /></p>
+			
+<pre class="csharpCode">
+メソッドを開始します
+Plusが呼ばれました
+メソッドを終了します
+戻り値：3
+</pre>
+
+
+
+			
+		</div>
+	</div>
+	
+<!-- ############################################# アンマネージ リソースを解放する ######################################################### -->
+	<div class="content">
+		<a name="dispose" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>アンマネージ リソースを解放する</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>バインドされるために Quill によってインスタンス化されたオブジェクトのインスタンスは、 singleton として保持されます。
+			バインドされるためにインスタンス化されたオブジェクトが System.IDisposable インターフェースを実装している場合は
+			Quill から Dispose メソッドを呼び出すことができます。</p>
+
+			<p>以下のように QuillInjector の Dispose メソッドを呼び出して、アンマネージ リソースを解放します。</p>
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+QuillInjector.GetInstance().Dispose();</pre>
+			
+		</div>
+	</div>
+	
+<!-- ############################################# Quill が保持するオブジェクトの参照を破棄する ######################################################### -->
+	<div class="content">
+		<a name="destroy" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>Quill が保持するオブジェクトの参照を破棄する</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>バインドされるために Quill によってインスタンス化されたオブジェクトのインスタンスは、 singleton として保持されます。
+			しかし Quill が保持するオブジェクトの参照を破棄することができます。</p>
+
+			<p>以下のように QuillInjector の Destroy メソッドを呼び出して、Quill が保持するオブジェクトの参照を破棄します。
+			破棄するオブジェクトが System.IDisposable を実装している場合は参照を破棄する前に Dispose メソッドが呼び出されます。</p>
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+QuillInjector.GetInstance().Destroy();</pre>
+			
+		</div>
+	</div>
+	
+<!-- ############################################# テスト時にMockを利用する ######################################################### -->
+	<div class="content">
+		<a name="mock" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>テスト時に Mock を利用する</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>テストコードでリモートの処理を呼び出す部分等を Mock に置き換えたい場合があります。
+			そんな場合には QuillInjector の代わりに Seasar.Quill.Unit.MockInjector を使います。</p>
+			<p>通常はインターフェースに Implementation 属性で実装クラスを指定しますが、
+			同じように Mock 属性(Seasar.Quill.Attrs.MockAttribute)で Mock クラスを指定することができます。
+			MockInjector を使用すると Mock 属性で Mock クラスが指定されている場合に、
+			Implementation 属性より優先して Mock クラスを Inject します。
+			Mock 属性が指定されていない場合は QuillInjector と同じ動作をします。</p>
+			<p>以下はサンプルです。</p>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+[Implementation(<span class="kwrd">typeof</span>(RemoteLogic))]
+[Mock(<span class="kwrd">typeof</span>(MockRemoteLogic))]
+<span class="kwrd">public</span> <span class="kwrd">interface</span> IRemoteLogic
+{
+    <span class="kwrd">string</span> ExecuteRemote();
+}
+
+<span class="kwrd">public</span> <span class="kwrd">class</span> MockRemoteLogic : IRemoteLogic
+{
+    <span class="kwrd">public</span> <span class="kwrd">string</span> ExecuteRemote()
+    {
+        <span class="kwrd">return</span> <span class="str">"Mock です。"</span>;
+    }
+}
+
+<span class="kwrd">public</span> <span class="kwrd">class</span> CallRemoteLogic
+{
+    <span class="kwrd">protected</span> IRemoteLogic remoteLogic;
+
+    <span class="kwrd">public</span> <span class="kwrd">string</span> CallRemote()
+    {
+        <span class="kwrd">return</span> remoteLogic.ExecuteRemote();
+    }
+}</pre>
+
+			<p>以下はテストクラスです。MockInjector を使っている為、Mock が使われます。</p>
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="rem">// CallRemoteLogic のテストクラス</span>
+[TestFixture]
+<span class="kwrd">public</span> <span class="kwrd">class</span> CallRemoteLogicTest
+{
+    <span class="rem">// CallRemoteメソッドのテスト</span>
+    [Test]
+    <span class="kwrd">public</span> <span class="kwrd">void</span> TestCallRemote()
+    {
+        CallRemoteLogic logic = <span class="kwrd">new</span> CallRemoteLogic();
+        MockInjector.GetInstance().Inject(logic);
+
+        <span class="kwrd">string</span> ret = logic.ExecuteRemote();
+
+        Assert.AreEqual(<span class="str">"Mock です。"</span>, ret);
+    }
+}</pre>
+
+			<p>MockInjector はもっともシンプルな QuillInjector のカスタマイズ例でもあります。
+			Quill(QuillInjector) はシンプルで機能が限定的です。
+			もし QuillInjector をカスタマイズしたいと考えた場合は MockInjector の実装を参考にしてください。</p>
+			
+		</div>
+	</div>
+	
+<!-- div.contents -->
+</div>
+<br class="clear" />
+<!-- div.middle -->
+</div>
+
+<div class="bottom">
+	<hr />
+	<div class="copyright">
+		&#169; Copyright The Seasar Project and the others 2004-2013, all rights reserved.
+	</div>
+</div>
+
+</body>
+
+</html>
